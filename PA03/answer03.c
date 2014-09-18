@@ -3,7 +3,7 @@
 #include <string.h>
 #include "answer03.h"
 
-// test if repo
+// test again
 char * strcat_ex(char ** dest, int * n, const char * src)
 {
 	if (*dest == NULL || *n < strlen(*dest) + strlen(src) + 1)
