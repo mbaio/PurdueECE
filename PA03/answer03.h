@@ -1,6 +1,7 @@
 #ifndef PA03_H
 #define PA03_H 
 
+#include <string.h>
 #include <stdlib.h>
 
 /**
