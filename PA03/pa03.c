@@ -37,6 +37,33 @@ int main(int argc, char ** argv)
   free(dest2);
   free(dest3);
 
-  return 0;
+  char * str1 = malloc(15*sizeof(char));
+  char * str2 = malloc(15*sizeof(char));
+
+  strcpy(str1,"hello my name");
+  strcpy(str2,"Yo dawg lol ha");
+  
+
+  char * delims1 = malloc(2*sizeof(char));
+  char * delims2 = malloc(2*sizeof(char));
+  
+  strcpy(delims1," ");
+  strcpy(delims2," ");
+
+  int arrlen1val = 0;
+  int arrlen2val = 0;
+
+  int * len1 = &arrlen1val;
+  int * len2 = &arrlen2val;
+
+  char ** answer1 = explode(str1,delims1,len1);
+  char ** answer2 = explode(str2,delims2,len2);
+
+
+  
+ 
+ 
+ 
+ return 0;
 }
 
