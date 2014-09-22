@@ -1,0 +1,292 @@
+==679== Memcheck, a memory error detector
+==679== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==679== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==679== Command: ./pa03
+==679== Parent PID: 3178
+==679== 
+--679-- 
+--679-- Valgrind options:
+--679--    --tool=memcheck
+--679--    --leak-check=full
+--679--    --verbose
+--679--    --log-file=memcheck.log
+--679-- Contents of /proc/version:
+--679--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--679-- Arch and hwcaps: AMD64, amd64-sse3
+--679-- Page sizes: currently 4096, max supported 4096
+--679-- Valgrind library directory: /usr/lib64/valgrind
+--679-- Reading syms from /home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA03/pa03
+--679-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--679--    object doesn't have a dynamic symbol table
+--679-- Reading syms from /lib64/ld-2.12.so
+--679-- Scheduler: using generic scheduler lock implementation.
+--679-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==679== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-679-by-mbaio-on-ecegrid-thin6.ecn.purdue.edu
+==679== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-679-by-mbaio-on-ecegrid-thin6.ecn.purdue.edu
+==679== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-679-by-mbaio-on-ecegrid-thin6.ecn.purdue.edu
+==679== 
+==679== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==679== don't want to do, unless you know exactly what you're doing,
+==679== or are doing some strange experiment):
+==679==   /usr/lib64/valgrind/../../bin/vgdb --pid=679 ...command...
+==679== 
+==679== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==679==   /path/to/gdb ./pa03
+==679== and then give GDB the following command
+==679==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=679
+==679== --pid is optional if only one valgrind process is running
+==679== 
+--679-- REDIR: 0x3937017530 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--679-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--679-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--679-- REDIR: 0x39370173a0 (index) redirected to 0x4a07bf0 (index)
+--679-- REDIR: 0x3937017420 (strcmp) redirected to 0x4a08530 (strcmp)
+--679-- Reading syms from /lib64/libc-2.12.so
+--679-- REDIR: 0x3937484cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--679-- REDIR: 0x3937486f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--679-- REDIR: 0x3937482c40 (__GI_strrchr) redirected to 0x4a07a70 (__GI_strrchr)
+--679-- REDIR: 0x393747a640 (malloc) redirected to 0x4a0696c (malloc)
+--679-- REDIR: 0x3937489670 (memcpy) redirected to 0x4a08b20 (memcpy)
+==679== Invalid write of size 1
+==679==    at 0x4A08CE8: memcpy (mc_replace_strmem.c:882)
+==679==    by 0x4007BC: main (pa03.c:23)
+==679==  Address 0x4c3c046 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x40076B: main (pa03.c:19)
+==679== 
+==679== Invalid write of size 1
+==679==    at 0x4A08DAF: memcpy (mc_replace_strmem.c:882)
+==679==    by 0x4007D8: main (pa03.c:24)
+==679==  Address 0x4c3c096 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400782: main (pa03.c:20)
+==679== 
+==679== Invalid write of size 1
+==679==    at 0x4A08DAF: memcpy (mc_replace_strmem.c:882)
+==679==    by 0x4007F4: main (pa03.c:25)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400799: main (pa03.c:21)
+==679== 
+--679-- REDIR: 0x3937481120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--679-- REDIR: 0x3937481160 (__GI_strlen) redirected to 0x4a07f70 (__GI_strlen)
+==679== Invalid read of size 1
+==679==    at 0x4A07F84: __GI_strlen (mc_replace_strmem.c:404)
+==679==    by 0x400A16: strcat_ex (answer03.c:19)
+==679==    by 0x40082D: main (pa03.c:32)
+==679==  Address 0x4c3c046 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x40076B: main (pa03.c:19)
+==679== 
+--679-- REDIR: 0x3937480b70 (strcpy) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--679-- REDIR: 0x3937480ba0 (__GI_strcpy) redirected to 0x4a08060 (__GI_strcpy)
+==679== Invalid read of size 1
+==679==    at 0x4A08082: __GI_strcpy (mc_replace_strmem.c:443)
+==679==    by 0x400AAC: strcat_ex (answer03.c:37)
+==679==    by 0x40082D: main (pa03.c:32)
+==679==  Address 0x4c3c046 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x40076B: main (pa03.c:19)
+==679== 
+--679-- REDIR: 0x393747b520 (free) redirected to 0x4a06369 (free)
+--679-- REDIR: 0x393747f470 (strcat) redirected to 0x4a07c20 (strcat)
+==679== Invalid write of size 1
+==679==    at 0x40082E: main (pa03.c:32)
+==679==  Address 0x4c3c040 is 0 bytes inside a block of size 6 free'd
+==679==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==679==    by 0x400ABB: strcat_ex (answer03.c:41)
+==679==    by 0x40082D: main (pa03.c:32)
+==679== 
+==679== Invalid read of size 1
+==679==    at 0x4A07F84: __GI_strlen (mc_replace_strmem.c:404)
+==679==    by 0x400A16: strcat_ex (answer03.c:19)
+==679==    by 0x400850: main (pa03.c:33)
+==679==  Address 0x4c3c096 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400782: main (pa03.c:20)
+==679== 
+==679== Invalid read of size 1
+==679==    at 0x4A08082: __GI_strcpy (mc_replace_strmem.c:443)
+==679==    by 0x400AAC: strcat_ex (answer03.c:37)
+==679==    by 0x400850: main (pa03.c:33)
+==679==  Address 0x4c3c096 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400782: main (pa03.c:20)
+==679== 
+==679== Invalid write of size 1
+==679==    at 0x400851: main (pa03.c:33)
+==679==  Address 0x4c3c090 is 0 bytes inside a block of size 6 free'd
+==679==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==679==    by 0x400ABB: strcat_ex (answer03.c:41)
+==679==    by 0x400850: main (pa03.c:33)
+==679== 
+==679== Invalid read of size 1
+==679==    at 0x4A07F72: __GI_strlen (mc_replace_strmem.c:404)
+==679==    by 0x400A16: strcat_ex (answer03.c:19)
+==679==    by 0x400873: main (pa03.c:34)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400799: main (pa03.c:21)
+==679== 
+==679== Invalid read of size 1
+==679==    at 0x4A08067: __GI_strcpy (mc_replace_strmem.c:443)
+==679==    by 0x400AAC: strcat_ex (answer03.c:37)
+==679==    by 0x400873: main (pa03.c:34)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400799: main (pa03.c:21)
+==679== 
+==679== Invalid write of size 1
+==679==    at 0x400874: main (pa03.c:34)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 free'd
+==679==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==679==    by 0x400ABB: strcat_ex (answer03.c:41)
+==679==    by 0x400873: main (pa03.c:34)
+==679== 
+--679-- REDIR: 0x393747f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--679-- REDIR: 0x393747f660 (__GI_strchr) redirected to 0x4a07b30 (__GI_strchr)
+==679== 
+==679== HEAP SUMMARY:
+==679==     in use at exit: 101 bytes in 9 blocks
+==679==   total heap usage: 19 allocs, 10 frees, 194 bytes allocated
+==679== 
+==679== Searching for pointers to 9 not-freed blocks
+==679== Checked 64,792 bytes
+==679== 
+==679== 46 (32 direct, 14 indirect) bytes in 1 blocks are definitely lost in loss record 3 of 4
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400B5F: explode (answer03.c:78)
+==679==    by 0x40097F: main (pa03.c:59)
+==679== 
+==679== 55 (40 direct, 15 indirect) bytes in 1 blocks are definitely lost in loss record 4 of 4
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400B5F: explode (answer03.c:78)
+==679==    by 0x40099A: main (pa03.c:60)
+==679== 
+==679== LEAK SUMMARY:
+==679==    definitely lost: 72 bytes in 2 blocks
+==679==    indirectly lost: 29 bytes in 7 blocks
+==679==      possibly lost: 0 bytes in 0 blocks
+==679==    still reachable: 0 bytes in 0 blocks
+==679==         suppressed: 0 bytes in 0 blocks
+==679== 
+==679== ERROR SUMMARY: 14 errors from 14 contexts (suppressed: 6 from 6)
+==679== 
+==679== 1 errors in context 1 of 14:
+==679== Invalid write of size 1
+==679==    at 0x400874: main (pa03.c:34)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 free'd
+==679==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==679==    by 0x400ABB: strcat_ex (answer03.c:41)
+==679==    by 0x400873: main (pa03.c:34)
+==679== 
+==679== 
+==679== 1 errors in context 2 of 14:
+==679== Invalid read of size 1
+==679==    at 0x4A08067: __GI_strcpy (mc_replace_strmem.c:443)
+==679==    by 0x400AAC: strcat_ex (answer03.c:37)
+==679==    by 0x400873: main (pa03.c:34)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400799: main (pa03.c:21)
+==679== 
+==679== 
+==679== 1 errors in context 3 of 14:
+==679== Invalid read of size 1
+==679==    at 0x4A07F72: __GI_strlen (mc_replace_strmem.c:404)
+==679==    by 0x400A16: strcat_ex (answer03.c:19)
+==679==    by 0x400873: main (pa03.c:34)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400799: main (pa03.c:21)
+==679== 
+==679== 
+==679== 1 errors in context 4 of 14:
+==679== Invalid write of size 1
+==679==    at 0x400851: main (pa03.c:33)
+==679==  Address 0x4c3c090 is 0 bytes inside a block of size 6 free'd
+==679==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==679==    by 0x400ABB: strcat_ex (answer03.c:41)
+==679==    by 0x400850: main (pa03.c:33)
+==679== 
+==679== 
+==679== 1 errors in context 5 of 14:
+==679== Invalid read of size 1
+==679==    at 0x4A08082: __GI_strcpy (mc_replace_strmem.c:443)
+==679==    by 0x400AAC: strcat_ex (answer03.c:37)
+==679==    by 0x400850: main (pa03.c:33)
+==679==  Address 0x4c3c096 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400782: main (pa03.c:20)
+==679== 
+==679== 
+==679== 1 errors in context 6 of 14:
+==679== Invalid read of size 1
+==679==    at 0x4A07F84: __GI_strlen (mc_replace_strmem.c:404)
+==679==    by 0x400A16: strcat_ex (answer03.c:19)
+==679==    by 0x400850: main (pa03.c:33)
+==679==  Address 0x4c3c096 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400782: main (pa03.c:20)
+==679== 
+==679== 
+==679== 1 errors in context 7 of 14:
+==679== Invalid write of size 1
+==679==    at 0x40082E: main (pa03.c:32)
+==679==  Address 0x4c3c040 is 0 bytes inside a block of size 6 free'd
+==679==    at 0x4A063F0: free (vg_replace_malloc.c:446)
+==679==    by 0x400ABB: strcat_ex (answer03.c:41)
+==679==    by 0x40082D: main (pa03.c:32)
+==679== 
+==679== 
+==679== 1 errors in context 8 of 14:
+==679== Invalid read of size 1
+==679==    at 0x4A08082: __GI_strcpy (mc_replace_strmem.c:443)
+==679==    by 0x400AAC: strcat_ex (answer03.c:37)
+==679==    by 0x40082D: main (pa03.c:32)
+==679==  Address 0x4c3c046 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x40076B: main (pa03.c:19)
+==679== 
+==679== 
+==679== 1 errors in context 9 of 14:
+==679== Invalid read of size 1
+==679==    at 0x4A07F84: __GI_strlen (mc_replace_strmem.c:404)
+==679==    by 0x400A16: strcat_ex (answer03.c:19)
+==679==    by 0x40082D: main (pa03.c:32)
+==679==  Address 0x4c3c046 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x40076B: main (pa03.c:19)
+==679== 
+==679== 
+==679== 1 errors in context 10 of 14:
+==679== Invalid write of size 1
+==679==    at 0x4A08DAF: memcpy (mc_replace_strmem.c:882)
+==679==    by 0x4007F4: main (pa03.c:25)
+==679==  Address 0x4c3c0e0 is 0 bytes after a block of size 0 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400799: main (pa03.c:21)
+==679== 
+==679== 
+==679== 1 errors in context 11 of 14:
+==679== Invalid write of size 1
+==679==    at 0x4A08DAF: memcpy (mc_replace_strmem.c:882)
+==679==    by 0x4007D8: main (pa03.c:24)
+==679==  Address 0x4c3c096 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x400782: main (pa03.c:20)
+==679== 
+==679== 
+==679== 1 errors in context 12 of 14:
+==679== Invalid write of size 1
+==679==    at 0x4A08CE8: memcpy (mc_replace_strmem.c:882)
+==679==    by 0x4007BC: main (pa03.c:23)
+==679==  Address 0x4c3c046 is 0 bytes after a block of size 6 alloc'd
+==679==    at 0x4A069EE: malloc (vg_replace_malloc.c:270)
+==679==    by 0x40076B: main (pa03.c:19)
+==679== 
+--679-- 
+--679-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--679-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==679== 
+==679== ERROR SUMMARY: 14 errors from 14 contexts (suppressed: 6 from 6)

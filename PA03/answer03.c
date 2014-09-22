@@ -25,7 +25,13 @@ char * strcat_ex(char ** dest, int * n, const char * src)
 	  {
 		*n =  1 + (2 * (lendest + lensrc)); 																	
 		char * buffer = malloc(*n * sizeof (char));
-	
+	    *buffer = '\0';
+
+	   // if (buffer == NULL)
+	//	{
+//		return 0;
+//		}
+
 		if (*dest != NULL)
 		{
 		strcpy(buffer,*dest);
@@ -53,7 +59,6 @@ char * strcat_ex(char ** dest, int * n, const char * src)
 
 char ** explode(const char *str, const char *delims, int * arrLen)
 {
-  printf("Testing Explode..\n");
   
   char * element =(char *) str;
   int length_return_array = 0;
@@ -68,7 +73,6 @@ char ** explode(const char *str, const char *delims, int * arrLen)
   }
   *arrLen = length_return_array + 1;
 
-  printf("\nAmount of words found = %d\n",(int) *arrLen);
   // I think above is correct
   //
   char ** dest = malloc((*arrLen + 1) * sizeof(char *));
@@ -80,7 +84,6 @@ char ** explode(const char *str, const char *delims, int * arrLen)
 
   while (ind < *arrLen)
   {
-	printf("\ncurrent char evaluated: %c",*element);
 	if (strchr(delims, *element))
 	{
 	  length_word =  element - start;
@@ -88,7 +91,6 @@ char ** explode(const char *str, const char *delims, int * arrLen)
 	  memcpy(dest[ind],start, (length_word) * sizeof(char));
 	  dest[ind][length_word] = '\0'; // to finish that word
 	 
-	  printf("\nWord Added! = %s\n",dest[ind]);
 	 
       ind++; //go to the next word
 	  start = start + length_word + 1;
@@ -112,24 +114,40 @@ char ** explode(const char *str, const char *delims, int * arrLen)
 }
 char * implode(char ** strArr, int len, const char * glue)
 {
-  /*int ind = 0;
+  int ind = 0;
   int len_return = 0;
+  int n = 1;
 
-  for (ind = 0; ind <= len; ind++)
+  for (ind = 0; ind < len; ind++)
   {
-    len_return += strlen(strArr[ind]);
+    len_return += strlen(strArr[ind]) + strlen(glue);
+
   }
 
-  char * str_return = malloc((len_return + 1) * sizeof(char));
+  len_return -= strlen(glue);
 
-  for (ind = 0; ind <= len; ind++)
+
+  char * str_return = NULL;
+
+  for (ind = 0; ind < len; ind++)
   {
-    strcat(str_return,strArr[ind]);
-	strcat(str_return,glue);
-  }
-  str_return[len_return + 1] = '\0';
-*/
+    strcat_ex(&str_return,&n,strArr[ind]);
+	// add if for last glue
+	if ( ind != len - 1)
+	{
+	strcat_ex(&str_return,&n,glue);
+	}
 
+  }
+
+  char * nullstring = "\0";
+
+  strcat_ex(&str_return,&n,nullstring);
+
+  
+
+  
+/*
   int ind;
   char * str_return = NULL;
   int str_length;
@@ -141,7 +159,7 @@ char * implode(char ** strArr, int len, const char * glue)
   }
 
   str_return = strcat_ex(&str_return,&str_length, strArr[len-1]);
-
+*/
 
 
 

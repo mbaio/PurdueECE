@@ -58,6 +58,11 @@ int main(int argc, char ** argv)
 
   char ** answer1 = explode(str1,delims1,len1);
   char ** answer2 = explode(str2,delims2,len2);
+ 
+  free(str1);
+  free(str2);
+  free(delims1);
+  free(delims2);
 
 
   
