@@ -23,7 +23,7 @@ int main(int argc, char ** argv)
 
   for (ind = 1; ind < argc; ind++)
   {
-    if (strcmp(argv[ind],"-") == 0 )
+    if (strcmp(argv[ind],"-") == 0 || argc == 1 )
 	{
 	  arg_stdin = ind;
 	}
@@ -33,6 +33,23 @@ int main(int argc, char ** argv)
 
   char c;
   FILE * fptr;
+
+  if (argc == 1)
+  {
+	fptr = stdin;
+      while (! feof(fptr))
+	  {
+        c = fgetc(fptr);
+	    if ((int) c >= 0 && (int) c <= 127)
+	    {
+	    fputc(c,stdout);
+	    }
+
+	  }
+	  return EXIT_SUCCESS;
+	  }
+	
+	
   for (ind = 1; ind < argc; ind++)
   {
     if (ind != arg_stdin)
