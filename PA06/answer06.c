@@ -2,7 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
-int next_space(char **, char, int, int, int, int);
+int next_space(char **, char, int, int, int, int *);
 
 int main()
 {
@@ -28,10 +28,12 @@ int main()
   int y = 0;
   char direction = 'S';
   int ind;
-  printf("\nbefore call");
-  for (y = 0; y < 4; y++)
+  int result = 0;
+  
+  while (result == 0)
   {
-    printf("\nresult = %d\n",next_space(maze,direction,w,h,x,y));
+    result = next_space(maze,direction,w,h,x,&y);
+    y++;
   }
   printf("\n%s\n%s\n%s\n%s\n%s\n",maze[0],maze[1],maze[2],maze[3],maze[4]);
   
@@ -54,32 +56,37 @@ void print_directions(char ** maze,int w,int h)
   
 }
 
-int next_space(char ** maze, char direction, int w, int h, int x, int y) // returns 1 if next space is a ., , or X.  Also fills each space passed with a .
+int next_space(char ** maze, char direction, int w, int h, int x, int * y) // returns 1 if next space is end of path, 0 if it is okay, and 2 if it is a junction
 {
-  printf("\nmaze[y+1][x] = %c, y = %d, x = %d, current = %c",maze[y+1][x],y,x,maze[y][x]);
-  maze[y][x] = '.';
-  if (direction == 'N' && (maze[y-1][x] == 'X' || maze[y-1][x] == '.' || maze[y-1][x] == ' ' && (y-1 == h || x == w || y-1 == 0 || x == 0)))
+  //printf("\nmaze[y+1][x] = %c, y = %d, x = %d, current = %c",maze[*y+1][x],*y,x,maze[*y][x]);
+  if (maze[*y][x] != 'X')
   {
-    printf("\nin N");
+    maze[*y][x] = '.';
+  }
+  if (direction == 'S' && (maze[*y+1][x] == ' ' && (*y+1 == h)))
+  {
+    maze[*y+1][x] = '.';
+    *y = *y + 1;
     return 1;
   }
-  if (direction == 'E' && (maze[y][x+1] == 'X' || maze[y][x+1] == '.' || maze[y][x+1] == ' ' && (y == h || x+1 == w || y == 0 || x+1 == 0)))
+  if (direction == 'N' && (maze[*y-1][x] == 'X' || maze[*y-1][x] == '.'))
   {
-    printf("\nin E");
     return 1;
   }
-  if (direction == 'S' && (maze[y+1][x] == 'X') || (maze[y+1][x] == '.') || (maze[y+1][x] == ' ' && (y+1 == h || x == w || y+1 == 0 || x == 0)))
+  if (direction == 'E' && (maze[*y][x+1] == 'X' || maze[*y][x+1] == '.'))
   {
-    printf("\nin S");
     return 1;
   }
-  if (direction == 'W' && (maze[y][x-1] == 'X' || maze[y][x-1] == '.' || maze[y][x-1] == ' ' && (y == h || x-1 == w || y == 0 || x-1 == 0)))
+  if (direction == 'S' && (maze[*y+1][x] == 'X' || maze[*y+1][x] == '.')) 
   {
-    printf("\nin W");
+    return 1;
+  }
+  if (direction == 'W' && (maze[*y][x-1] == 'X' || maze[*y][x-1] == '.'))
+  {
     return 1;
   }
   
-   
+ 
   return 0;
 }
     
