@@ -6,7 +6,7 @@
 int next_space(char **, char, int, int, int, int *,int *);
 int find_start(char **,int);
 void print_directions2(char, int);
-void recursion_func(char, char **, int,int,int,int);
+int recursion_func(char, char **, int,int,int,int);
 
 int main()
 {
@@ -22,7 +22,7 @@ int main()
   maze[7] = malloc(11 * sizeof(char));
   maze[8] = malloc(11 * sizeof(char));
   maze[9] = malloc(11 * sizeof(char));
-  
+		   //0123456789
   strcpy(maze[0],"XXXXX XXXX");
   strcpy(maze[1],"XXXXX XX X");
   strcpy(maze[2],"XX    XX X");
@@ -69,14 +69,15 @@ void print_directions(char ** maze,int w,int h)
   recursion_func(direction,maze,w-1,h-1,start,0);
 }
 
-void recursion_func(char direction,char ** maze,int w,int h,int x, int y)
+int recursion_func(char direction,char ** maze,int w,int h,int x, int y)
 {
   //sleep(1);
   int spaces = 0;
   int next;
+  int answer;
  
   do {
-    
+    //printf("\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n%s\n",maze[0],maze[1],maze[2],maze[3],maze[4],maze[5],maze[6],maze[7],maze[8],maze[9]);
     next = next_space(maze,direction,w,h,x,&y,&spaces);
     //printf("\nSpaces = %d",spaces);
     if (next == 3) {spaces++;}
@@ -92,9 +93,9 @@ void recursion_func(char direction,char ** maze,int w,int h,int x, int y)
   if (next == 1 || next == 3)
   {
     
-   // printf("\n-----FOUND END-----");
-   // printf("\nAt found end: [y][x] = [%d][%d]",y,x);
-   // printf("\n%s\n%s\n%s\n%s\n%s\n",maze[0],maze[1],maze[2],maze[3],maze[4]);
+    //printf("\n-----FOUND END-----");
+    //printf("\nAt found end: [y][x] = [%d][%d]",y,x);
+    //printf("\n%s\n%s\n%s\n%s\n%s\n",maze[0],maze[1],maze[2],maze[3],maze[4]);
     print_directions2(direction,spaces);
     //printf("\n");
     while (1){
@@ -133,14 +134,41 @@ void recursion_func(char direction,char ** maze,int w,int h,int x, int y)
     //printf("\nAt found junction: [y][x] = [%d][%d]",y,x);
     print_directions2(direction,spaces);
     //printf("\n\n\n");
-    if (maze[y-1][x] != '.' && maze[y-1][x] != 'X') {recursion_func('N',maze,w,h,x,y); }
-    if (maze[y][x+1] != '.' && maze[y][x+1] != 'X') {recursion_func('E',maze,w,h,x,y); }
-    if (maze[y+1][x] != '.' && maze[y+1][x] != 'X') {recursion_func('S',maze,w,h,x,y); }
-    if (maze[y][x-1] != '.' && maze[y][x-1] != 'X') {recursion_func('W',maze,w,h,x,y); }
+    if (maze[y-1][x] != '.' && maze[y-1][x] != 'X') {answer = recursion_func('N',maze,w,h,x,y); }//y += answer;}//printf("\nS %d",answer); }
+    if (maze[y][x+1] != '.' && maze[y][x+1] != 'X') {answer = recursion_func('E',maze,w,h,x,y); }//x -= answer;}//printf("\nW %d",answer);}
+    if (maze[y+1][x] != '.' && maze[y+1][x] != 'X') {answer = recursion_func('S',maze,w,h,x,y); }//y -= answer;} //printf("\nN %d",answer);}
+    if (maze[y][x-1] != '.' && maze[y][x-1] != 'X') {answer = recursion_func('W',maze,w,h,x,y); }//x += answer;}//printf("\nE %d",answer);}
+    while (1){
+    if (direction == 'N') { 
+      
+      y += spaces;
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('S',spaces);
+      break; }
+    if (direction == 'E') { 
+      
+      x -= spaces;
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('W',spaces);
+      break; }
+    if (direction == 'S') { 
+      
+      y -= spaces; 
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('N',spaces);
+      break; }
+    if (direction == 'W') { 
+      
+      x += spaces; 
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('E',spaces);
+      break; }
+    }
+    
   }
   
     
-  
+ answer = spaces; 
 }
 
 int next_space(char ** maze, char direction, int w, int h, int x, int * y, int * spaces) // returns 1 if next space is end of path, 0 if it is okay, 3 if found end, and 2 if it is a junction
