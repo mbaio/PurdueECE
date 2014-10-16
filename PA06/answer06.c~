@@ -11,41 +11,34 @@ void recursion_func(char, char **, int,int,int,int);
 int main()
 {
    
-  char ** maze = malloc(5 * sizeof(char *));
-  maze[0] = malloc(6 * sizeof(char));
-  maze[1] = malloc(6 * sizeof(char));
-  maze[2] = malloc(6 * sizeof(char));
-  maze[3] = malloc(6 * sizeof(char));
-  maze[4] = malloc(6 * sizeof(char));
+  char ** maze = malloc(10 * sizeof(char *));
+  maze[0] = malloc(11 * sizeof(char));
+  maze[1] = malloc(11 * sizeof(char));
+  maze[2] = malloc(11 * sizeof(char));
+  maze[3] = malloc(11 * sizeof(char));
+  maze[4] = malloc(11 * sizeof(char));
+  maze[5] = malloc(11 * sizeof(char));
+  maze[6] = malloc(11 * sizeof(char));
+  maze[7] = malloc(11 * sizeof(char));
+  maze[8] = malloc(11 * sizeof(char));
+  maze[9] = malloc(11 * sizeof(char));
   
-  strcpy(maze[0],"XXX X");
-  strcpy(maze[1],"X   X");
-  strcpy(maze[2],"X X X");
-  strcpy(maze[3],"X X X");
-  strcpy(maze[4],"XXX X");
-  
+  strcpy(maze[0],"XXXXX XXXX");
+  strcpy(maze[1],"XXXXX XX X");
+  strcpy(maze[2],"XX    XX X");
+  strcpy(maze[3],"XX XXXXX X");
+  strcpy(maze[4],"XX       X");
+  strcpy(maze[5],"XX XX XX X");
+  strcpy(maze[6],"XX XXXXX X");
+  strcpy(maze[7],"X  XX    X");
+  strcpy(maze[8],"X XXX XXXX");
+  strcpy(maze[9],"XXXXX XXXX");
   
  
-  int w = 4;
-  int h = 4;
+  int w = 10;
+  int h = 10;
   
-  /*int x = 3;
-  int y = 0;
-  int next;
-  int ind;
-  for (ind = 0; ind < 5; ind++)
-  {
-    next = next_space(maze,'S',w,h,x,&y);
-    y++;
-  }
-  free(maze[0]);
-  free(maze[1]);
-  free(maze[2]);
-  free(maze[3]);
-  free(maze[4]);
-  free(maze);
-  return (0);
-  */
+
   
   
   print_directions(maze,w,h);
@@ -55,6 +48,11 @@ int main()
   free(maze[2]);
   free(maze[3]);
   free(maze[4]);
+  free(maze[5]);
+  free(maze[6]);
+  free(maze[7]);
+  free(maze[8]);
+  free(maze[9]);
   free(maze);
   
   return(0);
@@ -68,12 +66,12 @@ void print_directions(char ** maze,int w,int h)
 {
   int start = find_start(maze,w);
   char direction = 'S';
-  recursion_func(direction,maze,w,h,start,0);
+  recursion_func(direction,maze,w-1,h-1,start,0);
 }
 
 void recursion_func(char direction,char ** maze,int w,int h,int x, int y)
 {
-  sleep(1);
+  //sleep(1);
   int spaces = 0;
   int next;
  
