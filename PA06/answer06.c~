@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-int next_space(char **, char, int, int, int, int *);
+int next_space(char **, char, int, int, int, int *,int *);
 int find_start(char **,int);
 void print_directions2(char, int);
 void recursion_func(char, char **, int,int,int,int);
@@ -79,8 +79,10 @@ void recursion_func(char direction,char ** maze,int w,int h,int x, int y)
  
   do {
     
-    next = next_space(maze,direction,w,h,x,&y);
-    if (next == 1)
+    next = next_space(maze,direction,w,h,x,&y,&spaces);
+    //printf("\nSpaces = %d",spaces);
+    if (next == 3) {spaces++;}
+    if (next == 1 || next == 3)
     { break; }
     spaces++;
     if (direction == 'N') { y--; }
@@ -89,29 +91,50 @@ void recursion_func(char direction,char ** maze,int w,int h,int x, int y)
     if (direction == 'W') { x--; }
     
   } while (next == 0);
-  if (next == 1)
+  if (next == 1 || next == 3)
   {
     
-    printf("\n-----FOUND END-----");
-    printf("\nAt found end: [y][x] = [%d][%d]",y,x);
-    printf("\n%s\n%s\n%s\n%s\n%s\n",maze[0],maze[1],maze[2],maze[3],maze[4]);
+   // printf("\n-----FOUND END-----");
+   // printf("\nAt found end: [y][x] = [%d][%d]",y,x);
+   // printf("\n%s\n%s\n%s\n%s\n%s\n",maze[0],maze[1],maze[2],maze[3],maze[4]);
     print_directions2(direction,spaces);
-    printf("\n");
-    if (direction == 'N') { direction == 'S'; y += spaces; }
-    if (direction == 'E') { direction == 'W'; x -= spaces; }
-    if (direction == 'S') { direction == 'N'; y -= spaces; }
-    if (direction == 'W') { direction == 'E'; x += spaces; }
-    printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
-    print_directions2(direction,spaces);
-    printf("\n\n\n\n\n");
+    //printf("\n");
+    while (1){
+    if (direction == 'N') { 
+      
+      y += spaces;
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('S',spaces);
+      break; }
+    if (direction == 'E') { 
+      
+      x -= spaces;
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('W',spaces);
+      break; }
+    if (direction == 'S') { 
+      
+      y -= spaces; 
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('N',spaces);
+      break; }
+    if (direction == 'W') { 
+      
+      x += spaces; 
+      //printf("\nMoving back to previous junction: [y][x] = [%d][%d]",y,x);
+      print_directions2('E',spaces);
+      break; }
+    }
+    
+    //printf("\n\n\n\n\n");
   }
   if (next == 2)
   {
     
-    printf("\n------FOUND JUNCTION-----");
-    printf("\nAt found junction: [y][x] = [%d][%d]",y,x);
+    //printf("\n------FOUND JUNCTION-----");
+    //printf("\nAt found junction: [y][x] = [%d][%d]",y,x);
     print_directions2(direction,spaces);
-    printf("\n\n\n");
+    //printf("\n\n\n");
     if (maze[y-1][x] != '.' && maze[y-1][x] != 'X') {recursion_func('N',maze,w,h,x,y); }
     if (maze[y][x+1] != '.' && maze[y][x+1] != 'X') {recursion_func('E',maze,w,h,x,y); }
     if (maze[y+1][x] != '.' && maze[y+1][x] != 'X') {recursion_func('S',maze,w,h,x,y); }
@@ -122,48 +145,49 @@ void recursion_func(char direction,char ** maze,int w,int h,int x, int y)
   
 }
 
-int next_space(char ** maze, char direction, int w, int h, int x, int * y) // returns 1 if next space is end of path, 0 if it is okay, 3 if found end, and 2 if it is a junction
+int next_space(char ** maze, char direction, int w, int h, int x, int * y, int * spaces) // returns 1 if next space is end of path, 0 if it is okay, 3 if found end, and 2 if it is a junction
 {
-  printf("\nmaze[y+1][x] = %c, y = %d, x = %d, current = %c",maze[*y+1][x],*y,x,maze[*y][x]);
+  
   if (maze[*y][x] != 'X')
   {
     maze[*y][x] = '.';
   }
-  if (direction == 'N' && (maze[*y-1][x+1] == ' ' || maze[*y-1][x-1] == ' ')) { printf("\nReturned 2"); return 2; }
-  if (direction == 'E' && (maze[*y+1][x+1] == ' ' || maze[*y-1][x+1] == ' ')) { printf("\nReturned 2"); return 2; }
-  if (direction == 'S' && (maze[*y+1][x+1] == ' ' || maze[*y+1][x-1] == ' ')) { printf("\nReturned 2"); return 2; }
-  if (direction == 'W' && (maze[*y-1][x-1] == ' ' || maze[*y+1][x-1] == ' ')) { printf("\nReturned 2"); return 2; }
+  if (direction == 'N' && (maze[*y-1][x+1] == ' ' || maze[*y-1][x-1] == ' ')) {  return 2; }
+  if (direction == 'E' && (maze[*y+1][x+1] == ' ' || maze[*y-1][x+1] == ' ')) {  return 2; }
+  if (direction == 'S' && (maze[*y+1][x+1] == ' ' || maze[*y+1][x-1] == ' ')) {  return 2; }
+  if (direction == 'W' && (maze[*y-1][x-1] == ' ' || maze[*y+1][x-1] == ' ')) {  return 2; }
  
   
   if (direction == 'S' && (maze[*y+1][x] == ' ' && (*y+1 == h)))
   {
     maze[*y+1][x] = '.';
-    printf("\nReturned 1");
-    return 1;
+    *spaces++;
+    
+    return 3;
   }
   if (direction == 'N' && (maze[*y-1][x] == 'X' || maze[*y-1][x] == '.'))
   {
-    printf("\nReturned 1");
+    
     return 1;
   }
   if (direction == 'E' && (maze[*y][x+1] == 'X' || maze[*y][x+1] == '.'))
   {
-    printf("\nReturned 1");
+    
     return 1;
   }
   if (direction == 'S' && (maze[*y+1][x] == 'X' || maze[*y+1][x] == '.')) 
   {
-    printf("\nReturned 1");
+    
     return 1;
   }
   if (direction == 'W' && (maze[*y][x-1] == 'X' || maze[*y][x-1] == '.'))
   {
-    printf("\nReturned 1");
+    
     return 1;
   }
   
   
- printf("\nReturned 0");
+
   return 0;
 }
 
