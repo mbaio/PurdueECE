@@ -1,0 +1,143 @@
+==33896== Memcheck, a memory error detector
+==33896== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==33896== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==33896== Command: ./a.out 23
+==33896== Parent PID: 33894
+==33896== 
+--33896-- 
+--33896-- Valgrind options:
+--33896--    --tool=memcheck
+--33896--    --leak-check=full
+--33896--    --verbose
+--33896--    --log-file=memcheck.log
+--33896-- Contents of /proc/version:
+--33896--   Linux version 2.6.32-431.29.2.el6.x86_64 (mockbuild@x86-026.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Sun Jul 27 15:55:46 EDT 2014
+--33896-- Arch and hwcaps: AMD64, amd64-sse3-cx16-avx
+--33896-- Page sizes: currently 4096, max supported 4096
+--33896-- Valgrind library directory: /usr/lib64/valgrind
+--33896-- Reading syms from /tmp/.PuocXc/a.out
+--33896-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--33896--    object doesn't have a dynamic symbol table
+--33896-- Reading syms from /lib64/ld-2.12.so
+--33896--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
+--33896--   .. build-id is valid
+--33896-- Scheduler: using generic scheduler lock implementation.
+--33896-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==33896== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-33896-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==33896== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-33896-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==33896== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-33896-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==33896== 
+==33896== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==33896== don't want to do, unless you know exactly what you're doing,
+==33896== or are doing some strange experiment):
+==33896==   /usr/lib64/valgrind/../../bin/vgdb --pid=33896 ...command...
+==33896== 
+==33896== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==33896==   /path/to/gdb ./a.out
+==33896== and then give GDB the following command
+==33896==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=33896
+==33896== --pid is optional if only one valgrind process is running
+==33896== 
+--33896-- REDIR: 0x3350217610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--33896-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--33896-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--33896-- REDIR: 0x3350217480 (index) redirected to 0x4a07c30 (index)
+--33896-- REDIR: 0x3350217500 (strcmp) redirected to 0x4a08570 (strcmp)
+--33896-- Reading syms from /lib64/libc-2.12.so
+--33896--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
+--33896--   .. build-id is valid
+--33896-- REDIR: 0x3350684cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--33896-- REDIR: 0x3350686f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--33896-- REDIR: 0x3350682c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
+--33896-- REDIR: 0x335067a640 (malloc) redirected to 0x4a069ac (malloc)
+--33896-- REDIR: 0x3350681160 (__GI_strlen) redirected to 0x4a07fb0 (__GI_strlen)
+--33896-- REDIR: 0x3350689670 (memcpy) redirected to 0x4a08b60 (memcpy)
+--33896-- REDIR: 0x335067f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--33896-- REDIR: 0x3350728420 (__strcmp_sse42) redirected to 0x4a084d0 (strcmp)
+--33896-- REDIR: 0x3350684500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
+--33896-- REDIR: 0x335068aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
+--33896-- REDIR: 0x335067b520 (free) redirected to 0x4a063a9 (free)
+==33896== 
+==33896== HEAP SUMMARY:
+==33896==     in use at exit: 142 bytes in 12 blocks
+==33896==   total heap usage: 29 allocs, 17 frees, 382 bytes allocated
+==33896== 
+==33896== Searching for pointers to 12 not-freed blocks
+==33896== Checked 64,856 bytes
+==33896== 
+==33896== 21 (16 direct, 5 indirect) bytes in 1 blocks are definitely lost in loss record 7 of 12
+==33896==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==33896==    by 0x400C65: List_createNode_sol (<stdin>:19)
+==33896==    by 0x4010A2: List_create (test_support_functions.c:48)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4012E5: make_list (test_support_functions.c:80)
+==33896==    by 0x401CB8: tests_List_merge (test_List_merge.c:119)
+==33896==    by 0x4022D1: main (<stdin>:159)
+==33896== 
+==33896== 22 (16 direct, 6 indirect) bytes in 1 blocks are definitely lost in loss record 8 of 12
+==33896==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==33896==    by 0x400C65: List_createNode_sol (<stdin>:19)
+==33896==    by 0x4010A2: List_create (test_support_functions.c:48)
+==33896==    by 0x4012E5: make_list (test_support_functions.c:80)
+==33896==    by 0x401CB8: tests_List_merge (test_List_merge.c:119)
+==33896==    by 0x4022D1: main (<stdin>:159)
+==33896== 
+==33896== 23 (16 direct, 7 indirect) bytes in 1 blocks are definitely lost in loss record 9 of 12
+==33896==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==33896==    by 0x400C65: List_createNode_sol (<stdin>:19)
+==33896==    by 0x4010A2: List_create (test_support_functions.c:48)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4012E5: make_list (test_support_functions.c:80)
+==33896==    by 0x401CB8: tests_List_merge (test_List_merge.c:119)
+==33896==    by 0x4022D1: main (<stdin>:159)
+==33896== 
+==33896== 25 (16 direct, 9 indirect) bytes in 1 blocks are definitely lost in loss record 10 of 12
+==33896==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==33896==    by 0x400C65: List_createNode_sol (<stdin>:19)
+==33896==    by 0x4010A2: List_create (test_support_functions.c:48)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4012E5: make_list (test_support_functions.c:80)
+==33896==    by 0x401CB8: tests_List_merge (test_List_merge.c:119)
+==33896==    by 0x4022D1: main (<stdin>:159)
+==33896== 
+==33896== 25 (16 direct, 9 indirect) bytes in 1 blocks are definitely lost in loss record 11 of 12
+==33896==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==33896==    by 0x400C65: List_createNode_sol (<stdin>:19)
+==33896==    by 0x4010A2: List_create (test_support_functions.c:48)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4012E5: make_list (test_support_functions.c:80)
+==33896==    by 0x401CB8: tests_List_merge (test_List_merge.c:119)
+==33896==    by 0x4022D1: main (<stdin>:159)
+==33896== 
+==33896== 26 (16 direct, 10 indirect) bytes in 1 blocks are definitely lost in loss record 12 of 12
+==33896==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==33896==    by 0x400C65: List_createNode_sol (<stdin>:19)
+==33896==    by 0x4010A2: List_create (test_support_functions.c:48)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4010BF: List_create (test_support_functions.c:49)
+==33896==    by 0x4012E5: make_list (test_support_functions.c:80)
+==33896==    by 0x401CB8: tests_List_merge (test_List_merge.c:119)
+==33896==    by 0x4022D1: main (<stdin>:159)
+==33896== 
+==33896== LEAK SUMMARY:
+==33896==    definitely lost: 96 bytes in 6 blocks
+==33896==    indirectly lost: 46 bytes in 6 blocks
+==33896==      possibly lost: 0 bytes in 0 blocks
+==33896==    still reachable: 0 bytes in 0 blocks
+==33896==         suppressed: 0 bytes in 0 blocks
+==33896== 
+==33896== ERROR SUMMARY: 6 errors from 6 contexts (suppressed: 6 from 6)
+--33896-- 
+--33896-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--33896-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==33896== 
+==33896== ERROR SUMMARY: 6 errors from 6 contexts (suppressed: 6 from 6)
