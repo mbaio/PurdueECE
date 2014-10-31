@@ -58,17 +58,15 @@ List * List_merge(List * lhs,
 		    List * temp_node = NULL;
 		   
 		    
-		    while (temp_lhs != NULL || temp_rhs != NULL)
+		    while (temp_lhs != NULL && temp_rhs != NULL)
 		    {
-		      if (temp_lhs != NULL && temp_rhs != NULL)
-		      {
 		      if (compar(temp_lhs -> str,temp_rhs -> str) <= 0)
 		      {
 			// make temp pointer for node to send
-			temp_node = temp_lhs -> next;
-			temp_lhs -> next = NULL;
-			merged = List_append(merged,temp_lhs);
-			temp_lhs = temp_node;
+			temp_node = temp_lhs -> next; //set a temp node to the next value of the linked list
+			temp_lhs -> next = NULL; // erase the next linked list so there is only one value to add to the list
+			merged = List_append(merged,temp_lhs); // update the merged list
+			temp_lhs = temp_node; // set the list back to the next value
 		      }
 		      else
 		      {
@@ -80,29 +78,19 @@ List * List_merge(List * lhs,
 		      }
 		      
 		      }
-		      else
-		      {
-		      if (List_length(temp_lhs) > 0)
 			
-		    {
-			temp_node = temp_lhs -> next;
-			temp_lhs -> next = NULL;
-			merged = List_append(merged,temp_lhs);
-			temp_lhs = temp_node;
-		    }
-		    if (List_length(temp_rhs) > 0)
-		    {
-			temp_node = temp_rhs -> next;
-			temp_rhs -> next = NULL;
-			merged = List_append(merged,temp_rhs);
-			temp_rhs = temp_node;
-		    }
-		      }
-		    }
 		    
 		    //leftovers
 		    //send whole node to append to get the rest for when 1 is null
-		    
+		    if (temp_lhs == NULL)
+			{
+			  merged = List_append(merged,temp_rhs);
+			}
+			if (temp_rhs == NULL)
+			{
+			  merged = List_append(merged,temp_lhs);
+			  }
+
 		    
 		    return merged;
 		    
