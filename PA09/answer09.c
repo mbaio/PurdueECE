@@ -8,9 +8,9 @@ char ** explode(const char *str, const char *delims, int * arrLen);
 BusinessNode * create_node(char * stars, char * name, char * address)
 {
   BusinessNode * temp_node = malloc(sizeof(BusinessNode));
-  temp_node -> stars = strdup(stars);
-  temp_node -> name = strdup(name);
-  temp_node -> address = strdup(address);
+  temp_node -> stars = stars;
+  temp_node -> name = name;
+  temp_node -> address = address;
   temp_node -> left = NULL;
   temp_node -> right = NULL;
   return temp_node;
@@ -18,10 +18,6 @@ BusinessNode * create_node(char * stars, char * name, char * address)
 
 BusinessNode * tree_insert(BusinessNode * node, BusinessNode * root)
 {
-  if (node == NULL)
-  {
-    return root;
-  }
   if (root == NULL)
   {
     return node;
@@ -67,8 +63,8 @@ void print_tree(BusinessNode * tree)
   {
     return;
   }
-  print_tree(tree -> left);
   print_node(tree);
+  print_tree(tree -> left);
   print_tree(tree -> right);
 }
 
@@ -123,12 +119,8 @@ BusinessNode * load_tree_from_file(char * filename)
   int file_line_length = 0;
   char * line = malloc(250 * sizeof(char));
   
-  char ** line_elements = malloc(3 * sizeof(char *));
-  if (line_elements == NULL)
-  {
-    fprintf(stderr,"line_elements not initialized!\n");
-    return NULL;
-  }
+  char ** line_elements;
+  
   
   if (line == NULL)
   {
@@ -136,29 +128,7 @@ BusinessNode * load_tree_from_file(char * filename)
     return NULL;
   }
   
-  line_elements[0] = malloc(250 * sizeof(char));
-  if (line_elements[0] == NULL)
-  {
-    fprintf(stderr,"line_elements not initialized!\n");
-    return NULL;
-  }
-  
-  line_elements[1] = malloc(250 * sizeof(char));
-  if (line_elements[1] == NULL)
-  {
-    fprintf(stderr,"line_elements not initialized!\n");
-    return NULL;
-  }
 
-  line_elements[2] = malloc(250 * sizeof(char));
-  if (line_elements[2] == NULL)
-  {
-    fprintf(stderr,"line_elements not initialized!\n");
-    return NULL;
-  }
-
-    
-  
   FILE * fptr = fopen(filename,"r");
   if (fptr == NULL)
   {
@@ -170,12 +140,13 @@ BusinessNode * load_tree_from_file(char * filename)
     line_elements = explode(line,"\t",&file_line_length);
     BusinessNode * temp_node = create_node(line_elements[0],line_elements[1],line_elements[2]);
     temp_tree = tree_insert(temp_node,temp_tree);
+    free(line_elements[2]);
+    free(line_elements[1]);
+    free(line_elements[0]);
+    free(line_elements);
   }
-  free(line);
-  free(line_elements[2]);
-  free(line_elements[1]);
-  free(line_elements[0]);
-  free(line_elements);
+    free(line);
+  
   return temp_tree;  
 }
 
@@ -183,6 +154,7 @@ void destroy_tree(BusinessNode * root)
 {
   if (root == NULL)
   {
+    free(root);
     return;
   }
   destroy_tree(root -> left);
@@ -195,7 +167,27 @@ void destroy_tree(BusinessNode * root)
 
 BusinessNode * tree_search_name(char * name, BusinessNode * root)
 {
+  BusinessNode * temp = root;
   
+  if (root == NULL)
+  {
+    return NULL;
+  }
+  printf("Current name: %s\n",root -> name);
+  if (strcmp(root -> name,name) == 0)
+  {
+    return root;
+  }
+  if (strcmp(root -> name,name) > 0)
+  {
+    temp = tree_search_name(name,root -> left);
+  }
+  else
+  {
+    temp = tree_search_name(name,root -> right);
+  }
+  return temp;
+}
   
   
 

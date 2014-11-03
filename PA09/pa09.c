@@ -24,6 +24,13 @@ int main()
   
   print_tree(tree);
   
+  printf("\nsearching now....\n");
+  BusinessNode * found = tree_search_name("Culver's",tree);
+  print_tree(found);
+  destroy_tree(tree);
+  destroy_tree(found);
+  
+  
   
   
   return 0;
