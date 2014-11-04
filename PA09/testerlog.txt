@@ -1,0 +1,306 @@
+   ---------------------------------------------------------------------------
+   Welcome to the PA09 testing program. This program takes a _long_ time
+   to execute. There is a reason for this. You should not rely on this
+   program to test your code as you go. Instead, you should think about
+   what your code should be doing, and what inputs should produce what
+   outputs for each of your functions.
+   
+        YOU SHOULD THEN TEST EVERY PIECE OF CODE AS YOU WRITE IT 
+   
+                                 AND 
+   
+                        FIX MISTAKES AS YOU GO.
+   
+   When you are convinced that you have the entire assignment 100%% correct,
+   then you can use this testing program to test it. 
+   
+   This will give you your mark assuming that you submit it correctly, and 
+   there are no other irregularities.
+   ---------------------------------------------------------------------------
+
+test 1 :: passing incorrect filename to load_tree_from_file()
+
+	char * filename = "carzyfilename";
+	BusinessNode * root;
+	root = load_tree_from_file(filename);
+
+   (pass.)
+
+test 2 :: testing destroy_tree()
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	destroy_tree(root);
+
+   (pass.)
+
+test 3 :: testing destroy_tree() when root is NULL
+
+	BusinessNode * root = NULL
+	destroy_tree(root);
+
+   (pass.)
+
+test 4 :: testing whether the tree is built correctly
+
+	BusinessNode * tree = load_tree_from_file("yelp_businesses.tsv");
+	compare_trees(tree, sol_tree);
+   // Error, Tree is not built correctly.
+	Check the README for instructions on how to build the tree correctly.
+
+	destroy_tree(tree);
+
+   Testcase FAILED
+
+test 5 :: testing the create_node function.
+
+	BusinessNode * node = create_node(strdup("5.0"), strdup("Purdue University Electrical Engineering"), strdup("465 Northwestern Avenue")
+   (pass.)
+
+test 6 :: testing the tree_insert function.
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = create_node(strdup("5.0"),strdup("test node"),strdup("no address"));
+	BusinessNode * root = tree_insert(node,root);
+   (pass.)
+
+test 7 :: testing the tree_insert function: insert to NULL root.
+
+	BusinessNode * root = NULL;
+	BusinessNode * node = create_node(strdup("5.0"),strdup("test node"),strdup("no address"));
+	BusinessNode * root = tree_insert(node,root);
+   (pass.)
+
+test 8 :: testing the tree_search_name function: Looking for: Pine Cone Restaurant
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Pine Cone Restaurant",root);
+Current name: Eric Goldberg, MD
+Current name: Pine Cone Restaurant
+   (pass.)
+
+test 9 :: testing the tree_search_name function: Looking for: Full Circle Auto Wash
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Full Circle Auto Wash",root);
+Current name: Eric Goldberg, MD
+Current name: Pine Cone Restaurant
+Current name: McFarland Public Library
+Current name: Green Lantern Restaurant
+Current name: Grand China Restaurant
+Current name: Fairfield Inn & Suites Madison West
+Current name: Full Compass Systems
+Current name: Family Video
+Current name: Flaming Wok
+Current name: Food Fight Inc
+Current name: Ford's Gym
+Current name: Fraboni's Italian Specialties & Delicatessen
+Current name: Friday's Front Row Sports Grill
+Current name: Friendship Community Mental Health Center
+Current name: Frost Appliance
+Current name: Fuddruckers
+Current name: Fuhr Chiropractic Clinic
+Current name: Full Circle Auto Wash
+   (pass.)
+
+test 10 :: testing the tree_search_name function: Looking for: Oriental Supermarket
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Oriental Supermarket",root);
+Current name: Eric Goldberg, MD
+Current name: Pine Cone Restaurant
+Current name: McFarland Public Library
+Current name: Parsonage Bed & Breakfast the
+Current name: Mi Cocina
+Current name: Michaels
+Current name: Papa John's Pizza
+Current name: Middleton Sport Bowl
+Current name: Nitty Gritty Restaurant & Bar
+Current name: Panda Garden
+Current name: Old Navy Store
+Current name: Olive Garden Italian Restaurant
+Current name: Olson Vacuum Cleaner Sales & Service
+Current name: Packer Inn
+Current name: Oregano's Pizza Bistro
+Current name: Orthopedic Clinic Association
+Current name: Organ Stop Pizza
+Current name: Orlando Auto Body
+Current name: Origins
+Current name: Oriental Angels
+Current name: Original Pancake House
+Current name: Original Pancake House
+Current name: Original Pancake House
+Current name: Oriental Shop
+Current name: Original Hamburger Works
+Current name: Origin India Restaurant & Bar
+Current name: Origano
+Current name: Oriental Supermarket
+   (pass.)
+
+test 11 :: testing the tree_search_name function: Looking for: Surfer Express Car Wash
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Surfer Express Car Wash",root);
+Current name: Eric Goldberg, MD
+Current name: Pine Cone Restaurant
+Current name: Spartan Animal Hospital
+Current name: Spartan Bowl
+Current name: Spartan Pizza
+Current name: Zimbrick Acura
+Current name: Wild Birds Unlimited
+Current name: Staybridge Suites Extended Stay Hotel Middleton/Madison-West
+Current name: Three Sisters Old Town Inn
+Current name: The Village Green Bar & Grill
+Current name: Tangles
+Current name: Sun Prairie Public Library
+Current name: Taco Bell
+Current name: TGI Friday's
+Current name: Sunwest Federal Credit Union
+Current name: Super 8 Phoenix Downtown
+Current name: TASC, Inc
+Current name: Szechwan Palace
+Current name: SuperPawn
+Current name: Sweet Tomatoes
+Current name: Supercuts
+Current name: Sushi Mishima Restaurant
+Current name: Superstition Springs Lexus
+Current name: Sur La Table
+Current name: Sushi Ko Restaurant
+Current name: Sushi Kee
+Current name: Surprise Mini Storage
+Current name: Surgical Arts Center
+Current name: Surf City Bar & Grill
+Current name: Surgeons' Hall Museum
+Current name: Surge Delivery Cafe
+Current name: Surf The Musical Songs Of The Beach Boys
+Current name: Surfset Las Vegas
+Current name: Surfer Express Car Wash
+   (pass.)
+
+test 12 :: testing the tree_search_name function: Looking for: Dennis' Special Shop
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Dennis' Special Shop",root);
+Current name: Eric Goldberg, MD
+Current name: Deforest Family Restaurant
+Current name: Domino's Pizza
+Current name: Dennys
+Current name: Deli Roma
+Current name: Denny's
+Current name: Democratic Party of Arizona
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Dennis C Eckel, MD
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny's
+Current name: Denny 's
+   (pass.)
+
+test 13 :: testing the tree_search_name function: Looking for: Purdue University
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Purdue University",root);
+Current name: Eric Goldberg, MD
+Current name: Pine Cone Restaurant
+Current name: Spartan Animal Hospital
+Current name: Prairie Cafe & Bakery
+Current name: Revolution Hair Company Inc
+Current name: Prairie Diner
+Current name: Prairie Land Service Center
+Current name: Rebecca Lynn Studio
+Current name: Radio Doctor of Madison Inc the
+Current name: Qdoba Mexican Grill
+Current name: Precision Imports
+Current name: Purcell Tire & Service
+Current name: Pure Fitness
+Current name: Purcell's Western States Tire
+Current name: Pure Fitness
+Current name: Pure Fitness
+Current name: Pure Elements Salon
+Current name: Pure
+Current name: Pure
+   (pass.)
+
+test 14 :: testing the tree_search_name function: Looking for: Vinny-Boy's Italian Market Place
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Vinny-Boy's Italian Market Place",root);
+Current name: Eric Goldberg, MD
+Current name: Pine Cone Restaurant
+Current name: Spartan Animal Hospital
+Current name: Spartan Bowl
+Current name: Spartan Pizza
+Current name: Zimbrick Acura
+Current name: Wild Birds Unlimited
+Current name: Staybridge Suites Extended Stay Hotel Middleton/Madison-West
+Current name: Three Sisters Old Town Inn
+Current name: Walgreens
+Current name: Walgreens
+Current name: Vin Santo
+Current name: Wal-Mart
+Current name: Virginia Auto Service
+Current name: Vincent's On Camelback
+Current name: Vip Homes
+Current name: Vintage At Scottsdale
+Current name: Vineyard Christian Fellowship of North Phoenix
+Current name: Vino Lounge
+Current name: Vino 100
+Current name: Vinnie Favorito
+Current name: Vinny-Boy's Italian Market Place
+   (pass.)
+
+test 15 :: testing the tree_search_name function: Looking for: Mando's Mexican Food
+
+	BusinessNode * root = load_tree_from_file("yelp_businesses.tsv");
+	BusinessNode * node = tree_search_name("Mando's Mexican Food",root);
+Current name: Eric Goldberg, MD
+Current name: Pine Cone Restaurant
+Current name: McFarland Public Library
+Current name: Green Lantern Restaurant
+Current name: Main Moon Chinese Restaurant
+Current name: McDonald's
+Current name: Marriott-Madison West
+Current name: Marling Homeworks
+Current name: Majerle's Sports Grill
+Current name: Mariscos Ensenada
+Current name: Maricopa Medical Center
+Current name: Maricopa Integrated Health System
+Current name: Manhattan Pizzeria and Subshop
+Current name: Mama Java's Coffee House
+Current name: Mandarina Apartment Homes
+Current name: Mandy's Fish & Chips
+Current name: Mandy's
+Current name: Mando's Mexican Food
+   (pass.)
+
+
+14/15 testcases passed.
+Overall mark is a FAIL.

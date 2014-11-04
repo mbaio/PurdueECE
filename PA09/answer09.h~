@@ -10,9 +10,9 @@
  */
 
 typedef struct bnode {
-  char * name;    // Does not own
-  char * stars;   // Does not own
-  char * address; // Does not own
+  char * name;
+  char * stars;
+  char * address;
 
   struct bnode * left;
   struct bnode * right;

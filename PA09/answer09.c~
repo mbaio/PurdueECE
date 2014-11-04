@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <libgen.h>
 #include <string.h>
 #include "answer09.h"
 
 char ** explode(const char *str, const char *delims, int * arrLen);
+void destroyStringArray(char ** strArr, int len);
 
 BusinessNode * create_node(char * stars, char * name, char * address)
 {
@@ -50,7 +52,7 @@ void print_node(BusinessNode * node)
   {
     equals[ind] = '=';
   }
-  equals[length_str + 5] = '\0';
+  equals[length_str + 4] = '\0';
   printf("%s\n",equals);
   printf("Stars: %s\nAddress: %s\n\n\n",node -> stars,node -> address);
   free(equals);
@@ -133,20 +135,29 @@ BusinessNode * load_tree_from_file(char * filename)
   if (fptr == NULL)
   {
     fprintf(stderr,"Could not open file!\n");
+    free(line);
     return NULL;
   }
   while (fgets(line, 250, fptr))
   {
+    int linelen = strlen(line);
+    if(linelen > 0 && line[linelen-1] == '\n')
+      line[linelen-1] = '\0';
     line_elements = explode(line,"\t",&file_line_length);
+    // Induce a memory error if any of the strings are bad
+    //int ind;
+    //for(ind = 0; ind < file_line_length; ++ind)
+     // strlen(line_elements[ind]);
+    
+   // if (file_line_length < 3) {return NULL; }
+    
     BusinessNode * temp_node = create_node(line_elements[0],line_elements[1],line_elements[2]);
     temp_tree = tree_insert(temp_node,temp_tree);
-    free(line_elements[2]);
-    free(line_elements[1]);
-    free(line_elements[0]);
+    //destroyStringArray(line_elements, file_line_length);
     free(line_elements);
   }
     free(line);
-  
+  fclose(fptr);
   return temp_tree;  
 }
 
@@ -154,13 +165,17 @@ void destroy_tree(BusinessNode * root)
 {
   if (root == NULL)
   {
+    free(root);
     return;
-  }
-  destroy_tree(root -> left);
-  destroy_tree(root -> right);
+  }  
+  
   free(root -> stars);
   free(root -> name);
   free(root -> address);
+  
+  destroy_tree(root -> left);
+  destroy_tree(root -> right);
+
   free(root); 
 }
 
@@ -188,7 +203,25 @@ BusinessNode * tree_search_name(char * name, BusinessNode * root)
   return temp;
 }
   
-  
+void destroyStringArray(char ** strArr, int len)
+{
+  int ind = 0;
+
+  if (strArr == NULL)
+  {
+  return;
+  }
+
+  for (ind = 0; ind < len; ind++)
+  {
+    free(strArr[ind]);
+  }
+
+  free(strArr);
+  return;
+
+}
+
 
 
 
