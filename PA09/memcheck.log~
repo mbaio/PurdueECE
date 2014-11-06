@@ -1,0 +1,366 @@
+==21570== Memcheck, a memory error detector
+==21570== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==21570== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==21570== Command: ./pa09
+==21570== Parent PID: 5489
+==21570== 
+--21570-- 
+--21570-- Valgrind options:
+--21570--    --tool=memcheck
+--21570--    --leak-check=full
+--21570--    --verbose
+--21570--    --log-file=memcheck.log
+--21570-- Contents of /proc/version:
+--21570--   Linux version 2.6.32-431.23.3.el6.x86_64 (mockbuild@x86-027.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-4) (GCC) ) #1 SMP Wed Jul 16 06:12:23 EDT 2014
+--21570-- Arch and hwcaps: AMD64, amd64-sse3-cx16
+--21570-- Page sizes: currently 4096, max supported 4096
+--21570-- Valgrind library directory: /usr/lib64/valgrind
+--21570-- Reading syms from /home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA09/pa09
+--21570-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--21570--    object doesn't have a dynamic symbol table
+--21570-- Reading syms from /lib64/ld-2.12.so
+--21570--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
+--21570--   .. build-id is valid
+--21570-- Scheduler: using generic scheduler lock implementation.
+--21570-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==21570== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-21570-by-mbaio-on-ecegrid-thin2.ecn.purdue.edu
+==21570== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-21570-by-mbaio-on-ecegrid-thin2.ecn.purdue.edu
+==21570== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-21570-by-mbaio-on-ecegrid-thin2.ecn.purdue.edu
+==21570== 
+==21570== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==21570== don't want to do, unless you know exactly what you're doing,
+==21570== or are doing some strange experiment):
+==21570==   /usr/lib64/valgrind/../../bin/vgdb --pid=21570 ...command...
+==21570== 
+==21570== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==21570==   /path/to/gdb ./pa09
+==21570== and then give GDB the following command
+==21570==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=21570
+==21570== --pid is optional if only one valgrind process is running
+==21570== 
+--21570-- REDIR: 0x30c8e17610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--21570-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--21570-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--21570-- REDIR: 0x30c8e17480 (index) redirected to 0x4a07c30 (index)
+--21570-- REDIR: 0x30c8e17500 (strcmp) redirected to 0x4a08570 (strcmp)
+--21570-- Reading syms from /lib64/libc-2.12.so
+--21570--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
+--21570--   .. build-id is valid
+--21570-- REDIR: 0x30c9284cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--21570-- REDIR: 0x30c9286f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--21570-- REDIR: 0x30c9282c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
+--21570-- REDIR: 0x30c927a640 (malloc) redirected to 0x4a069ac (malloc)
+--21570-- REDIR: 0x30c9283350 (memchr) redirected to 0x4a08610 (memchr)
+--21570-- REDIR: 0x30c9289670 (memcpy) redirected to 0x4a08b60 (memcpy)
+--21570-- REDIR: 0x30c9281120 (strlen) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--21570-- REDIR: 0x30c93336f0 (__strlen_sse42) redirected to 0x4a07f90 (strlen)
+--21570-- REDIR: 0x30c927f630 (index) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--21570-- REDIR: 0x30c9328370 (__strchr_sse42) redirected to 0x4a07b40 (index)
+--21570-- REDIR: 0x30c927b520 (free) redirected to 0x4a063a9 (free)
+--21570-- REDIR: 0x30c927f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--21570-- REDIR: 0x30c9328420 (__strcmp_sse42) redirected to 0x4a084d0 (strcmp)
+--21570-- REDIR: 0x30c928aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x6132236 is 0 bytes after a block of size 22 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+--21570-- REDIR: 0x30c9281160 (__GI_strlen) redirected to 0x4a07fb0 (__GI_strlen)
+==21570== Conditional jump or move depends on uninitialised value(s)
+==21570==    at 0x4A07FC8: __GI_strlen (mc_replace_strmem.c:404)
+==21570==    by 0x30C92689DA: puts (ioputs.c:37)
+==21570==    by 0x4009EA: print_node (answer09.c:56)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+--21570-- REDIR: 0x30c9284500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x613229f is 0 bytes after a block of size 31 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x61322ed is 0 bytes after a block of size 13 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x61325e9 is 0 bytes after a block of size 25 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570== 
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==  Address 0x6132645 is 0 bytes after a block of size 21 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570== 
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==  Address 0x61332c1 is 0 bytes after a block of size 17 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570== 
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x62530a9 is 0 bytes after a block of size 25 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+==21570== 
+==21570== HEAP SUMMARY:
+==21570==     in use at exit: 0 bytes in 0 blocks
+==21570==   total heap usage: 252,920 allocs, 252,920 frees, 6,930,787 bytes allocated
+==21570== 
+==21570== All heap blocks were freed -- no leaks are possible
+==21570== 
+==21570== Use --track-origins=yes to see where uninitialised values come from
+==21570== ERROR SUMMARY: 84306 errors from 8 contexts (suppressed: 6 from 6)
+==21570== 
+==21570== 1 errors in context 1 of 8:
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x62530a9 is 0 bytes after a block of size 25 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+==21570== 
+==21570== 1 errors in context 2 of 8:
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x613229f is 0 bytes after a block of size 31 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+==21570== 
+==21570== 1 errors in context 3 of 8:
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x6132236 is 0 bytes after a block of size 22 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+==21570== 
+==21570== 7591 errors in context 4 of 8:
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==  Address 0x61332c1 is 0 bytes after a block of size 17 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570== 
+==21570== 
+==21570== 8896 errors in context 5 of 8:
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x61325e9 is 0 bytes after a block of size 25 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570== 
+==21570== 
+==21570== 9103 errors in context 6 of 8:
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==  Address 0x6132645 is 0 bytes after a block of size 21 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A5D: print_tree (answer09.c:70)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570== 
+==21570== 
+==21570== 16560 errors in context 7 of 8:
+==21570== Invalid write of size 1
+==21570==    at 0x4009DC: print_node (answer09.c:55)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570==  Address 0x61322ed is 0 bytes after a block of size 13 alloc'd
+==21570==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==21570==    by 0x4009A6: print_node (answer09.c:49)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400A4D: print_tree (answer09.c:69)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+==21570== 
+==21570== 42153 errors in context 8 of 8:
+==21570== Conditional jump or move depends on uninitialised value(s)
+==21570==    at 0x4A07FC8: __GI_strlen (mc_replace_strmem.c:404)
+==21570==    by 0x30C92689DA: puts (ioputs.c:37)
+==21570==    by 0x4009EA: print_node (answer09.c:56)
+==21570==    by 0x400A3D: print_tree (answer09.c:68)
+==21570==    by 0x400845: main (pa09.c:25)
+==21570== 
+--21570-- 
+--21570-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--21570-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==21570== 
+==21570== ERROR SUMMARY: 84306 errors from 8 contexts (suppressed: 6 from 6)

@@ -6,7 +6,7 @@
 int main()
 {
   
-  BusinessNode * tree = load_tree_from_file("shortfile.tsv");
+  BusinessNode * tree = load_tree_from_file("yelp_businesses.tsv");
   
   
 //   BusinessNode * node1 = create_node("4.0","Lil Mikey's","2948 Star Pass");
@@ -25,10 +25,11 @@ int main()
   print_tree(tree);
   
   printf("\nsearching now....\n");
-  BusinessNode * found = tree_search_name("Culver's",tree);
+  BusinessNode * found = tree_search_name(strdup("Cafe Rio Mexican Grill"),tree);
   print_tree(found);
   destroy_tree(tree);
-  destroy_tree(found);
+  //destroy_tree(found);
+ 
   
   
   

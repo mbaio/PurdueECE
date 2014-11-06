@@ -4,6 +4,8 @@
 #include <string.h>
 #include "answer09.h"
 
+#define BUFLEN 25000
+
 char ** explode(const char *str, const char *delims, int * arrLen);
 void destroyStringArray(char ** strArr, int len);
 
@@ -119,7 +121,7 @@ BusinessNode * load_tree_from_file(char * filename)
 {
   BusinessNode * temp_tree = NULL;
   int file_line_length = 0;
-  char * line = malloc(250 * sizeof(char));
+  char * line = malloc(BUFLEN * sizeof(char));
   
   char ** line_elements;
   
@@ -138,8 +140,9 @@ BusinessNode * load_tree_from_file(char * filename)
     free(line);
     return NULL;
   }
-  while (fgets(line, 250, fptr))
+  while (fgets(line, BUFLEN, fptr))
   {
+    printf("Line read = %s\n",line);
     int linelen = strlen(line);
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
@@ -169,13 +172,13 @@ void destroy_tree(BusinessNode * root)
     return;
   }  
   
-  free(root -> stars);
-  free(root -> name);
-  free(root -> address);
+
   
   destroy_tree(root -> left);
   destroy_tree(root -> right);
-
+  free(root -> stars);
+  free(root -> name);
+  free(root -> address);
   free(root); 
 }
 
