@@ -48,6 +48,7 @@ void print_node_id(tree_node *);
 void print_list(List *);
 void destroyStringArray(char **, int);
 
+
 List * List_createNode(int id, char * address, char * state, char * zip, char * city)
 {
     List * temp_list = malloc(sizeof(List));
@@ -158,13 +159,23 @@ void destroyStringArray(char ** strArr, int len)
 
 }
 
-tree_node * create_node(List * location_list, char * name, long int offset, int id)
+tree_node * create_node(List * location_list1, char * name1, long int offset1, int id1)
 {
   tree_node * temp_node = malloc(sizeof(tree_node));
-  temp_node -> location_list = location_list;
-  temp_node -> name = strdup(name);
-  temp_node -> offset = offset;
-  temp_node -> id = id;
+  if (name1 != NULL)
+  {
+    temp_node -> location_list = location_list1;
+    temp_node -> name = strdup(name1);
+  }
+  else
+  {
+    temp_node -> location_list = NULL;
+    temp_node -> name = NULL;
+  }
+  temp_node -> offset = offset1;
+  temp_node -> id = id1;
+    
+
   temp_node -> left = NULL;
   temp_node -> right = NULL;
   return temp_node;
@@ -212,6 +223,12 @@ tree_node * tree_insert_id(tree_node * node, tree_node * root)
   else if  (node -> id > root -> id)
   {
     root -> right = tree_insert_id(node,root -> right);
+  }
+  else
+  {
+    List_destroy(node->location_list);
+    free(node->name);
+    free(node);
   }
   
   return root;
@@ -304,7 +321,7 @@ void print_node_id(tree_node * node)
 
 struct YelpDataBST* create_business_bst(const char* businesses_path, const char* reviews_path)
 {
-  struct YelpDataBST * tempBST = malloc(sizeof(struct YelpDataBST *));
+  struct YelpDataBST * tempBST = malloc(sizeof(struct YelpDataBST));
   if (tempBST == NULL)
   {
     return NULL;
@@ -338,12 +355,11 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     line_elements = explode(line,"\t",&file_line_length);   
     id_num = atoi(line_elements[0]);
     List * list_node = List_createNode(id_num,line_elements[2],line_elements[4],line_elements[5],line_elements[3]);
-    tree_node * temp_node = create_node(list_node,line_elements[1],(long int)NULL,id_num);
+    tree_node * temp_node = create_node(list_node,line_elements[1],-1,id_num);
     temp_tree = tree_insert_name(temp_node,temp_tree);   
     destroyStringArray(line_elements, file_line_length);
   }  
   fclose(fptr);
-  print_tree_name(temp_tree);    
   
   fptr = fopen(reviews_path,"r");
   if (fptr == NULL)
@@ -352,9 +368,10 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     free(line);
     return NULL;
   }
-/*  
+  
   while (fgets(line,BUFLEN,fptr))
   {
+    printf("\nline read: %s",line);
     int linelen = strlen(line);
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
@@ -362,15 +379,16 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     id_num = atoi(line_elements[0]);
     offset = ftell(fptr);
     printf("\nID: %d  Offset: %ld",id_num,offset);
-    tree_node * temp_node = create_node((List *)NULL,(char *)NULL,offset,id_num);
+    tree_node * temp_node = create_node(NULL,NULL,offset,id_num);
     temp_id_tree = tree_insert_id(temp_node,temp_id_tree);
     destroyStringArray(line_elements,file_line_length);
   }
-  fclose(fptr);*/
   free(line);
+  fclose(fptr);
+  
   
   tempBST -> head_name = temp_tree;
-  //tempBST -> head_id = temp_id_tree;
+  tempBST -> head_id = temp_id_tree;
   
   return tempBST;
 
@@ -387,7 +405,7 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
 void destroy_business_bst(struct YelpDataBST* bst)
 {
   destroy_tree(bst->head_name);
-  //destroy_tree(bst->head_id);
+  destroy_tree(bst->head_id);
   free(bst);
 }
 

@@ -6,7 +6,7 @@
 int main()
 {
   
-  struct YelpDataBST * bst = create_business_bst("shortfilebus.tsv", NULL);
+  struct YelpDataBST * bst = create_business_bst("shortfilebus.tsv", "shortfilerev.tsv");
   destroy_business_bst(bst);
   
   
