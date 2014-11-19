@@ -13,6 +13,7 @@ int main()
   strcpy(name,"Ruby's Diner");
   
   struct Business * bus_node = get_business_reviews(bst, name, NULL, NULL);
-  
+  destroy_business_bst(bst);
+  destroy_business_result(bus_node);
   return 0;
 }

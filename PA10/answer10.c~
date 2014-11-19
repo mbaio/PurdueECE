@@ -55,7 +55,8 @@ tree_node * tree_search_name(tree_node *,char *);
 tree_node * tree_search_id(tree_node *, int);
 List * search_params(List *,char *,char *);
 struct Review * find_rev(tree_node *,int,char *,uint32_t *);
-
+void destroy_locations(struct Location);
+void destroy_business_result(struct Business *);
 
 List * List_createNode(int id, char * address, char * state, char * zip, char * city)
 {
@@ -625,9 +626,30 @@ int comp_names(char * input_name ,char * node_name)
 
 void destroy_business_result(struct Business* b)
 {
-  
-  
-  
+  int ind;
+  uint32_t num_locations = b -> num_locations;
+  for (ind = 0; ind < num_locations; ind++)
+  {
+    destroy_locations(b->locations[ind]);
+  }
+  free(b->locations);
+  free(b);
 }
+
+void destroy_locations(struct Location location)
+{
+  int ind;
+  uint32_t num_rev = location.num_reviews;
+  for (ind = 0; ind < num_rev; ind++)
+  {
+    free(location.reviews[ind].text);
+  }
+  free(location.reviews);
+  free(location.address);
+  free(location.city);
+  free(location.state);
+  free(location.zip_code);
+}
+
                                    
                                
