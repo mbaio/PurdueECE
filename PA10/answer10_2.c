@@ -47,7 +47,7 @@ void destroyStringArray(char **, int);
 tree_node * tree_search_name(tree_node *,char *);
 List * search_params(List *,char *,char *,char *);
 struct Location get_location_struct(List *,char *,char *);
-struct Review * find_rev(List *,char *,* uint32_t);
+struct Review * find_rev(List *,char *,uint32_t *);
 void destroy_locations(struct Location);
 void destroy_business_result(struct Business *);
 
@@ -318,7 +318,7 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   temp_bus -> num_locations = num_locs;
   temp_bus -> name = strdup(name);
   int ind;
-  uint32_t num_rev;
+  //uint32_t num_rev;
   struct Location * location_array = malloc(sizeof(struct Location) * num_locs);
   if (location_array == NULL)
     return NULL;
@@ -333,7 +333,7 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
 
 struct Location get_location_struct(List * input_list,char * bus_file,char * rev_file)
 {
-  struct Location return_location = malloc(sizeof(struct Location));
+  struct Location return_location;
   uint32_t num_rev;
   return_location.reviews = find_rev(input_list,rev_file,&num_rev);
   return_location.num_reviews = num_rev;
@@ -346,7 +346,7 @@ struct Location get_location_struct(List * input_list,char * bus_file,char * rev
   int linelen;
   int file_line_length;
   
-  fgets(line, BUFLEN, fptr)
+  fgets(line, BUFLEN, fptr);
   linelen = strlen(line);
   if(linelen > 0 && line[linelen-1] == '\n')
     line[linelen-1] = '\0';
@@ -368,7 +368,7 @@ struct Review * find_rev(List * input_list,char * rev_file,uint32_t * num_rev)
   char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
   char ** line_elements; // array of strings from line
   uint32_t number_rev = 0;
-  FILE * fptr = fopen(reviewfile,"r");
+  FILE * fptr = fopen(rev_file,"r");
   if (fptr == NULL)
    return NULL;
   fseek(fptr, input_list->offset_rev, SEEK_SET);
@@ -378,7 +378,7 @@ struct Review * find_rev(List * input_list,char * rev_file,uint32_t * num_rev)
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
     line_elements = explode(line,"\t",&file_line_length);
-    id_num = atoi(line_elements[0]);
+    int id_num = atoi(line_elements[0]);
     if (id_num != input_list->id)
     {
       destroyStringArray(line_elements,file_line_length);

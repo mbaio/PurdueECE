@@ -47,7 +47,7 @@ void destroyStringArray(char **, int);
 tree_node * tree_search_name(tree_node *,char *);
 List * search_params(List *,char *,char *,char *);
 struct Location get_location_struct(List *,char *,char *);
-struct Review * find_rev(List *,char *,* uint32_t);
+struct Review * find_rev(List *,char *,uint32_t *);
 void destroy_locations(struct Location);
 void destroy_business_result(struct Business *);
 
@@ -318,7 +318,7 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   temp_bus -> num_locations = num_locs;
   temp_bus -> name = strdup(name);
   int ind;
-  uint32_t num_rev;
+  //uint32_t num_rev;
   struct Location * location_array = malloc(sizeof(struct Location) * num_locs);
   if (location_array == NULL)
     return NULL;
@@ -333,7 +333,7 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
 
 struct Location get_location_struct(List * input_list,char * bus_file,char * rev_file)
 {
-  struct Location return_location = malloc(sizeof(struct Location));
+  struct Location return_location;
   uint32_t num_rev;
   return_location.reviews = find_rev(input_list,rev_file,&num_rev);
   return_location.num_reviews = num_rev;
