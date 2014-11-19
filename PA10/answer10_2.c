@@ -30,6 +30,7 @@ struct YelpDataBST
   char * bus_file;
   char * rev_file;
 };
+long int find_rev_offset(int,char *);
 int comp_names(char *,char *);
 List * List_createNode(int, long int, long int);
 void List_destroy(List *);
@@ -44,8 +45,7 @@ void print_node_name(tree_node *);
 void print_list(List *);
 void destroyStringArray(char **, int);
 tree_node * tree_search_name(tree_node *,char *);
-tree_node * tree_search_id(tree_node *, int);
-List * search_params(List *,char *,char *);
+List * search_params(List *,char *,char *,char *);
 struct Review * find_rev(tree_node *,int,char *,uint32_t *);
 void destroy_locations(struct Location);
 void destroy_business_result(struct Business *);
@@ -160,7 +160,7 @@ tree_node * tree_insert_name(tree_node * node, tree_node * root)
   else
   {
     root->location_list = List_push(root -> location_list, node->location_list->id, node->location_list->offset_bus, node->location_list->offset_rev); 
-    // possible memory error...maybe should free node that isnt added?  
+    destroy_tree(node); // maybe take out idk
   }
   return root;
 }
@@ -226,19 +226,18 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     return NULL;
   }
   tree_node * temp_tree = NULL;
-  tree_node * temp_id_tree = NULL;
   int file_line_length = 0;
   int id_num;
   char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
   char ** line_elements; // array of strings from line
-  long int offset;
+  long int offset_bus = 0;
+  long int offset_rev;
   if (line == NULL)
   {
     fprintf(stderr,"line not initialized!\n");
     free(line);
     return NULL;
   }
-  
   FILE * fptr = fopen(businesses_path,"r"); // open businesses to make tree
   if (fptr == NULL)
   {
@@ -246,55 +245,62 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     free(line);
     return NULL;
   }
+  
+  int linelen;
   while (fgets(line, BUFLEN, fptr))
   {
-    int linelen = strlen(line);
+    linelen = strlen(line);
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
     line_elements = explode(line,"\t",&file_line_length);   
     id_num = atoi(line_elements[0]);
-    List * list_node = List_createNode(id_num,line_elements[2],line_elements[4],line_elements[5],line_elements[3]);
-    tree_node * temp_node = create_node(list_node,line_elements[1],-1,id_num);
+    offset_rev = find_rev_offset(id_num,(char *)reviews_path);
+    List * list_node = List_createNode(id_num,offset_bus,offset_rev);
+    tree_node * temp_node = create_node(list_node,line_elements[1]);
     temp_tree = tree_insert_name(temp_node,temp_tree);   
     destroyStringArray(line_elements, file_line_length);
+    offset_bus = ftell(fptr);
   }  
+
+
+  free(line);
   fclose(fptr);
-  
-  fptr = fopen(reviews_path,"r");
+  tempBST -> head_name = temp_tree;
+  tempBST -> bus_file = (char *)businesses_path;
+  tempBST -> rev_file = (char *)reviews_path;
+  print_tree_name(tempBST->head_name);
+  return tempBST;
+}
+long int find_rev_offset(int id,char * reviews_path)
+{
+  FILE * fptr = fopen(reviews_path,"r");
   if (fptr == NULL)
+    return -1;
+  char * line = malloc(sizeof(char) * BUFLEN);
+  char ** line_elements;
+  int linelen;
+  int id_num;
+  int file_line_length;
+  long int old_offset = 0;
+  while (fgets(line, BUFLEN, fptr))
   {
-    fprintf(stderr,"Could not open file!\n");
-    free(line);
-    return NULL;
-  }
-  
-  while (fgets(line,BUFLEN,fptr))
-  {
-    printf("\nline read: %s",line);
-    int linelen = strlen(line);
+    linelen = strlen(line);
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
-    line_elements = explode(line,"\t",&file_line_length);
+    line_elements = explode(line,"\t",&file_line_length);   
     id_num = atoi(line_elements[0]);
-    offset = ftell(fptr);
-    printf("\nID: %d  Offset: %ld",id_num,offset);
-    tree_node * temp_node = create_node(NULL,NULL,offset,id_num);
-    temp_id_tree = tree_insert_id(temp_node,temp_id_tree);
+    if (id_num == id){
+      fclose(fptr);
+      destroyStringArray(line_elements,file_line_length);
+      free(line);
+      return old_offset; 
+    }
+    old_offset = ftell(fptr);
     destroyStringArray(line_elements,file_line_length);
   }
   free(line);
-  fclose(fptr);
-  
-  
-  tempBST -> head_name = temp_tree;
-  tempBST -> head_id = temp_id_tree;
-  tempBST -> bus_file = (char *)businesses_path;
-  tempBST -> rev_file = (char *)reviews_path;
-  
-  return tempBST;
-
+  return -1; 
 }
-
 
 struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char* state, char* zip_code)
 {
@@ -304,9 +310,9 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   tree_node * get_node = tree_search_name(bst->head_name,name); // find the node that has the correct name
   if (get_node == NULL)
     return NULL;
+  
   List * get_list = search_params(get_node->location_list,state,zip_code); // get the list that only has locations of the parameters sent
   get_node -> location_list = get_list; // assign that new list to the found node
-  int id = get_node -> id;
   uint32_t num_locs = List_length(get_list);
   temp_bus -> num_locations = num_locs;
   temp_bus -> name = strdup(name);
@@ -329,56 +335,56 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   temp_bus -> locations = location_array;
   return temp_bus;
 }
-
-struct Review * find_rev(tree_node * head,int id,char * reviewfile,uint32_t * num_rev) 
-{
-  int file_line_length = 0;
-  int id_num;
-  char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
-  char ** line_elements; // array of strings from line
-  uint32_t number_rev = 0;
-  tree_node * get_node = tree_search_id(head,id);
-  long int offset = get_node -> offset;
-  FILE * fptr = fopen(reviewfile,"r");
-  if (fptr == NULL)
-   return NULL;
-  fseek(fptr, offset, SEEK_SET);
-  while (fgets(line,BUFLEN,fptr))
-  {
-    int linelen = strlen(line);
-    if(linelen > 0 && line[linelen-1] == '\n')
-      line[linelen-1] = '\0';
-    line_elements = explode(line,"\t",&file_line_length);
-    id_num = atoi(line_elements[0]);
-    if (id_num != id)
-    {
-      destroyStringArray(line_elements,file_line_length);
-      break;
-    }
-    number_rev++;
-    destroyStringArray(line_elements,file_line_length);
-  }
-  * num_rev = number_rev;  
-  struct Review * review_array = malloc(sizeof(struct Review) * (int)number_rev);
-  fseek(fptr,offset,SEEK_SET);
-  int ind;
-  for (ind = 0; ind < number_rev;ind++)
-  {
-    int linelen = strlen(line);
-    if(linelen > 0 && line[linelen-1] == '\n')
-      line[linelen-1] = '\0';
-    line_elements = explode(line,"\t",&file_line_length); 
-    uint32_t star_num = (uint32_t)atoi(line_elements[1]);
-    review_array[ind].stars = star_num;
-    review_array[ind].text = line_elements[5];
-    destroyStringArray(line_elements,file_line_length);
-  }
-  free(line);
-  fclose(fptr);
-  return review_array;
-  
-}
-List * search_params(List * input_list,char * state,char * zip_code)
+// 
+// struct Review * find_rev(tree_node * head,int id,char * reviewfile,uint32_t * num_rev) 
+// {
+//   int file_line_length = 0;
+//   int id_num;
+//   char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
+//   char ** line_elements; // array of strings from line
+//   uint32_t number_rev = 0;
+//   tree_node * get_node = tree_search_id(head,id);
+//   long int offset = get_node -> offset;
+//   FILE * fptr = fopen(reviewfile,"r");
+//   if (fptr == NULL)
+//    return NULL;
+//   fseek(fptr, offset, SEEK_SET);
+//   while (fgets(line,BUFLEN,fptr))
+//   {
+//     int linelen = strlen(line);
+//     if(linelen > 0 && line[linelen-1] == '\n')
+//       line[linelen-1] = '\0';
+//     line_elements = explode(line,"\t",&file_line_length);
+//     id_num = atoi(line_elements[0]);
+//     if (id_num != id)
+//     {
+//       destroyStringArray(line_elements,file_line_length);
+//       break;
+//     }
+//     number_rev++;
+//     destroyStringArray(line_elements,file_line_length);
+//   }
+//   * num_rev = number_rev;  
+//   struct Review * review_array = malloc(sizeof(struct Review) * (int)number_rev);
+//   fseek(fptr,offset,SEEK_SET);
+//   int ind;
+//   for (ind = 0; ind < number_rev;ind++)
+//   {
+//     int linelen = strlen(line);
+//     if(linelen > 0 && line[linelen-1] == '\n')
+//       line[linelen-1] = '\0';
+//     line_elements = explode(line,"\t",&file_line_length); 
+//     uint32_t star_num = (uint32_t)atoi(line_elements[1]);
+//     review_array[ind].stars = star_num;
+//     review_array[ind].text = line_elements[5];
+//     destroyStringArray(line_elements,file_line_length);
+//   }
+//   free(line);
+//   fclose(fptr);
+//   return review_array;
+//   
+// }
+List * search_params(List * input_list,char * state,char * zip_code,char * businesses_path)
 {
   if (state == NULL && zip_code == NULL)
     return input_list;
@@ -387,38 +393,35 @@ List * search_params(List * input_list,char * state,char * zip_code)
   List * return_list = malloc(sizeof(List));
   int length_list = List_length(input_list);
   int ind;
-  if (state == NULL)
+  char * line = malloc(sizeof(char) * BUFLEN);
+  char ** line_elements;
+  int file_line_length;
+  FILE * fptr = fopen(businesses_path,"r");
+  if (fptr == NULL)
+    return NULL;
+ 
+  for (ind = 0; ind < length_list; ind++)
   {
-    for (ind = 0; ind < length_list; ind++)
-    {
-      if (strcmp(temp_input->zip,zip_code) == 0)
-      {
-	return_list = List_push(return_list,temp_input->id,temp_input->address,temp_input->state,temp_input->zip,temp_input->city);
-      }
-    }   
+    fseek(fptr,temp_input->offset_bus,SEEK_SET);
+    fgets(line,BUFLEN,fptr);
+    int linelen = strlen(line);
+    if(linelen > 0 && line[linelen-1] == '\n')
+      line[linelen-1] = '\0';
+    line_elements = explode(line,"\t",&file_line_length);
+    if (state == NULL && zip_code == NULL){
+      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+    }
+    else if (state == NULL && strcmp(zip_code,line_elements[5]) == 0){
+      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+    }
+    else if (zip_code == NULL && comp_names(state,line_elements[4]) == 0){
+      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+    }
+    destroyStringArray(line_elements,file_line_length);
+    temp_input = temp_input -> next; 
   }
-  else if (zip_code == NULL)
-  {
-    for (ind = 0; ind < length_list; ind++)
-    {
-      if (strcmp(temp_input->state,state) == 0)
-      {
-	return_list = List_push(return_list,temp_input->id,temp_input->address,temp_input->state,temp_input->zip,temp_input->city);
-      }
-    }   
-  }
-  else
-  {
-    for (ind = 0; ind < length_list; ind++)
-    {
-      if (strcmp(temp_input->zip,zip_code) == 0 && strcmp(temp_input->state,state) == 0)
-      {
-	return_list = List_push(return_list,temp_input->id,temp_input->address,temp_input->state,temp_input->zip,temp_input->city);
-      }
-    }   
-  }
-  
-
+  free(line);
+  fclose(fptr); // may need to destroy input list
   return return_list;
   
 }
@@ -446,34 +449,10 @@ tree_node * tree_search_name(tree_node * root, char * name)
   return temp;
 }
 
-tree_node * tree_search_id(tree_node * root, int id)
-{
-  tree_node * temp = root;
-  
-  if (root == NULL)
-  {
-    return NULL;
-  }
-  if (root->id == id)
-  {
-    return root;
-  }
-  if (root->id < id)
-  {
-    temp = tree_search_id(root -> right,id);
-  }
-  else
-  {
-    temp = tree_search_id(root -> left,id);
-  }
-  return temp;
-}
-  
 
 void destroy_business_bst(struct YelpDataBST* bst)
 {
   destroy_tree(bst->head_name);
-  destroy_tree(bst->head_id);
   free(bst);
 }
 
@@ -484,8 +463,8 @@ int comp_names(char * input_name ,char * node_name)
   if (length_input != length_node)
     return 0;
   int ind;
-  char * str1 = malloc(sizeof(char) * length_input);
-  char * str2 = malloc(sizeof(char) * length_node);
+  char * str1 = malloc(sizeof(char) * (length_input + 1));
+  char * str2 = malloc(sizeof(char) * (length_node + 1));
   strcpy(str1,input_name);
   strcpy(str2,node_name);
   for (ind = 0; ind < length_input;ind++)
@@ -513,33 +492,33 @@ int comp_names(char * input_name ,char * node_name)
   }
   
 }
-
-void destroy_business_result(struct Business* b)
-{
-  int ind;
-  uint32_t num_locations = b -> num_locations;
-  for (ind = 0; ind < num_locations; ind++)
-  {
-    destroy_locations(b->locations[ind]);
-  }
-  free(b->locations);
-  free(b);
-}
-
-void destroy_locations(struct Location location)
-{
-  int ind;
-  uint32_t num_rev = location.num_reviews;
-  for (ind = 0; ind < num_rev; ind++)
-  {
-    free(location.reviews[ind].text);
-  }
-  free(location.reviews);
-  free(location.address);
-  free(location.city);
-  free(location.state);
-  free(location.zip_code);
-}
+// 
+// void destroy_business_result(struct Business* b)
+// {
+//   int ind;
+//   uint32_t num_locations = b -> num_locations;
+//   for (ind = 0; ind < num_locations; ind++)
+//   {
+//     destroy_locations(b->locations[ind]);
+//   }
+//   free(b->locations);
+//   free(b);
+// }
+// 
+// void destroy_locations(struct Location location)
+// {
+//   int ind;
+//   uint32_t num_rev = location.num_reviews;
+//   for (ind = 0; ind < num_rev; ind++)
+//   {
+//     free(location.reviews[ind].text);
+//   }
+//   free(location.reviews);
+//   free(location.address);
+//   free(location.city);
+//   free(location.state);
+//   free(location.zip_code);
+// }
 
                                    
                                
