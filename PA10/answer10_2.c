@@ -46,7 +46,8 @@ void print_list(List *);
 void destroyStringArray(char **, int);
 tree_node * tree_search_name(tree_node *,char *);
 List * search_params(List *,char *,char *,char *);
-struct Review * find_rev(tree_node *,int,char *,uint32_t *);
+struct Location get_location_struct(List *,char *,char *);
+struct Review * find_rev(List *,char *,* uint32_t);
 void destroy_locations(struct Location);
 void destroy_business_result(struct Business *);
 
@@ -311,7 +312,7 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   if (get_node == NULL)
     return NULL;
   
-  List * get_list = search_params(get_node->location_list,state,zip_code); // get the list that only has locations of the parameters sent
+  List * get_list = search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
   get_node -> location_list = get_list; // assign that new list to the found node
   uint32_t num_locs = List_length(get_list);
   temp_bus -> num_locations = num_locs;
@@ -323,67 +324,90 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
     return NULL;
   for (ind = 0; ind < num_locs; ind++)
   {
-    location_array[ind].address = get_list-> address;
-    location_array[ind].city = get_list-> city;
-    location_array[ind].state = get_list-> address;
-    location_array[ind].zip_code = get_list-> address;
-    struct Review * review_array = find_rev(bst->head_id,id,bst -> rev_file,&num_rev);
-    location_array[ind].reviews = review_array;
-    location_array[ind].num_reviews = num_rev;
+    location_array[ind] = get_location_struct(get_list,bst->bus_file,bst->rev_file);
     get_list = get_list -> next;
   }
   temp_bus -> locations = location_array;
   return temp_bus;
 }
-// 
-// struct Review * find_rev(tree_node * head,int id,char * reviewfile,uint32_t * num_rev) 
-// {
-//   int file_line_length = 0;
-//   int id_num;
-//   char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
-//   char ** line_elements; // array of strings from line
-//   uint32_t number_rev = 0;
-//   tree_node * get_node = tree_search_id(head,id);
-//   long int offset = get_node -> offset;
-//   FILE * fptr = fopen(reviewfile,"r");
-//   if (fptr == NULL)
-//    return NULL;
-//   fseek(fptr, offset, SEEK_SET);
-//   while (fgets(line,BUFLEN,fptr))
-//   {
-//     int linelen = strlen(line);
-//     if(linelen > 0 && line[linelen-1] == '\n')
-//       line[linelen-1] = '\0';
-//     line_elements = explode(line,"\t",&file_line_length);
-//     id_num = atoi(line_elements[0]);
-//     if (id_num != id)
-//     {
-//       destroyStringArray(line_elements,file_line_length);
-//       break;
-//     }
-//     number_rev++;
-//     destroyStringArray(line_elements,file_line_length);
-//   }
-//   * num_rev = number_rev;  
-//   struct Review * review_array = malloc(sizeof(struct Review) * (int)number_rev);
-//   fseek(fptr,offset,SEEK_SET);
-//   int ind;
-//   for (ind = 0; ind < number_rev;ind++)
-//   {
-//     int linelen = strlen(line);
-//     if(linelen > 0 && line[linelen-1] == '\n')
-//       line[linelen-1] = '\0';
-//     line_elements = explode(line,"\t",&file_line_length); 
-//     uint32_t star_num = (uint32_t)atoi(line_elements[1]);
-//     review_array[ind].stars = star_num;
-//     review_array[ind].text = line_elements[5];
-//     destroyStringArray(line_elements,file_line_length);
-//   }
-//   free(line);
-//   fclose(fptr);
-//   return review_array;
-//   
-// }
+
+struct Location get_location_struct(List * input_list,char * bus_file,char * rev_file)
+{
+  struct Location return_location = malloc(sizeof(struct Location));
+  uint32_t num_rev;
+  return_location.reviews = find_rev(input_list,rev_file,&num_rev);
+  return_location.num_reviews = num_rev;
+  FILE * fptr = fopen(bus_file,"r");
+  if (fptr == NULL)
+    return return_location;
+  fseek(fptr,input_list->offset_bus,SEEK_SET);
+  char * line = malloc(sizeof(char) * BUFLEN);
+  char ** line_elements;
+  int linelen;
+  int file_line_length;
+  
+  fgets(line, BUFLEN, fptr)
+  linelen = strlen(line);
+  if(linelen > 0 && line[linelen-1] == '\n')
+    line[linelen-1] = '\0';
+  line_elements = explode(line,"\t",&file_line_length);  
+  return_location.address = strdup(line_elements[6]);
+  return_location.city = strdup(line_elements[3]);
+  return_location.state = strdup(line_elements[4]);
+  return_location.zip_code = strdup(line_elements[5]);
+  destroyStringArray(line_elements,file_line_length);
+  free(line);
+  fclose(fptr);
+  return return_location;
+  
+}
+
+struct Review * find_rev(List * input_list,char * rev_file,uint32_t * num_rev) 
+{
+  int file_line_length = 0;
+  char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
+  char ** line_elements; // array of strings from line
+  uint32_t number_rev = 0;
+  FILE * fptr = fopen(reviewfile,"r");
+  if (fptr == NULL)
+   return NULL;
+  fseek(fptr, input_list->offset_rev, SEEK_SET);
+  while (fgets(line,BUFLEN,fptr))
+  {
+    int linelen = strlen(line);
+    if(linelen > 0 && line[linelen-1] == '\n')
+      line[linelen-1] = '\0';
+    line_elements = explode(line,"\t",&file_line_length);
+    id_num = atoi(line_elements[0]);
+    if (id_num != input_list->id)
+    {
+      destroyStringArray(line_elements,file_line_length);
+      break;
+    }
+    number_rev++;
+    destroyStringArray(line_elements,file_line_length);
+  }
+  * num_rev = number_rev;  
+  struct Review * review_array = malloc(sizeof(struct Review) * (int)number_rev);
+  fseek(fptr,input_list->offset_rev,SEEK_SET);
+  
+  int ind;
+  for (ind = 0; ind < number_rev;ind++)
+  {
+    fgets(line,BUFLEN,fptr);
+    int linelen = strlen(line);
+    if(linelen > 0 && line[linelen-1] == '\n')
+      line[linelen-1] = '\0';
+    line_elements = explode(line,"\t",&file_line_length); 
+    uint32_t star_num = (uint32_t)atoi(line_elements[1]);
+    review_array[ind].stars = star_num;
+    review_array[ind].text = strdup(line_elements[5]);
+    destroyStringArray(line_elements,file_line_length);
+  }
+  free(line);
+  fclose(fptr);
+  return review_array;
+}
 List * search_params(List * input_list,char * state,char * zip_code,char * businesses_path)
 {
   if (state == NULL && zip_code == NULL)
@@ -492,33 +516,33 @@ int comp_names(char * input_name ,char * node_name)
   }
   
 }
-// 
-// void destroy_business_result(struct Business* b)
-// {
-//   int ind;
-//   uint32_t num_locations = b -> num_locations;
-//   for (ind = 0; ind < num_locations; ind++)
-//   {
-//     destroy_locations(b->locations[ind]);
-//   }
-//   free(b->locations);
-//   free(b);
-// }
-// 
-// void destroy_locations(struct Location location)
-// {
-//   int ind;
-//   uint32_t num_rev = location.num_reviews;
-//   for (ind = 0; ind < num_rev; ind++)
-//   {
-//     free(location.reviews[ind].text);
-//   }
-//   free(location.reviews);
-//   free(location.address);
-//   free(location.city);
-//   free(location.state);
-//   free(location.zip_code);
-// }
+
+void destroy_business_result(struct Business* b)
+{
+  uint32_t ind;
+  uint32_t num_locations = b -> num_locations;
+  for (ind = 0; ind < num_locations; ind++)
+  {
+    destroy_locations(b->locations[ind]);
+  }
+  free(b->locations);
+  free(b);
+}
+
+void destroy_locations(struct Location location)
+{
+  int ind;
+  uint32_t num_rev = location.num_reviews;
+  for (ind = 0; ind < num_rev; ind++)
+  {
+    free(location.reviews[ind].text);
+  }
+  free(location.reviews);
+  free(location.address);
+  free(location.city);
+  free(location.state);
+  free(location.zip_code);
+}
 
                                    
                                
