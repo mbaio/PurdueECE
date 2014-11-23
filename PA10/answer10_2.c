@@ -269,7 +269,6 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
   tempBST -> head_name = temp_tree;
   tempBST -> bus_file = (char *)businesses_path;
   tempBST -> rev_file = (char *)reviews_path;
-  print_tree_name(tempBST->head_name);
   return tempBST;
 }
 long int find_rev_offset(int id,char * reviews_path)
@@ -306,27 +305,44 @@ long int find_rev_offset(int id,char * reviews_path)
 struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char* state, char* zip_code)
 {
   struct Business * temp_bus = malloc(sizeof(struct Business));
+  temp_bus -> name = name;
+  temp_bus -> locations = NULL;
+  temp_bus -> num_locations = 0;
   if (temp_bus == NULL)
-    return NULL;
+    return temp_bus;
   tree_node * get_node = tree_search_name(bst->head_name,name); // find the node that has the correct name
-  if (get_node == NULL)
-    return NULL;
-  
-  List * get_list = search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
-  get_node -> location_list = get_list; // assign that new list to the found node
-  uint32_t num_locs = List_length(get_list);
+//   if (get_node == NULL) {
+//     destroy_tree(get_node);
+//     return temp_bus;
+//   }
+  temp_bus -> name = get_node -> name;
+  get_node->location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
+//   if (get_list == NULL) {
+//     destroy_tree(get_node);
+//     List_destroy(get_list);
+//     return temp_bus;
+//   }
+  //List_destroy(get_node -> location_list);
+  //get_node -> location_list = get_list; // assign that new list to the found node
+  uint32_t num_locs = List_length(get_node->location_list); // fix if list is null
   temp_bus -> num_locations = num_locs;
-  temp_bus -> name = strdup(name);
+  //temp_bus -> name = get_node -> name; //strdup() taken out
   int ind;
   //uint32_t num_rev;
-  struct Location * location_array = malloc(sizeof(struct Location) * num_locs);
-  if (location_array == NULL)
-    return NULL;
+  struct Location * location_array = malloc(sizeof(struct Location) * (num_locs + 1));
+  if (location_array == NULL){
+//     destroy_business_result(temp_bus);
+//     destroy_tree(get_node);
+    //List_destroy(get_list);
+    return temp_bus;
+  }
+  List * temp_list2 = get_node->location_list;
   for (ind = 0; ind < num_locs; ind++)
   {
-    location_array[ind] = get_location_struct(get_list,bst->bus_file,bst->rev_file);
-    get_list = get_list -> next;
+    location_array[ind] = get_location_struct(temp_list2,bst->bus_file,bst->rev_file);
+    temp_list2 = temp_list2 -> next;
   }
+  //List_destroy(get_list);
   temp_bus -> locations = location_array;
   return temp_bus;
 }
@@ -415,6 +431,7 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
   
   List * temp_input = input_list;
   List * return_list = malloc(sizeof(List));
+  return_list = NULL;
   int length_list = List_length(input_list);
   int ind;
   char * line = malloc(sizeof(char) * BUFLEN);
@@ -422,7 +439,7 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
   int file_line_length;
   FILE * fptr = fopen(businesses_path,"r");
   if (fptr == NULL)
-    return NULL;
+    return return_list;
  
   for (ind = 0; ind < length_list; ind++)
   {
@@ -435,17 +452,29 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
     if (state == NULL && zip_code == NULL){
       return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
     }
-    else if (state == NULL && strcmp(zip_code,line_elements[5]) == 0){
+    else if (state == NULL)
+    {
+      if (strcmp(zip_code,line_elements[5]) == 0){
       return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+      }
     }
-    else if (zip_code == NULL && comp_names(state,line_elements[4]) == 0){
+    else if (zip_code == NULL)
+    {
+      if (strcasecmp(state,line_elements[4]) == 0){
+      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+      }
+    }
+    else 
+    {
+      if (strcmp(zip_code,line_elements[5]) == 0 && strcasecmp(state,line_elements[4]) == 0) 
       return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
     }
     destroyStringArray(line_elements,file_line_length);
     temp_input = temp_input -> next; 
   }
   free(line);
-  fclose(fptr); // may need to destroy input list
+  fclose(fptr);
+  // may need to destroy input list
   return return_list;
   
 }
@@ -458,11 +487,11 @@ tree_node * tree_search_name(tree_node * root, char * name)
   {
     return NULL;
   }
-  if (comp_names(root -> name,name) == 0)
+  if (strcasecmp(root -> name,name) == 0)
   {
     return root;
   }
-  if (comp_names(root -> name,name) > 0)
+  if (strcasecmp(root -> name,name) > 0)
   {
     temp = tree_search_name(root -> left,name);
   }
@@ -480,45 +509,49 @@ void destroy_business_bst(struct YelpDataBST* bst)
   free(bst);
 }
 
-int comp_names(char * input_name ,char * node_name)
-{
-  int length_input = strlen(input_name);
-  int length_node = strlen(input_name);
-  if (length_input != length_node)
-    return 0;
-  int ind;
-  char * str1 = malloc(sizeof(char) * (length_input + 1));
-  char * str2 = malloc(sizeof(char) * (length_node + 1));
-  strcpy(str1,input_name);
-  strcpy(str2,node_name);
-  for (ind = 0; ind < length_input;ind++)
-  {
-    str1[ind] = tolower(str1[ind]);
-    str2[ind] = tolower(str2[ind]);
-  }
-  if (strcmp(str1,str2) == 0)
-  {
-    free(str1);
-    free(str2);
-    return 0;
-  }
-  else if (strcmp(str1,str2) < 0)
-  {
-    free(str1);
-    free(str2);
-    return -1;
-  }
-  else
-  {
-    free(str1);
-    free(str2);
-    return 1; 
-  }
-  
-}
+// int comp_names(char * input_name ,char * node_name)
+// {
+//   int length_input = strlen(input_name);
+//   int length_node = strlen(input_name);
+//   if (length_input != length_node)
+//     return 0;
+//   int ind;
+//   char * str1 = malloc(sizeof(char) * (length_input + 1));
+//   char * str2 = malloc(sizeof(char) * (length_node + 1));
+//   strcpy(str1,input_name);
+//   strcpy(str2,node_name);
+//   for (ind = 0; ind < length_node; ind++)
+//   {
+//     if (str1[ind] != ' ' && str2[ind] != ' ')
+//     {  
+//       str1[ind] = tolower(str1[ind]);
+//       str2[ind] = tolower(str2[ind]);
+//     }
+//   }
+//   if (strcmp(str1,str2) == 0)
+//   {
+//     free(str1);
+//     free(str2);
+//     return 0;
+//   }
+//   else if (strcmp(str1,str2) < 0)
+//   {
+//     free(str1);
+//     free(str2);
+//     return -1;
+//   }
+//   else
+//   {
+//     free(str1);
+//     free(str2);
+//     return 1; 
+//   }
+//   
+// }
 
 void destroy_business_result(struct Business* b)
 {
+
   uint32_t ind;
   uint32_t num_locations = b -> num_locations;
   for (ind = 0; ind < num_locations; ind++)
@@ -526,6 +559,7 @@ void destroy_business_result(struct Business* b)
     destroy_locations(b->locations[ind]);
   }
   free(b->locations);
+  
   free(b);
 }
 
