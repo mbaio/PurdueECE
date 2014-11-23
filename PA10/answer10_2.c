@@ -316,7 +316,8 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
 //     return temp_bus;
 //   }
   temp_bus -> name = get_node -> name;
-  get_node->location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
+  //List_destroy(get_node->location_list);
+  search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
 //   if (get_list == NULL) {
 //     destroy_tree(get_node);
 //     List_destroy(get_list);

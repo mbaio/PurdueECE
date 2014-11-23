@@ -316,15 +316,16 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
 //     return temp_bus;
 //   }
   temp_bus -> name = get_node -> name;
-  List * get_list = search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
+  //List_destroy(get_node->location_list);
+  get_node->location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
 //   if (get_list == NULL) {
 //     destroy_tree(get_node);
 //     List_destroy(get_list);
 //     return temp_bus;
 //   }
   //List_destroy(get_node -> location_list);
-  get_node -> location_list = get_list; // assign that new list to the found node
-  uint32_t num_locs = List_length(get_list); // fix if list is null
+  //get_node -> location_list = get_list; // assign that new list to the found node
+  uint32_t num_locs = List_length(get_node->location_list); // fix if list is null
   temp_bus -> num_locations = num_locs;
   //temp_bus -> name = get_node -> name; //strdup() taken out
   int ind;
@@ -333,16 +334,16 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   if (location_array == NULL){
 //     destroy_business_result(temp_bus);
 //     destroy_tree(get_node);
-    List_destroy(get_list);
+    //List_destroy(get_list);
     return temp_bus;
   }
-  List * temp_list2 = get_list;
+  List * temp_list2 = get_node->location_list;
   for (ind = 0; ind < num_locs; ind++)
   {
     location_array[ind] = get_location_struct(temp_list2,bst->bus_file,bst->rev_file);
     temp_list2 = temp_list2 -> next;
   }
-  List_destroy(get_list);
+  //List_destroy(get_list);
   temp_bus -> locations = location_array;
   return temp_bus;
 }
@@ -474,7 +475,7 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
   }
   free(line);
   fclose(fptr);
-  //List_destroy(input_list);// may need to destroy input list
+  // may need to destroy input list
   return return_list;
   
 }
