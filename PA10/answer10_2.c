@@ -227,99 +227,104 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     return NULL;
   }
   tree_node * temp_tree = NULL;
-  int file_line_length = 0;
-  int id_num;
-  char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
-  char ** line_elements; // array of strings from line
+  int file_line_length1 = 0;
+  int file_line_length2 = 0;
+  int id_num1;
+  int id_num2 = 0;
+  char * line1 = malloc(BUFLEN * sizeof(char)); // line of data read from file
+  char ** line_elements1; // array of strings from line
+  char * line2 = malloc(BUFLEN * sizeof(char)); // line of data read from file
+  char ** line_elements2; // array of strings from line
   long int offset_bus = 0;
-  long int offset_rev;
-  if (line == NULL)
+  long int offset_rev = 0;
+  if (line1 == NULL || line2 == NULL)
   {
     fprintf(stderr,"line not initialized!\n");
-    free(line);
+    free(line1);
+    free(line2);
     return NULL;
   }
-  FILE * fptr = fopen(businesses_path,"r"); // open businesses to make tree
-  if (fptr == NULL)
+  FILE * fptr_bus = fopen(businesses_path,"r"); // open businesses to make tree
+  FILE * fptr_rev = fopen(reviews_path,"r");
+  if (fptr_bus == NULL || fptr_rev == NULL)
   {
     fprintf(stderr,"Could not open file!\n");
-    free(line);
+    free(line1);
+    free(line2);
     return NULL;
   }
-  
-//   int linelen;
-//   while (fgets(line, BUFLEN, fptr))
-//   {
-//     printf("Line read: %s\n",line);
-//     linelen = strlen(line);
-//     if(linelen > 0 && line[linelen-1] == '\n')
-//       line[linelen-1] = '\0';
-//     line_elements = explode(line,"\t",&file_line_length);   
-//     id_num = atoi(line_elements[0]);
-//     //offset_rev = find_rev_offset(id_num,(char *)reviews_path);
-//     List * list_node = List_createNode(id_num,0,0);
-//     tree_node * temp_node = create_node(list_node,line_elements[1]);
-//     temp_tree = tree_insert_name(temp_node,temp_tree);   
-//     destroyStringArray(line_elements, file_line_length);
-//     offset_bus = ftell(fptr);
-//   }  
-//   
-  
-  int linelen;
-  while (fgets(line, BUFLEN, fptr))
+  int linelen1;
+  int linelen2;
+  while (fgets(line1, BUFLEN, fptr_bus))
   {
-    printf("Line read: %s\n",line);
-    linelen = strlen(line);
-    if(linelen > 0 && line[linelen-1] == '\n')
-      line[linelen-1] = '\0';
-    line_elements = explode(line,"\t",&file_line_length);   
-    id_num = atoi(line_elements[0]);
-    offset_rev = find_rev_offset(id_num,(char *)reviews_path);
-    List * list_node = List_createNode(id_num,offset_bus,offset_rev);
-    tree_node * temp_node = create_node(list_node,line_elements[1]);
-    temp_tree = tree_insert_name(temp_node,temp_tree);   
-    destroyStringArray(line_elements, file_line_length);
-    offset_bus = ftell(fptr);
+    linelen1 = strlen(line1);
+    if(linelen1 > 0 && line1[linelen1-1] == '\n')
+      line1[linelen1-1] = '\0';
+    line_elements1 = explode(line1,"\t",&file_line_length1);   
+    id_num1 = atoi(line_elements1[0]);
+    while (id_num2 <= id_num1)
+    {
+      fgets(line2,BUFLEN,fptr_rev);
+      linelen2 = strlen(line2);
+      if(linelen2 > 0 && line2[linelen2-1] == '\n')
+        line2[linelen2-1] = '\0';
+      line_elements2 = explode(line2,"\t",&file_line_length2);   
+      id_num2 = atoi(line_elements2[0]);
+      if (id_num2 == id_num1)
+      {
+        List * list_node = List_createNode(id_num1,offset_bus,offset_rev);
+        tree_node * temp_node = create_node(list_node,line_elements1[1]);
+        temp_tree = tree_insert_name(temp_node,temp_tree);   
+        destroyStringArray(line_elements2, file_line_length2);
+	break;
+      }
+      offset_rev = ftell(fptr_rev);
+      destroyStringArray(line_elements2, file_line_length2);
+    }
+    destroyStringArray(line_elements1, file_line_length1);
+    offset_bus = ftell(fptr_bus);
   }  
 
 
-  free(line);
-  fclose(fptr);
+  free(line1);
+  free(line2);
+  fclose(fptr_bus);
+  fclose(fptr_rev);
   tempBST -> head_name = temp_tree;
   tempBST -> bus_file = (char *)businesses_path;
   tempBST -> rev_file = (char *)reviews_path;
   return tempBST;
 }
-long int find_rev_offset(int id,char * reviews_path)
-{
-  FILE * fptr = fopen(reviews_path,"r");
-  if (fptr == NULL)
-    return -1;
-  char * line = malloc(sizeof(char) * BUFLEN);
-  char ** line_elements;
-  int linelen;
-  int id_num;
-  int file_line_length;
-  long int old_offset = 0;
-  while (fgets(line, BUFLEN, fptr))
-  {
-    linelen = strlen(line);
-    if(linelen > 0 && line[linelen-1] == '\n')
-      line[linelen-1] = '\0';
-    line_elements = explode(line,"\t",&file_line_length);   
-    id_num = atoi(line_elements[0]);
-    if (id_num == id){
-      fclose(fptr);
-      destroyStringArray(line_elements,file_line_length);
-      free(line);
-      return old_offset; 
-    }
-    old_offset = ftell(fptr);
-    destroyStringArray(line_elements,file_line_length);
-  }
-  free(line);
-  return -1; 
-}
+// long int find_rev_offset(int id,char * reviews_path)
+// {
+//   FILE * fptr = fopen(reviews_path,"r");
+//   if (fptr == NULL)
+//     return -1;
+//   char * line = malloc(sizeof(char) * BUFLEN);
+//   char ** line_elements;
+//   int linelen;
+//   int id_num;
+//   int file_line_length;
+//   long int old_offset = 0;
+//   while (fgets(line, BUFLEN, fptr))
+//   {
+//     linelen = strlen(line);
+//     if(linelen > 0 && line[linelen-1] == '\n')
+//       line[linelen-1] = '\0';
+//     line_elements = explode(line,"\t",&file_line_length);   
+//     id_num = atoi(line_elements[0]);
+//     if (id_num == id){
+//       fclose(fptr);
+//       destroyStringArray(line_elements,file_line_length);
+//       free(line);
+//       return old_offset; 
+//     }
+//     old_offset = ftell(fptr);
+//     destroyStringArray(line_elements,file_line_length);
+//   }
+//   free(line);
+//   return -1; 
+// }
 
 struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char* state, char* zip_code)
 {
@@ -330,6 +335,10 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   if (temp_bus == NULL)
     return temp_bus;
   tree_node * get_node = tree_search_name(bst->head_name,name); // find the node that has the correct name
+  if (get_node == NULL)
+  {
+    return temp_bus;
+  }
   uint32_t num_locs; // fix if list is null
   get_node -> location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file,&num_locs); // get the list that only has locations of the parameters sent
   if (num_locs > 0)
@@ -480,12 +489,12 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
 {
   uint32_t num_locations;
   if ((state == NULL && zip_code == NULL) || (strcmp(state,"") == 0 && strcmp(zip_code,"") == 0)){
-    printf("entered null null\n");
+    //printf("entered null null\n");
     num_locations = List_length(input_list);
     * num_locs  = num_locations;
     return input_list; }
-  printf("printing input list:\n");
-  print_list(input_list);
+  //printf("printing input list:\n");
+  //print_list(input_list);
   List * temp_input = input_list;
   int length_list = List_length(input_list);
   //int ind;
@@ -496,7 +505,7 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
   if (fptr == NULL)
     return input_list;
   int checked = 0;
-  while (checked < length_list)
+  while (checked < length_list && temp_input != NULL)
   {
     fseek(fptr,temp_input->offset_bus,SEEK_SET);
     fgets(line,BUFLEN,fptr);
@@ -524,13 +533,14 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
       input_list = List_delete(input_list,temp_input->id);
       length_list--; }
     }
+    temp_input = input_list;
     destroyStringArray(line_elements,file_line_length);
     checked++;
     temp_input = temp_input -> next; 
   }
   free(line);
   fclose(fptr);
-  printf("\nlength list = %d\n",length_list);
+  //printf("\nlength list = %d\n",length_list);
   * num_locs = length_list;
   return input_list;
 }
