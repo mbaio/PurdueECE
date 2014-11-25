@@ -7,16 +7,16 @@
 int main()
 {
   
-  struct YelpDataBST * bst = create_business_bst("shortfilebus.tsv", "shortfilerev.tsv");
+  struct YelpDataBST * bst = create_business_bst("/home/shay/a/ece264p0/share/yelp_data/businesses.tsv", "/home/shay/a/ece264p0/share/yelp_data/reviews.tsv");
   
   
   
-  char * name = malloc(sizeof(char) * 13);
-  strcpy(name,"RUBy's Diner");
+  char * name = malloc(sizeof(char) * 16);
+  strcpy(name,"Boston Cleaners");
   char * zip = malloc(sizeof(char) * 6);
-  strcpy(zip,"84226");
+  strcpy(zip,"");
   char * state = malloc(sizeof(char) * 3);
-  strcpy(state,"AZ");
+  strcpy(state,"NV");
   
   struct Business * bus_node = get_business_reviews(bst, name, state, zip);
   int ind;
