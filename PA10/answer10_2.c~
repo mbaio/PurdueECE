@@ -50,6 +50,8 @@ struct Review * find_rev(List *,char *,uint32_t *);
 void destroy_locations(struct Location);
 void destroy_business_result(struct Business *);
 List * List_delete(List * head,int id);
+int cmploc(const void * ptr1,const void * ptr2);
+int cmprev(const void * ptr1,const void * ptr2);
 
 List * List_createNode(int id, long int offset_bus, long int offset_rev)
 {
@@ -328,7 +330,6 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
 
 struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char* state, char* zip_code)
 {
-  printf("name: %s\nstate: %s\nzip_code: %s\n",name,state,zip_code);
   struct Business * temp_bus = malloc(sizeof(struct Business));
   temp_bus -> name = name;
   temp_bus -> locations = NULL;
@@ -358,11 +359,47 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   }
   temp_bus -> locations = location_array;
   
-  
-  
-  
+  //sorting state > city > address and star rating
+  qsort(temp_bus -> locations,temp_bus -> num_locations,sizeof(struct Location),cmploc);
+  for (ind = 0; ind < temp_bus -> num_locations;ind++)
+  {
+    qsort(temp_bus -> locations[ind].reviews,temp_bus -> locations[ind].num_reviews,sizeof(struct Review),cmprev);
+  }
   
   return temp_bus;
+}
+
+int cmploc(const void * ptr1,const void * ptr2)
+{
+  struct Location * locptr1 = (struct Location *) ptr1;
+  struct Location * locptr2 = (struct Location *) ptr2;
+  char * str1 = malloc(sizeof(char) * BUFLEN);
+  char * str2 = malloc(sizeof(char) * BUFLEN);
+  strcpy(str1,(* locptr1).state);
+  strcpy(str2,(* locptr2).state);
+  strcat(str1,(* locptr1).city);
+  strcat(str2,(* locptr2).city);
+  strcat(str1,(* locptr1).address);
+  strcat(str2,(* locptr2).address);
+  int outcome = strcmp(str1,str2);
+  free(str1);
+  free(str2);
+  return outcome;
+}
+
+int cmprev(const void * ptr1,const void * ptr2)
+{
+  struct Review * valptr1 = (struct Review *) ptr1;
+  struct Review * valptr2 = (struct Review *) ptr2;
+  int val1 = (int)  (* valptr1).stars ;
+  int val2 = (int)  (* valptr2).stars ;
+  
+  if (val1 > val2)
+    return -1;
+  else if (val1 < val2)
+    return 1;
+  else 
+    return ( casestrcmp((* valptr1).text,(* valptr2).text));
 }
 
 struct Location get_location_struct(List * input_list,char * bus_file,char * rev_file)
