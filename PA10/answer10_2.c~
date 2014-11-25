@@ -45,11 +45,12 @@ void print_node_name(tree_node *);
 void print_list(List *);
 void destroyStringArray(char **, int);
 tree_node * tree_search_name(tree_node *,char *);
-List * search_params(List *,char *,char *,char *);
+List * search_params(List *,char *,char *,char *,uint32_t *);
 struct Location get_location_struct(List *,char *,char *);
 struct Review * find_rev(List *,char *,uint32_t *);
 void destroy_locations(struct Location);
 void destroy_business_result(struct Business *);
+List * List_delete(List * head,int id);
 
 List * List_createNode(int id, long int offset_bus, long int offset_rev)
 {
@@ -315,17 +316,21 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
 //     destroy_tree(get_node);
 //     return temp_bus;
 //   }
-  temp_bus -> name = get_node -> name;
+
   //List_destroy(get_node->location_list);
-  get_node->location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file); // get the list that only has locations of the parameters sent
-//   if (get_list == NULL) {
+  uint32_t num_locs; // fix if list is null
+  printf("\nprint dammit\n");
+  get_node -> location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file,&num_locs); // get the list that only has locations of the parameters sent
+
+  //   if (get_list == NULL) {
 //     destroy_tree(get_node);
 //     List_destroy(get_list);
 //     return temp_bus;
 //   }
   //List_destroy(get_node -> location_list);
   //get_node -> location_list = get_list; // assign that new list to the found node
-  uint32_t num_locs = List_length(get_node->location_list); // fix if list is null
+  if (num_locs > 0)
+    temp_bus -> name = get_node -> name;
   temp_bus -> num_locations = num_locs;
   //temp_bus -> name = get_node -> name; //strdup() taken out
   int ind;
@@ -354,6 +359,14 @@ struct Location get_location_struct(List * input_list,char * bus_file,char * rev
   uint32_t num_rev;
   return_location.reviews = find_rev(input_list,rev_file,&num_rev);
   return_location.num_reviews = num_rev;
+  if (num_rev == 0)
+  {
+    return_location.address = NULL;
+    return_location.city = NULL;
+    return_location.state = NULL;
+    return_location.zip_code = NULL;
+    return return_location;
+  }
   FILE * fptr = fopen(bus_file,"r");
   if (fptr == NULL)
     return return_location;
@@ -405,6 +418,13 @@ struct Review * find_rev(List * input_list,char * rev_file,uint32_t * num_rev)
     destroyStringArray(line_elements,file_line_length);
   }
   * num_rev = number_rev;  
+  if (number_rev == 0)
+  {
+    struct Review * review_array = malloc(sizeof(struct Review));
+    review_array[0].stars = 0;
+    review_array[0].text = NULL;
+    return review_array;
+  }
   struct Review * review_array = malloc(sizeof(struct Review) * (int)number_rev);
   fseek(fptr,input_list->offset_rev,SEEK_SET);
   
@@ -425,24 +445,58 @@ struct Review * find_rev(List * input_list,char * rev_file,uint32_t * num_rev)
   fclose(fptr);
   return review_array;
 }
-List * search_params(List * input_list,char * state,char * zip_code,char * businesses_path)
+
+List * List_delete(List * head,int id) //code from textbok page 302
 {
-  if (state == NULL && zip_code == NULL)
-    return input_list;
-  
+  List * p = head;
+  if (p == NULL)
+  {
+    return p;
+  }
+  if ((p -> id) == id)
+  {
+    p = p -> next;
+    free(head);
+    return p;
+  }
+  List * q = p -> next;
+  while ((q != NULL) && ((q -> id) != id))
+  {
+    p = p->next;
+    q = q->next;
+  }
+  if (q != NULL)
+  {
+    p -> next = q -> next;
+    free(q);
+  }
+  return head;
+}
+
+
+List * search_params(List * input_list,char * state,char * zip_code,char * businesses_path,uint32_t * num_locs)
+{
+  uint32_t num_locations;
+  if (state == NULL && zip_code == NULL){
+    printf("entered null null\n");
+    num_locations = List_length(input_list);
+    * num_locs  = num_locations;
+    return input_list; }
+  printf("printing input list:\n");
+  print_list(input_list);
   List * temp_input = input_list;
-  List * return_list = malloc(sizeof(List));
-  return_list = NULL;
+  //List * return_list = malloc(sizeof(List));
+  //return_list = NULL;
   int length_list = List_length(input_list);
-  int ind;
+  //int ind;
   char * line = malloc(sizeof(char) * BUFLEN);
   char ** line_elements;
   int file_line_length;
   FILE * fptr = fopen(businesses_path,"r");
   if (fptr == NULL)
-    return return_list;
- 
-  for (ind = 0; ind < length_list; ind++)
+    return input_list;
+  int checked = 0;
+  while (checked < length_list)
   {
     fseek(fptr,temp_input->offset_bus,SEEK_SET);
     fgets(line,BUFLEN,fptr);
@@ -450,33 +504,35 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
     line_elements = explode(line,"\t",&file_line_length);
-    if (state == NULL && zip_code == NULL){
-      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
-    }
-    else if (state == NULL)
+    if (state == NULL)
     {
-      if (strcmp(zip_code,line_elements[5]) == 0){
-      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+      if (strcmp(zip_code,line_elements[5]) != 0){
+      input_list = List_delete(input_list,temp_input->id);
+      length_list--;
       }
     }
     else if (zip_code == NULL)
     {
-      if (strcasecmp(state,line_elements[4]) == 0){
-      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+      if (strcasecmp(state,line_elements[4]) != 0){
+      input_list = List_delete(input_list,temp_input->id);
+      length_list--;
       }
     }
     else 
     {
-      if (strcmp(zip_code,line_elements[5]) == 0 && strcasecmp(state,line_elements[4]) == 0) 
-      return_list = List_push(return_list,temp_input->id,temp_input->offset_bus,temp_input->offset_rev);
+      if (strcmp(zip_code,line_elements[5]) != 0 || strcasecmp(state,line_elements[4]) != 0){ 
+      input_list = List_delete(input_list,temp_input->id);
+      length_list--; }
     }
     destroyStringArray(line_elements,file_line_length);
+    checked++;
     temp_input = temp_input -> next; 
   }
   free(line);
   fclose(fptr);
-  // may need to destroy input list
-  return return_list;
+  printf("\nlength list = %d\n",length_list);
+  * num_locs = length_list;
+  return input_list;
   
 }
 
