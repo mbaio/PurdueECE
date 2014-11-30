@@ -16,7 +16,7 @@ int main()
   char * zip = malloc(sizeof(char) * 6);
   strcpy(zip,"89135");
   char * state = malloc(sizeof(char) * 3);
-  strcpy(state,"NV");
+  strcpy(state,"");
   
   struct Business * bus_node = get_business_reviews(bst, name, state, zip);
   int ind;
