@@ -5,7 +5,7 @@
 #include <ctype.h>
 
 
-#define BUFLEN 2500
+#define BUFLEN 50000
 
 
 typedef struct ListNode_st
@@ -152,11 +152,11 @@ tree_node * tree_insert_name(tree_node * node, tree_node * root)
     return node;
   }
   
-  if (strcmp(node -> name,root -> name) < 0)
+  if (strcasecmp(node -> name,root -> name) < 0)
   {
     root -> left = tree_insert_name(node,root -> left);
   }
-  else if (strcmp(node -> name,root -> name) > 0)
+  else if (strcasecmp(node -> name,root -> name) > 0)
   {
     root -> right = tree_insert_name(node,root -> right);
   }
@@ -257,20 +257,44 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
   }
   int linelen1;
   int linelen2;
-  int counter_1 = 0;
-  int cap_count = 0;
-  int time_insert = 0;
   while (fgets(line1, BUFLEN, fptr_bus))
   {
+    //printf("New Iteration\n");
     linelen1 = strlen(line1);
     if(linelen1 > 0 && line1[linelen1-1] == '\n')
       line1[linelen1-1] = '\0';
     line_elements1 = explode(line1,"\t",&file_line_length1);  
-    if (strcmp(line_elements1[1],"Capriotti's") == 0){
-      cap_count++;
-      printf("Capriotti's ID: %d\n",atoi(line_elements1[0]));}
     id_num1 = atoi(line_elements1[0]);
-    counter_1++;
+//     printf("Business ID: %d\n",id_num1);
+// //     fgets(line2,BUFLEN,fptr_rev);
+// //     linelen2 = strlen(line2);
+// //       if(linelen2 > 0 && line2[linelen2-1] == '\n')
+// //         line2[linelen2-1] = '\0';
+// //       line_elements2 = explode(line2,"\t",&file_line_length2);   
+// //       id_num2 = atoi(line_elements2[0]);
+//       
+//       while (id_num2 == id_num1 && fgets(line2,BUFLEN,fptr_rev))
+//       {
+// 	linelen2 = strlen(line2);
+// 	if(linelen2 > 0 && line2[linelen2-1] == '\n')
+// 	  line2[linelen2-1] = '\0';
+// 	line_elements2 = explode(line2,"\t",&file_line_length2);   
+// 	id_num2 = atoi(line_elements2[0]);
+// 	if (id_num2 != id_num1)
+// 	  break;
+// 	printf("In loop Rev ID: %d\n",id_num2);
+// 	destroyStringArray(line_elements2, file_line_length2);
+//       }
+//       List * list_node = List_createNode(id_num1,offset_bus,offset_rev);
+//       tree_node * temp_node = create_node(list_node,line_elements1[1]);
+//       temp_tree = tree_insert_name(temp_node,temp_tree); 
+//       offset_rev = ftell(fptr_rev);
+//       offset_bus = ftell(fptr_bus);
+//       destroyStringArray(line_elements1, file_line_length1);
+//       printf("\n\n");
+  
+  
+	
     while (id_num2 <= id_num1)
     {
       fgets(line2,BUFLEN,fptr_rev);
@@ -283,7 +307,7 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
       {
         List * list_node = List_createNode(id_num1,offset_bus,offset_rev);
         tree_node * temp_node = create_node(list_node,line_elements1[1]);
-	time_insert++;
+	//time_insert++;
         temp_tree = tree_insert_name(temp_node,temp_tree);   
         destroyStringArray(line_elements2, file_line_length2);
 	break;
@@ -293,10 +317,7 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     }
     destroyStringArray(line_elements1, file_line_length1);
     offset_bus = ftell(fptr_bus);
-  }  
-  printf("\n\nTotal businesses read: %d\n\n",counter_1);
-  printf("\nCapriotti's = %d\n",cap_count);
-  printf("\ntotal times tree inserted: %d\n",time_insert);
+  }
 
   free(line1);
   free(line2);
@@ -385,6 +406,8 @@ int cmploc(const void * ptr1,const void * ptr2)
   struct Location * locptr2 = (struct Location *) ptr2;
   char * str1 = malloc(sizeof(char) * BUFLEN);
   char * str2 = malloc(sizeof(char) * BUFLEN);
+  if (str1 == NULL || str2 == NULL || (* locptr1).state == NULL || (* locptr2).state == NULL || (* locptr1).city == NULL || (* locptr2).city == NULL || (* locptr1).address == NULL || (* locptr2).address == NULL)
+    return 0;
   strcpy(str1,(* locptr1).state);
   strcpy(str2,(* locptr2).state);
   strcat(str1,(* locptr1).city);
@@ -535,10 +558,10 @@ List * List_delete(List * head,int id) //code from textbok page 302
 
 List * search_params(List * input_list,char * state,char * zip_code,char * businesses_path,uint32_t * num_locs)
 {
-  printf("input list\n");
-  print_list(input_list);
+  //printf("input list\n");
+  //print_list(input_list);
   
-  printf("Starting #locs = %d\n",List_length(input_list));
+  //printf("Starting #locs = %d\n",List_length(input_list));
   uint32_t num_locations;
   if ((state == NULL && zip_code == NULL)){// || (strcmp(state,"") == 0 && strcmp(zip_code,"") == 0)){
     //printf("entered null null\n");
@@ -557,7 +580,7 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
   if (fptr == NULL)
     return input_list;
   int checked = 0;
-  printf("start: checked = %d length list = %d\n",checked,length_list);
+  //printf("start: checked = %d length list = %d\n",checked,length_list);
   while (checked <= length_list && temp_input != NULL)
   {
     //printf("Current Temp_input ID: %d\n",temp_input -> id);
@@ -569,36 +592,36 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
     line_elements = explode(line,"\t",&file_line_length);
-    printf("exploded elements: ID: %d State: %s Zip %s\n",atoi(line_elements[0]),line_elements[4],line_elements[5]);
+    //printf("exploded elements: ID: %d State: %s Zip %s\n",atoi(line_elements[0]),line_elements[4],line_elements[5]);
     if (state == NULL || strcmp(state,"") == 0)
     {
-      printf("STATE = NULL\n");
-      printf("Comparing %s and %s current id  = %d\n",zip_code,line_elements[5],atoi(line_elements[0]));
+     // printf("STATE = NULL\n");
+      //printf("Comparing %s and %s current id  = %d\n",zip_code,line_elements[5],atoi(line_elements[0]));
       if (strcmp(zip_code,line_elements[5]) != 0){
-      printf("Entered delete\n");
+      //printf("Entered delete\n");
       input_list = List_delete(input_list,temp_input->id);
       temp_input = input_list;
       //length_list--;
       }
       else
       {
-	printf("entered else\n");
+	//printf("entered else\n");
 	temp_input = input_list -> next;
       }
     }
     else if (zip_code == NULL || strcmp(zip_code,"") == 0)
     {
-      printf("ZIP = NULL\n");
-      printf("Comparing %s and %s current id  = %d\n",state,line_elements[4],atoi(line_elements[0]));
+     // printf("ZIP = NULL\n");
+      //printf("Comparing %s and %s current id  = %d\n",state,line_elements[4],atoi(line_elements[0]));
       if (strcasecmp(state,line_elements[4]) != 0){
-      printf("Entered delete\n");	
+      //printf("Entered delete\n");	
       input_list = List_delete(input_list,temp_input->id);
       temp_input = input_list;
       //length_list--;
       }
       else
       {
-	printf("entered else\n");
+	//printf("entered else\n");
 	temp_input = input_list -> next;
       }
     }
@@ -625,8 +648,8 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
   length_list = List_length(input_list);
   //printf("\nlength list = %d\n",length_list);
   * num_locs = length_list;
- // printf("Final list\n");
- // print_list(input_list);
+  //printf("Final list\n");
+  //print_list(input_list);
   return input_list;
 }
 

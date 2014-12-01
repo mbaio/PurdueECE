@@ -7,18 +7,18 @@
 int main()
 {
   
-  struct YelpDataBST * bst = create_business_bst("/home/shay/a/ece264p0/share/yelp_data/businesses.tsv", "/home/shay/a/ece264p0/share/yelp_data/reviews.tsv");
+  struct YelpDataBST * bst = create_business_bst("shortfilebus.tsv", "shortfilerev.tsv");
   
   
   
   char * name = malloc(sizeof(char) * 16);
-  strcpy(name,"Subway");
+  strcpy(name,"");
   char * zip = malloc(sizeof(char) * 6);
   strcpy(zip,"");
   char * state = malloc(sizeof(char) * 3);
-  strcpy(state,"lol");
+  strcpy(state,"");
   
-  struct Business * bus_node = get_business_reviews(bst, name, state, zip);
+  struct Business * bus_node = get_business_reviews(bst, name, NULL, NULL);
   int ind;
   int rev;
   if (bus_node != NULL && bst != NULL)
