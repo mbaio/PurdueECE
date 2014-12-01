@@ -4,8 +4,8 @@
 #include <string.h>
 #include <ctype.h>
 
-
-#define BUFLEN 50000
+//MGM Grand - Studio Walk Food Court 3799 Las Vegas Blvd S Eastside
+#define BUFLEN 9000
 
 
 typedef struct ListNode_st
@@ -239,6 +239,7 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
   char ** line_elements2; // array of strings from line
   long int offset_bus = 0;
   long int offset_rev = 0;
+  long int test_offset = 0;
   if (line1 == NULL || line2 == NULL)
   {
     fprintf(stderr,"line not initialized!\n");
@@ -259,62 +260,66 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
   int linelen2;
   while (fgets(line1, BUFLEN, fptr_bus))
   {
-    //printf("New Iteration\n");
+    //printf("\n\nNew Iteration\n");
     linelen1 = strlen(line1);
     if(linelen1 > 0 && line1[linelen1-1] == '\n')
       line1[linelen1-1] = '\0';
     line_elements1 = explode(line1,"\t",&file_line_length1);  
     id_num1 = atoi(line_elements1[0]);
-//     printf("Business ID: %d\n",id_num1);
-// //     fgets(line2,BUFLEN,fptr_rev);
-// //     linelen2 = strlen(line2);
-// //       if(linelen2 > 0 && line2[linelen2-1] == '\n')
-// //         line2[linelen2-1] = '\0';
-// //       line_elements2 = explode(line2,"\t",&file_line_length2);   
-// //       id_num2 = atoi(line_elements2[0]);
-//       
-//       while (id_num2 == id_num1 && fgets(line2,BUFLEN,fptr_rev))
+     //printf("Business ID: %d\n",id_num1);
+  
+    //int count = 0;
+//     while (id_num2 <= id_num1)
+//     {
+//       count++;
+//       fgets(line2,BUFLEN,fptr_rev);
+//       linelen2 = strlen(line2);
+//       if(linelen2 > 0 && line2[linelen2-1] == '\n')
+//         line2[linelen2-1] = '\0';
+//       line_elements2 = explode(line2,"\t",&file_line_length2);   
+//       id_num2 = atoi(line_elements2[0]);
+//       printf("Loop ID: %d Count: %d\n",id_num2,count);
+//       if (id_num2 == id_num1)
 //       {
-// 	linelen2 = strlen(line2);
-// 	if(linelen2 > 0 && line2[linelen2-1] == '\n')
-// 	  line2[linelen2-1] = '\0';
-// 	line_elements2 = explode(line2,"\t",&file_line_length2);   
-// 	id_num2 = atoi(line_elements2[0]);
-// 	if (id_num2 != id_num1)
-// 	  break;
-// 	printf("In loop Rev ID: %d\n",id_num2);
-// 	destroyStringArray(line_elements2, file_line_length2);
+// 	//printf("id_num2 == id_num1\n");
+//         List * list_node = List_createNode(id_num1,offset_bus,offset_rev);
+//         tree_node * temp_node = create_node(list_node,line_elements1[1]);
+// 	//time_insert++;
+//         temp_tree = tree_insert_name(temp_node,temp_tree);   
+//         destroyStringArray(line_elements2, file_line_length2);
+// 
+// 	break;
 //       }
-//       List * list_node = List_createNode(id_num1,offset_bus,offset_rev);
-//       tree_node * temp_node = create_node(list_node,line_elements1[1]);
-//       temp_tree = tree_insert_name(temp_node,temp_tree); 
 //       offset_rev = ftell(fptr_rev);
-//       offset_bus = ftell(fptr_bus);
-//       destroyStringArray(line_elements1, file_line_length1);
-//       printf("\n\n");
-  
-  
-	
-    while (id_num2 <= id_num1)
-    {
-      fgets(line2,BUFLEN,fptr_rev);
-      linelen2 = strlen(line2);
-      if(linelen2 > 0 && line2[linelen2-1] == '\n')
-        line2[linelen2-1] = '\0';
-      line_elements2 = explode(line2,"\t",&file_line_length2);   
-      id_num2 = atoi(line_elements2[0]);
-      if (id_num2 == id_num1)
+//       destroyStringArray(line_elements2, file_line_length2);
+//     }      
+    if (id_num2 == id_num1)
       {
-        List * list_node = List_createNode(id_num1,offset_bus,offset_rev);
+	//printf("id_num2 == id_num1\n");
+        List * list_node = List_createNode(id_num1,offset_bus,test_offset);
         tree_node * temp_node = create_node(list_node,line_elements1[1]);
 	//time_insert++;
         temp_tree = tree_insert_name(temp_node,temp_tree);   
-        destroyStringArray(line_elements2, file_line_length2);
-	break;
+        //destroyStringArray(line_elements2, file_line_length2);
       }
-      offset_rev = ftell(fptr_rev);
-      destroyStringArray(line_elements2, file_line_length2);
-    }
+      test_offset = offset_rev;
+      while (id_num2 == id_num1 && fgets(line2,BUFLEN,fptr_rev))
+      {
+	offset_rev = ftell(fptr_rev);
+	linelen2 = strlen(line2);
+	if(linelen2 > 0 && line2[linelen2-1] == '\n')
+	  line2[linelen2-1] = '\0';
+	line_elements2 = explode(line2,"\t",&file_line_length2);   
+	id_num2 = atoi(line_elements2[0]);
+	//printf("Loop ID: %d Count: %d\n",id_num2,count);
+        if (id_num2 != id_num1){
+	  //offset_rev = test_offset;
+	  break;}
+	  
+	  
+	  test_offset = offset_rev;
+	destroyStringArray(line_elements2, file_line_length2);
+      }
     destroyStringArray(line_elements1, file_line_length1);
     offset_bus = ftell(fptr_bus);
   }
@@ -391,11 +396,11 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   temp_bus -> locations = location_array;
   
   //sorting state > city > address and star rating
-  qsort(temp_bus -> locations,temp_bus -> num_locations,sizeof(struct Location),cmploc);
-  for (ind = 0; ind < temp_bus -> num_locations;ind++)
-  {
-    qsort(temp_bus -> locations[ind].reviews,temp_bus -> locations[ind].num_reviews,sizeof(struct Review),cmprev);
-  }
+//   qsort(temp_bus -> locations,temp_bus -> num_locations,sizeof(struct Location),cmploc);
+//   for (ind = 0; ind < temp_bus -> num_locations;ind++)
+//   {
+//     qsort(temp_bus -> locations[ind].reviews,temp_bus -> locations[ind].num_reviews,sizeof(struct Review),cmprev);
+//   }
   
   return temp_bus;
 }
@@ -406,7 +411,7 @@ int cmploc(const void * ptr1,const void * ptr2)
   struct Location * locptr2 = (struct Location *) ptr2;
   char * str1 = malloc(sizeof(char) * BUFLEN);
   char * str2 = malloc(sizeof(char) * BUFLEN);
-  if (str1 == NULL || str2 == NULL || (* locptr1).state == NULL || (* locptr2).state == NULL || (* locptr1).city == NULL || (* locptr2).city == NULL || (* locptr1).address == NULL || (* locptr2).address == NULL ||)
+  if (str1 == NULL || str2 == NULL || (* locptr1).state == NULL || (* locptr2).state == NULL || (* locptr1).city == NULL || (* locptr2).city == NULL || (* locptr1).address == NULL || (* locptr2).address == NULL)
     return 0;
   strcpy(str1,(* locptr1).state);
   strcpy(str2,(* locptr2).state);
@@ -414,7 +419,7 @@ int cmploc(const void * ptr1,const void * ptr2)
   strcat(str2,(* locptr2).city);
   strcat(str1,(* locptr1).address);
   strcat(str2,(* locptr2).address);
-  int outcome = strcmp(str1,str2);
+  int outcome = strcasecmp(str1,str2);
   free(str1);
   free(str2);
   return outcome;
@@ -437,18 +442,20 @@ int cmprev(const void * ptr1,const void * ptr2)
 
 struct Location get_location_struct(List * input_list,char * bus_file,char * rev_file)
 {
+  //printf("\n\nCurrent ID:%d\n",input_list -> id);
   struct Location return_location;
   uint32_t num_rev;
   return_location.reviews = find_rev(input_list,rev_file,&num_rev);
+  //printf("Number reviews found: %d\n",num_rev);
   return_location.num_reviews = num_rev;
-  if (num_rev == 0)
-  {
-    return_location.address = NULL;
-    return_location.city = NULL;
-    return_location.state = NULL;
-    return_location.zip_code = NULL;
-    return return_location;
-  }
+//   if (num_rev == 0)
+//   {
+//     return_location.address = NULL;
+//     return_location.city = NULL;
+//     return_location.state = NULL;
+//     return_location.zip_code = NULL;
+//     return return_location;
+//   }
   FILE * fptr = fopen(bus_file,"r");
   if (fptr == NULL)
     return return_location;
@@ -476,6 +483,7 @@ struct Location get_location_struct(List * input_list,char * bus_file,char * rev
 
 struct Review * find_rev(List * input_list,char * rev_file,uint32_t * num_rev) 
 {
+  //printf("input_list ID: %d\n",input_list -> id);
   int file_line_length = 0;
   char * line = malloc(BUFLEN * sizeof(char)); // line of data read from file
   char ** line_elements; // array of strings from line
@@ -491,6 +499,7 @@ struct Review * find_rev(List * input_list,char * rev_file,uint32_t * num_rev)
       line[linelen-1] = '\0';
     line_elements = explode(line,"\t",&file_line_length);
     int id_num = atoi(line_elements[0]);
+    //printf("Exploded ID: %d\n",id_num);
     if (id_num != input_list->id)
     {
       destroyStringArray(line_elements,file_line_length);
