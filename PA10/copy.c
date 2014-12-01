@@ -257,20 +257,13 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
   }
   int linelen1;
   int linelen2;
-  int counter_1 = 0;
-  int cap_count = 0;
-  int time_insert = 0;
   while (fgets(line1, BUFLEN, fptr_bus))
   {
     linelen1 = strlen(line1);
     if(linelen1 > 0 && line1[linelen1-1] == '\n')
       line1[linelen1-1] = '\0';
-    line_elements1 = explode(line1,"\t",&file_line_length1);  
-    if (strcmp(line_elements1[1],"Capriotti's") == 0){
-      cap_count++;
-      printf("Capriotti's ID: %d\n",atoi(line_elements1[0]));}
+    line_elements1 = explode(line1,"\t",&file_line_length1);   
     id_num1 = atoi(line_elements1[0]);
-    counter_1++;
     while (id_num2 <= id_num1)
     {
       fgets(line2,BUFLEN,fptr_rev);
@@ -283,7 +276,6 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
       {
         List * list_node = List_createNode(id_num1,offset_bus,offset_rev);
         tree_node * temp_node = create_node(list_node,line_elements1[1]);
-	time_insert++;
         temp_tree = tree_insert_name(temp_node,temp_tree);   
         destroyStringArray(line_elements2, file_line_length2);
 	break;
@@ -294,9 +286,7 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
     destroyStringArray(line_elements1, file_line_length1);
     offset_bus = ftell(fptr_bus);
   }  
-  printf("\n\nTotal businesses read: %d\n\n",counter_1);
-  printf("\nCapriotti's = %d\n",cap_count);
-  printf("\ntotal times tree inserted: %d\n",time_insert);
+
 
   free(line1);
   free(line2);
@@ -349,12 +339,12 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   tree_node * get_node = tree_search_name(bst->head_name,name); // find the node that has the correct name
   if (get_node == NULL)
   {
-    return NULL;
+    return temp_bus;
   }
   uint32_t num_locs; // fix if list is null
   get_node -> location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file,&num_locs); // get the list that only has locations of the parameters sent
-  if (num_locs == 0){
-    return NULL;}
+  if (num_locs > 0)
+    temp_bus -> name = get_node -> name;
   temp_bus -> num_locations = num_locs;
   int ind;
   struct Location * location_array = malloc(sizeof(struct Location) * (num_locs + 1));
@@ -535,10 +525,8 @@ List * List_delete(List * head,int id) //code from textbok page 302
 
 List * search_params(List * input_list,char * state,char * zip_code,char * businesses_path,uint32_t * num_locs)
 {
-  printf("input list\n");
-  print_list(input_list);
-  
-  printf("Starting #locs = %d\n",List_length(input_list));
+  //printf("input list\n");
+ // print_list(input_list);
   uint32_t num_locations;
   if ((state == NULL && zip_code == NULL)){// || (strcmp(state,"") == 0 && strcmp(zip_code,"") == 0)){
     //printf("entered null null\n");
@@ -557,11 +545,9 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
   if (fptr == NULL)
     return input_list;
   int checked = 0;
-  printf("start: checked = %d length list = %d\n",checked,length_list);
   while (checked <= length_list && temp_input != NULL)
   {
-    //printf("Current Temp_input ID: %d\n",temp_input -> id);
-    if (List_length(input_list) == 0)
+    if (length_list == 0)
       break;
     fseek(fptr,temp_input->offset_bus,SEEK_SET);
     fgets(line,BUFLEN,fptr);
@@ -569,36 +555,27 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
     if(linelen > 0 && line[linelen-1] == '\n')
       line[linelen-1] = '\0';
     line_elements = explode(line,"\t",&file_line_length);
-    printf("exploded elements: ID: %d State: %s Zip %s\n",atoi(line_elements[0]),line_elements[4],line_elements[5]);
     if (state == NULL || strcmp(state,"") == 0)
     {
-      printf("STATE = NULL\n");
-      printf("Comparing %s and %s current id  = %d\n",zip_code,line_elements[5],atoi(line_elements[0]));
       if (strcmp(zip_code,line_elements[5]) != 0){
-      printf("Entered delete\n");
       input_list = List_delete(input_list,temp_input->id);
       temp_input = input_list;
-      //length_list--;
+      length_list--;
       }
       else
       {
-	printf("entered else\n");
 	temp_input = input_list -> next;
       }
     }
     else if (zip_code == NULL || strcmp(zip_code,"") == 0)
     {
-      printf("ZIP = NULL\n");
-      printf("Comparing %s and %s current id  = %d\n",state,line_elements[4],atoi(line_elements[0]));
       if (strcasecmp(state,line_elements[4]) != 0){
-      printf("Entered delete\n");	
       input_list = List_delete(input_list,temp_input->id);
       temp_input = input_list;
-      //length_list--;
+      length_list--;
       }
       else
       {
-	printf("entered else\n");
 	temp_input = input_list -> next;
       }
     }
@@ -609,8 +586,8 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
         //printf("entered delete\n");
 	//int test = temp_input -> id;
 	input_list = List_delete(input_list,temp_input->id);
-	temp_input = input_list;}
-      //length_list--; }
+	temp_input = input_list;
+      length_list--; }
       else
       {
 	temp_input = input_list -> next;
@@ -618,7 +595,7 @@ List * search_params(List * input_list,char * state,char * zip_code,char * busin
     }
     destroyStringArray(line_elements,file_line_length);
     checked++;
-    //printf("Final info- temp_input ID: %d list_length = %d checked = %d\n\n",temp_input -> id,length_list,checked);
+    
   }
   free(line);
   fclose(fptr);
@@ -662,11 +639,7 @@ void destroy_business_bst(struct YelpDataBST* bst)
 
 void destroy_business_result(struct Business* b)
 {
-  if (b == NULL)
-  {
-    free(b);
-    return;
-  }
+
   uint32_t ind;
   uint32_t num_locations = b -> num_locations;
   for (ind = 0; ind < num_locations; ind++)

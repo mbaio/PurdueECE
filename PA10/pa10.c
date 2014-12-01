@@ -12,11 +12,11 @@ int main()
   
   
   char * name = malloc(sizeof(char) * 16);
-  strcpy(name,"Boston Cleaners");
+  strcpy(name,"Subway");
   char * zip = malloc(sizeof(char) * 6);
-  strcpy(zip,"89135");
+  strcpy(zip,"");
   char * state = malloc(sizeof(char) * 3);
-  strcpy(state,"");
+  strcpy(state,"lol");
   
   struct Business * bus_node = get_business_reviews(bst, name, state, zip);
   int ind;
