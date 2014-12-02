@@ -4,7 +4,9 @@
 #include "answer11.h"
 #include "treefun.h"
 
+
 void List_destroy(StackNode *);
+unsigned char get_byte(FILE *);
 
 void List_destroy(StackNode * input_list)
 {
@@ -135,13 +137,76 @@ HuffNode * HuffTree_readTextHeader(FILE * fp)
 HuffNode * HuffTree_readBinaryHeader(FILE * fp)
 {
   Stack * stack = Stack_create();
-  unsigned char byte = 0;
   HuffNode * return_tree;
-
+  // need to convert binary file into 1 array with ascii values and keep track of length
+  
+  //find how many characters are in it
+  unsigned char val;
+  int length_arr;
+  int ind;
+  while ((val = (fgetc(fp))))
+  {
+     length_arr++;
+  }
+  fseek(fp,0,SEEK_SET); //put back to beginning 
+  unsigned char * arr = malloc(sizeof(unsigned char) * (length_arr + 1));
+  arr[length_arr] = '\0';
+  for (ind = 0; ind < length_arr; ind++)
+  {
+    arr[ind] = get_byte(fp);
+  }
   
   
+  
+  for (ind = 0; ind < length_arr; ind++)
+  {
+    if (arr[ind] == '1')
+    {
+      ind++;
+      val = arr[ind];
+      printf("val = %c\n",val);
+      return_tree = HuffNode_create(val);
+      Stack_pushFront(stack,return_tree);
+    }
+    else
+    {
+    if (arr[ind] == '0' && (stack -> head -> next != NULL))
+    {
+      Stack_popPopCombinePush(stack);
+      HuffNode_printPretty(stdout,return_tree);
+    }
+    else
+    {
+	break;      
+    }
+    }
+  }
+  //return_tree = stack -> head -> tree;
+  free(stack -> head); // do i need to call destroy stack
+  free(stack);
+  free(arr);
   return return_tree;
 }
-  
-  
 
+unsigned char get_byte(FILE * fp)
+{
+  unsigned char byte = fgetc(fp);
+  int final = 0;
+  int ind;
+  int power;
+  int current;
+  for (ind = 7; ind >= 0; ind--)
+  {
+     current = 1;
+     int mask = (1 << ind);
+     int set = byte & mask;
+     int bit = (set >> ind);
+     for (power = 0; power < ind; power++)
+     {
+       current *= 2;
+     }
+     final += current * bit;
+  }
+  
+  return ((unsigned char) final);
+}

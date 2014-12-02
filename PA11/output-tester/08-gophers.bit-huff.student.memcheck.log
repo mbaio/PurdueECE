@@ -1,89 +1,89 @@
-==1182== Memcheck, a memory error detector
-==1182== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==1182== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==1182== Command: ./student.out b inputs/08-gophers.bit-huff
-==1182== Parent PID: 1179
-==1182== 
---1182-- 
---1182-- Valgrind options:
---1182--    --tool=memcheck
---1182--    --leak-check=full
---1182--    --verbose
---1182--    --log-file=memcheck.log
---1182-- Contents of /proc/version:
---1182--   Linux version 2.6.32-504.1.3.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-9) (GCC) ) #1 SMP Fri Oct 31 11:37:10 EDT 2014
---1182-- Arch and hwcaps: AMD64, amd64-sse3-cx16-avx
---1182-- Page sizes: currently 4096, max supported 4096
---1182-- Valgrind library directory: /usr/lib64/valgrind
---1182-- Reading syms from /tmp/.3zPLqN/student.out
---1182-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
---1182--    object doesn't have a dynamic symbol table
---1182-- Reading syms from /lib64/ld-2.12.so
---1182--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
---1182--   .. build-id is valid
---1182-- Scheduler: using generic scheduler lock implementation.
---1182-- Reading suppressions file: /usr/lib64/valgrind/default.supp
-==1182== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-1182-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
-==1182== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-1182-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
-==1182== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-1182-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
-==1182== 
-==1182== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==1182== don't want to do, unless you know exactly what you're doing,
-==1182== or are doing some strange experiment):
-==1182==   /usr/lib64/valgrind/../../bin/vgdb --pid=1182 ...command...
-==1182== 
-==1182== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==1182==   /path/to/gdb ./student.out
-==1182== and then give GDB the following command
-==1182==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=1182
-==1182== --pid is optional if only one valgrind process is running
-==1182== 
---1182-- REDIR: 0x3350217610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
---1182-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
---1182-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
---1182-- REDIR: 0x3350217480 (index) redirected to 0x4a07c30 (index)
---1182-- REDIR: 0x3350217500 (strcmp) redirected to 0x4a08570 (strcmp)
---1182-- Reading syms from /lib64/libc-2.12.so
---1182--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
---1182--   .. build-id is valid
---1182-- REDIR: 0x3350684cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---1182-- REDIR: 0x3350686f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---1182-- REDIR: 0x3350682c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
---1182-- REDIR: 0x335067f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---1182-- REDIR: 0x3350728420 (__strcmp_sse42) redirected to 0x4a084d0 (strcmp)
---1182-- REDIR: 0x335068aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
---1182-- REDIR: 0x3350684500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
---1182-- REDIR: 0x335067b520 (free) redirected to 0x4a063a9 (free)
---1182-- REDIR: 0x335067a640 (malloc) redirected to 0x4a069ac (malloc)
---1182-- REDIR: 0x3350681160 (__GI_strlen) redirected to 0x4a07fb0 (__GI_strlen)
---1182-- REDIR: 0x335067a280 (calloc) redirected to 0x4a05717 (calloc)
---1182-- REDIR: 0x3350689670 (memcpy) redirected to 0x4a08b60 (memcpy)
-==1182== 
-==1182== HEAP SUMMARY:
-==1182==     in use at exit: 592 bytes in 2 blocks
-==1182==   total heap usage: 4 allocs, 2 frees, 624 bytes allocated
-==1182== 
-==1182== Searching for pointers to 2 not-freed blocks
-==1182== Checked 69,408 bytes
-==1182== 
-==1182== 24 bytes in 1 blocks are definitely lost in loss record 1 of 2
-==1182==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
-==1182==    by 0x400E15: HuffTree_readBinaryHeader (answer11.c:142)
-==1182==    by 0x401E16: process_file (example.c:29)
-==1182==    by 0x401FD2: main (example.c:81)
-==1182== 
-==1182== LEAK SUMMARY:
-==1182==    definitely lost: 24 bytes in 1 blocks
-==1182==    indirectly lost: 0 bytes in 0 blocks
-==1182==      possibly lost: 0 bytes in 0 blocks
-==1182==    still reachable: 568 bytes in 1 blocks
-==1182==         suppressed: 0 bytes in 0 blocks
-==1182== Reachable blocks (those to which a pointer was found) are not shown.
-==1182== To see them, rerun with: --leak-check=full --show-reachable=yes
-==1182== 
-==1182== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
---1182-- 
---1182-- used_suppression:      4 U1004-ARM-_dl_relocate_object
---1182-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
-==1182== 
-==1182== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==48185== Memcheck, a memory error detector
+==48185== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==48185== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==48185== Command: ./student.out b inputs/08-gophers.bit-huff
+==48185== Parent PID: 48179
+==48185== 
+--48185-- 
+--48185-- Valgrind options:
+--48185--    --tool=memcheck
+--48185--    --leak-check=full
+--48185--    --verbose
+--48185--    --log-file=memcheck.log
+--48185-- Contents of /proc/version:
+--48185--   Linux version 2.6.32-504.1.3.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-9) (GCC) ) #1 SMP Fri Oct 31 11:37:10 EDT 2014
+--48185-- Arch and hwcaps: AMD64, amd64-sse3-cx16-avx
+--48185-- Page sizes: currently 4096, max supported 4096
+--48185-- Valgrind library directory: /usr/lib64/valgrind
+--48185-- Reading syms from /tmp/.x0BoIR/student.out
+--48185-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--48185--    object doesn't have a dynamic symbol table
+--48185-- Reading syms from /lib64/ld-2.12.so
+--48185--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
+--48185--   .. build-id is valid
+--48185-- Scheduler: using generic scheduler lock implementation.
+--48185-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==48185== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-48185-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==48185== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-48185-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==48185== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-48185-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==48185== 
+==48185== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==48185== don't want to do, unless you know exactly what you're doing,
+==48185== or are doing some strange experiment):
+==48185==   /usr/lib64/valgrind/../../bin/vgdb --pid=48185 ...command...
+==48185== 
+==48185== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==48185==   /path/to/gdb ./student.out
+==48185== and then give GDB the following command
+==48185==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=48185
+==48185== --pid is optional if only one valgrind process is running
+==48185== 
+--48185-- REDIR: 0x3350217610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--48185-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--48185-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--48185-- REDIR: 0x3350217480 (index) redirected to 0x4a07c30 (index)
+--48185-- REDIR: 0x3350217500 (strcmp) redirected to 0x4a08570 (strcmp)
+--48185-- Reading syms from /lib64/libc-2.12.so
+--48185--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
+--48185--   .. build-id is valid
+--48185-- REDIR: 0x3350684cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--48185-- REDIR: 0x3350686f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--48185-- REDIR: 0x3350682c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
+--48185-- REDIR: 0x335067f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--48185-- REDIR: 0x3350728420 (__strcmp_sse42) redirected to 0x4a084d0 (strcmp)
+--48185-- REDIR: 0x335068aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
+--48185-- REDIR: 0x3350684500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
+--48185-- REDIR: 0x335067b520 (free) redirected to 0x4a063a9 (free)
+--48185-- REDIR: 0x335067a640 (malloc) redirected to 0x4a069ac (malloc)
+==48185== 
+==48185== Process terminating with default action of signal 15 (SIGTERM)
+==48185==    at 0x33506DB59E: __read_nocancel (syscall-template.S:82)
+==48185==    by 0x3350671CE7: _IO_file_underflow@@GLIBC_2.2.5 (fileops.c:598)
+==48185==    by 0x33506737ED: _IO_default_uflow (genops.c:440)
+==48185==    by 0x335066ECDA: getc (getc.c:41)
+==48185==    by 0x400E7C: HuffTree_readBinaryHeader (answer11.c:147)
+==48185==    by 0x40203A: process_file (example.c:29)
+==48185==    by 0x4021F6: main (example.c:81)
+==48185== 
+==48185== HEAP SUMMARY:
+==48185==     in use at exit: 576 bytes in 2 blocks
+==48185==   total heap usage: 2 allocs, 0 frees, 576 bytes allocated
+==48185== 
+==48185== Searching for pointers to 2 not-freed blocks
+==48185== Checked 69,424 bytes
+==48185== 
+==48185== LEAK SUMMARY:
+==48185==    definitely lost: 0 bytes in 0 blocks
+==48185==    indirectly lost: 0 bytes in 0 blocks
+==48185==      possibly lost: 0 bytes in 0 blocks
+==48185==    still reachable: 576 bytes in 2 blocks
+==48185==         suppressed: 0 bytes in 0 blocks
+==48185== Reachable blocks (those to which a pointer was found) are not shown.
+==48185== To see them, rerun with: --leak-check=full --show-reachable=yes
+==48185== 
+==48185== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+--48185-- 
+--48185-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--48185-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==48185== 
+==48185== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)

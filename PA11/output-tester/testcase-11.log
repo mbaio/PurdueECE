@@ -1,11 +1,12 @@
 
 Testcase 11 :: 11-prefixcodes.bit-huff
    Reading file: 'inputs/11-prefixcodes.bit-huff', textmode = FALSE.
-   Huffman coding tree is:
-   
-     
-   Memory errors detected.
-   Valgrind log saved in /home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/11-prefixcodes.bit-huff.student.memcheck.log.
+   Program received signal SIGSEGV, Segmentation fault.
+   0x0000000000400eb9 in HuffTree_readBinaryHeader (fp=0x603010) at answer11.c:153
+   153	  arr[length_arr] = '\0';
+   #0  0x0000000000400eb9 in HuffTree_readBinaryHeader (fp=0x603010) at answer11.c:153
+   #1  0x000000000040203b in process_file (filename=0x7fffffffe7b0 "inputs/11-prefixcodes.bit-huff", is_textmode=0) at example.c:29
+   #2  0x00000000004021f7 in main (argc=3, argv=0x7fffffffe418) at example.c:81
    Your solution is different to the expected solution.
    Review the files "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/11-prefixcodes.bit-huff.student.output" "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/11-prefixcodes.bit-huff.solution.output"
    to see where you went wrong. The 'diff' command may be useful.
