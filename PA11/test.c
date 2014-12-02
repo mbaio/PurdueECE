@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "answer11.h"
-#include "treefun.h"
 
 void List_destroy(StackNode *);
 
@@ -62,10 +61,8 @@ int Stack_isEmpty(Stack * stack)
 
 HuffNode * Stack_popFront(Stack * stack)
 {
-  if (stack -> head == NULL){
-    //free(stack -> head);
-    Stack_destroy(stack);
-    return NULL;}
+  if (stack -> head == NULL)
+    return NULL;
   StackNode * temp = stack -> head -> next;
   HuffNode * tree = stack -> head -> tree;
   free(stack -> head);
@@ -95,8 +92,8 @@ void Stack_pushFront(Stack * stack, HuffNode * tree)
 void Stack_popPopCombinePush(Stack * stack)
 {
   HuffNode * return_tree = HuffNode_create(0);
-  HuffNode * right_tree = Stack_popFront(stack);
   HuffNode * left_tree = Stack_popFront(stack);
+  HuffNode * right_tree = Stack_popFront(stack);
   return_tree -> left = left_tree;
   return_tree -> right = right_tree;
   Stack_pushFront(stack,return_tree);
@@ -104,36 +101,29 @@ void Stack_popPopCombinePush(Stack * stack)
   
 HuffNode * HuffTree_readTextHeader(FILE * fp)
 {
-  //HuffNode * return_tree
+  HuffNode * return_tree = HuffNode_create(0);
   Stack * stack = Stack_create();
   unsigned char byte = 0;
-  HuffNode * return_tree;
-  while ((byte = (fgetc(fp))))
+  
+  while (byte = fgetc(fp))
   {
-    //printf("\n\nNew Iteration: Byte = %c\n",byte);
     if (byte == '1')
     {
       byte = fgetc(fp);
-      //printf("Made tree node %c\n",byte);
       return_tree = HuffNode_create(byte);
       Stack_pushFront(stack,return_tree);
     }
-    else
-    {
     if (byte == '0' && (stack -> head -> next != NULL))
     {
       Stack_popPopCombinePush(stack);
-      //HuffNode_printPretty(stdout,stack -> head -> tree);
     }
     else
     {
 	break;      
     }
-    }
   }
   return_tree = stack -> head -> tree;
-  free(stack -> head);
-  free(stack);
+  Stack_destroy(stack);
   return return_tree;
 }
 

@@ -1,89 +1,89 @@
-==45959== Memcheck, a memory error detector
-==45959== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==45959== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==45959== Command: ./student.out b inputs/11-prefixcodes.bit-huff
-==45959== Parent PID: 45958
-==45959== 
---45959-- 
---45959-- Valgrind options:
---45959--    --tool=memcheck
---45959--    --leak-check=full
---45959--    --verbose
---45959--    --log-file=memcheck.log
---45959-- Contents of /proc/version:
---45959--   Linux version 2.6.32-504.1.3.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-9) (GCC) ) #1 SMP Fri Oct 31 11:37:10 EDT 2014
---45959-- Arch and hwcaps: AMD64, amd64-sse3-cx16-avx
---45959-- Page sizes: currently 4096, max supported 4096
---45959-- Valgrind library directory: /usr/lib64/valgrind
---45959-- Reading syms from /tmp/.Nl0ulY/student.out
---45959-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
---45959--    object doesn't have a dynamic symbol table
---45959-- Reading syms from /lib64/ld-2.12.so
---45959--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
---45959--   .. build-id is valid
---45959-- Scheduler: using generic scheduler lock implementation.
---45959-- Reading suppressions file: /usr/lib64/valgrind/default.supp
-==45959== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-45959-by-mbaio-on-ecegrid-thin5.ecn.purdue.edu
-==45959== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-45959-by-mbaio-on-ecegrid-thin5.ecn.purdue.edu
-==45959== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-45959-by-mbaio-on-ecegrid-thin5.ecn.purdue.edu
-==45959== 
-==45959== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==45959== don't want to do, unless you know exactly what you're doing,
-==45959== or are doing some strange experiment):
-==45959==   /usr/lib64/valgrind/../../bin/vgdb --pid=45959 ...command...
-==45959== 
-==45959== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==45959==   /path/to/gdb ./student.out
-==45959== and then give GDB the following command
-==45959==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=45959
-==45959== --pid is optional if only one valgrind process is running
-==45959== 
---45959-- REDIR: 0x398ac17610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
---45959-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
---45959-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
---45959-- REDIR: 0x398ac17480 (index) redirected to 0x4a07c30 (index)
---45959-- REDIR: 0x398ac17500 (strcmp) redirected to 0x4a08570 (strcmp)
---45959-- Reading syms from /lib64/libc-2.12.so
---45959--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
---45959--   .. build-id is valid
---45959-- REDIR: 0x398b084cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---45959-- REDIR: 0x398b086f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---45959-- REDIR: 0x398b082c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
---45959-- REDIR: 0x398b07f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---45959-- REDIR: 0x398b128420 (__strcmp_sse42) redirected to 0x4a084d0 (strcmp)
---45959-- REDIR: 0x398b08aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
---45959-- REDIR: 0x398b084500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
---45959-- REDIR: 0x398b07b520 (free) redirected to 0x4a063a9 (free)
---45959-- REDIR: 0x398b07a640 (malloc) redirected to 0x4a069ac (malloc)
---45959-- REDIR: 0x398b081160 (__GI_strlen) redirected to 0x4a07fb0 (__GI_strlen)
---45959-- REDIR: 0x398b07a280 (calloc) redirected to 0x4a05717 (calloc)
---45959-- REDIR: 0x398b089670 (memcpy) redirected to 0x4a08b60 (memcpy)
-==45959== 
-==45959== HEAP SUMMARY:
-==45959==     in use at exit: 592 bytes in 2 blocks
-==45959==   total heap usage: 4 allocs, 2 frees, 624 bytes allocated
-==45959== 
-==45959== Searching for pointers to 2 not-freed blocks
-==45959== Checked 69,408 bytes
-==45959== 
-==45959== 24 bytes in 1 blocks are definitely lost in loss record 1 of 2
-==45959==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
-==45959==    by 0x400E0D: HuffTree_readBinaryHeader (answer11.c:127)
-==45959==    by 0x401E0E: process_file (example.c:29)
-==45959==    by 0x401FCA: main (example.c:81)
-==45959== 
-==45959== LEAK SUMMARY:
-==45959==    definitely lost: 24 bytes in 1 blocks
-==45959==    indirectly lost: 0 bytes in 0 blocks
-==45959==      possibly lost: 0 bytes in 0 blocks
-==45959==    still reachable: 568 bytes in 1 blocks
-==45959==         suppressed: 0 bytes in 0 blocks
-==45959== Reachable blocks (those to which a pointer was found) are not shown.
-==45959== To see them, rerun with: --leak-check=full --show-reachable=yes
-==45959== 
-==45959== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
---45959-- 
---45959-- used_suppression:      4 U1004-ARM-_dl_relocate_object
---45959-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
-==45959== 
-==45959== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+==42189== Memcheck, a memory error detector
+==42189== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==42189== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==42189== Command: ./student.out b inputs/11-prefixcodes.bit-huff
+==42189== Parent PID: 42186
+==42189== 
+--42189-- 
+--42189-- Valgrind options:
+--42189--    --tool=memcheck
+--42189--    --leak-check=full
+--42189--    --verbose
+--42189--    --log-file=memcheck.log
+--42189-- Contents of /proc/version:
+--42189--   Linux version 2.6.32-504.1.3.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-9) (GCC) ) #1 SMP Fri Oct 31 11:37:10 EDT 2014
+--42189-- Arch and hwcaps: AMD64, amd64-sse3-cx16-avx
+--42189-- Page sizes: currently 4096, max supported 4096
+--42189-- Valgrind library directory: /usr/lib64/valgrind
+--42189-- Reading syms from /tmp/.3zPLqN/student.out
+--42189-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--42189--    object doesn't have a dynamic symbol table
+--42189-- Reading syms from /lib64/ld-2.12.so
+--42189--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
+--42189--   .. build-id is valid
+--42189-- Scheduler: using generic scheduler lock implementation.
+--42189-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==42189== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-42189-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==42189== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-42189-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==42189== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-42189-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
+==42189== 
+==42189== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==42189== don't want to do, unless you know exactly what you're doing,
+==42189== or are doing some strange experiment):
+==42189==   /usr/lib64/valgrind/../../bin/vgdb --pid=42189 ...command...
+==42189== 
+==42189== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==42189==   /path/to/gdb ./student.out
+==42189== and then give GDB the following command
+==42189==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=42189
+==42189== --pid is optional if only one valgrind process is running
+==42189== 
+--42189-- REDIR: 0x3350217610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--42189-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--42189-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--42189-- REDIR: 0x3350217480 (index) redirected to 0x4a07c30 (index)
+--42189-- REDIR: 0x3350217500 (strcmp) redirected to 0x4a08570 (strcmp)
+--42189-- Reading syms from /lib64/libc-2.12.so
+--42189--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
+--42189--   .. build-id is valid
+--42189-- REDIR: 0x3350684cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--42189-- REDIR: 0x3350686f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--42189-- REDIR: 0x3350682c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
+--42189-- REDIR: 0x335067f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--42189-- REDIR: 0x3350728420 (__strcmp_sse42) redirected to 0x4a084d0 (strcmp)
+--42189-- REDIR: 0x335068aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
+--42189-- REDIR: 0x3350684500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
+--42189-- REDIR: 0x335067b520 (free) redirected to 0x4a063a9 (free)
+--42189-- REDIR: 0x335067a640 (malloc) redirected to 0x4a069ac (malloc)
+--42189-- REDIR: 0x3350681160 (__GI_strlen) redirected to 0x4a07fb0 (__GI_strlen)
+--42189-- REDIR: 0x335067a280 (calloc) redirected to 0x4a05717 (calloc)
+--42189-- REDIR: 0x3350689670 (memcpy) redirected to 0x4a08b60 (memcpy)
+==42189== 
+==42189== HEAP SUMMARY:
+==42189==     in use at exit: 592 bytes in 2 blocks
+==42189==   total heap usage: 4 allocs, 2 frees, 624 bytes allocated
+==42189== 
+==42189== Searching for pointers to 2 not-freed blocks
+==42189== Checked 69,408 bytes
+==42189== 
+==42189== 24 bytes in 1 blocks are definitely lost in loss record 1 of 2
+==42189==    at 0x4A06A2E: malloc (vg_replace_malloc.c:270)
+==42189==    by 0x400E15: HuffTree_readBinaryHeader (answer11.c:142)
+==42189==    by 0x401E16: process_file (example.c:29)
+==42189==    by 0x401FD2: main (example.c:81)
+==42189== 
+==42189== LEAK SUMMARY:
+==42189==    definitely lost: 24 bytes in 1 blocks
+==42189==    indirectly lost: 0 bytes in 0 blocks
+==42189==      possibly lost: 0 bytes in 0 blocks
+==42189==    still reachable: 568 bytes in 1 blocks
+==42189==         suppressed: 0 bytes in 0 blocks
+==42189== Reachable blocks (those to which a pointer was found) are not shown.
+==42189== To see them, rerun with: --leak-check=full --show-reachable=yes
+==42189== 
+==42189== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)
+--42189-- 
+--42189-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--42189-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==42189== 
+==42189== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 6 from 6)

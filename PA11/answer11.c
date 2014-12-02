@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "answer11.h"
+#include "treefun.h"
 
 void List_destroy(StackNode *);
 
@@ -61,8 +62,9 @@ int Stack_isEmpty(Stack * stack)
 
 HuffNode * Stack_popFront(Stack * stack)
 {
-  if (stack -> head == NULL)
-    return NULL;
+  if (stack -> head == NULL){
+    Stack_destroy(stack);
+    return NULL;}
   StackNode * temp = stack -> head -> next;
   HuffNode * tree = stack -> head -> tree;
   free(stack -> head);
@@ -92,8 +94,8 @@ void Stack_pushFront(Stack * stack, HuffNode * tree)
 void Stack_popPopCombinePush(Stack * stack)
 {
   HuffNode * return_tree = HuffNode_create(0);
-  HuffNode * left_tree = Stack_popFront(stack);
   HuffNode * right_tree = Stack_popFront(stack);
+  HuffNode * left_tree = Stack_popFront(stack);
   return_tree -> left = left_tree;
   return_tree -> right = right_tree;
   Stack_pushFront(stack,return_tree);
@@ -101,11 +103,10 @@ void Stack_popPopCombinePush(Stack * stack)
   
 HuffNode * HuffTree_readTextHeader(FILE * fp)
 {
-  HuffNode * return_tree = HuffNode_create(0);
   Stack * stack = Stack_create();
   unsigned char byte = 0;
-  
-  while (byte = fgetc(fp))
+  HuffNode * return_tree;
+  while ((byte = (fgetc(fp))))
   {
     if (byte == '1')
     {
@@ -113,6 +114,8 @@ HuffNode * HuffTree_readTextHeader(FILE * fp)
       return_tree = HuffNode_create(byte);
       Stack_pushFront(stack,return_tree);
     }
+    else
+    {
     if (byte == '0' && (stack -> head -> next != NULL))
     {
       Stack_popPopCombinePush(stack);
@@ -121,17 +124,23 @@ HuffNode * HuffTree_readTextHeader(FILE * fp)
     {
 	break;      
     }
+    }
   }
   return_tree = stack -> head -> tree;
-  Stack_destroy(stack);
+  free(stack -> head); // do i need to call destroy stack
+  free(stack);
   return return_tree;
 }
 
 HuffNode * HuffTree_readBinaryHeader(FILE * fp)
 {
-  HuffNode * temp = malloc(sizeof(HuffNode));
-  temp = NULL;
-  return temp;
+  Stack * stack = Stack_create();
+  unsigned char byte = 0;
+  HuffNode * return_tree;
+
+  
+  
+  return return_tree;
 }
   
   

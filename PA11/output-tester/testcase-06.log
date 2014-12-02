@@ -1,15 +1,64 @@
 
 Testcase 6 :: 06-mama.txt-huff
    Reading file: 'inputs/06-mama.txt-huff', textmode = TRUE.
-   Program received signal SIGSEGV, Segmentation fault.
-   0x0000000000400c7c in Stack_pushFront (stack=0x603270, tree=0x603650) at answer11.c:78
-   78	  if (stack -> head -> tree == NULL)
-   #0  0x0000000000400c7c in Stack_pushFront (stack=0x603270, tree=0x603650) at answer11.c:78
-   #1  0x0000000000400d3b in Stack_popPopCombinePush (stack=0x603270) at answer11.c:96
-   #2  0x0000000000400dc0 in HuffTree_readTextHeader (fp=0x603010) at answer11.c:117
-   #3  0x0000000000401dfd in process_file (filename=0x7fffffffe7b7 "inputs/06-mama.txt-huff", is_textmode=1) at example.c:27
-   #4  0x0000000000401fcb in main (argc=3, argv=0x7fffffffe418) at example.c:81
-   Your solution is different to the expected solution.
-   Review the files "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/06-mama.txt-huff.student.output" "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/06-mama.txt-huff.solution.output"
-   to see where you went wrong. The 'diff' command may be useful.
-Testcase FAILED. Log file saved to testcase-06.log
+   Huffman coding tree is:
+   0
+        0
+             0
+                  0
+                       w
+                       0
+                            c
+                            f
+                  0
+                       0
+                            g
+                            h
+                       0
+                            k
+                            r
+             0
+                  0
+                       0
+                            u
+                            y
+                       0
+                            0
+                                 \n
+                                 '
+                            0
+                                 M
+                                 Y
+                  a
+        0
+             0
+                  0
+                       0
+                            0
+                                 b
+                                 d
+                            0
+                                 m
+                                 v
+                       0
+                            i
+                            t
+                  0
+                       e
+                       0
+                            0
+                                 x
+                                 .
+                            l
+             0
+                  ' '
+                  0
+                       o
+                       0
+                            n
+                            s
+   
+   Message is:
+   Mama always said life was like a box of chocolates. You never know what you're gonna get.
+   
+Pass.

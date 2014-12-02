@@ -9,5 +9,7 @@ int main()
   HuffNode * temp = HuffTree_readTextHeader(fptr);
   fclose(fptr);
   HuffNode_printPretty(stdout,temp);
+  HuffNode_destroy(temp);
+  
   return 0;
 }
