@@ -1,0 +1,12 @@
+
+Testcase 13 :: 13-woods.bit-huff
+   Reading file: 'inputs/13-woods.bit-huff', textmode = FALSE.
+   Huffman coding tree is:
+   
+     
+   Memory errors detected.
+   Valgrind log saved in /home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/13-woods.bit-huff.student.memcheck.log.
+   Your solution is different to the expected solution.
+   Review the files "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/13-woods.bit-huff.student.output" "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/13-woods.bit-huff.solution.output"
+   to see where you went wrong. The 'diff' command may be useful.
+Testcase FAILED. Log file saved to testcase-13.log

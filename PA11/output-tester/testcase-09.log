@@ -1,0 +1,12 @@
+
+Testcase 9 :: 09-poetry1.bit-huff
+   Reading file: 'inputs/09-poetry1.bit-huff', textmode = FALSE.
+   Huffman coding tree is:
+   
+     
+   Memory errors detected.
+   Valgrind log saved in /home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/09-poetry1.bit-huff.student.memcheck.log.
+   Your solution is different to the expected solution.
+   Review the files "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/09-poetry1.bit-huff.student.output" "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/09-poetry1.bit-huff.solution.output"
+   to see where you went wrong. The 'diff' command may be useful.
+Testcase FAILED. Log file saved to testcase-09.log

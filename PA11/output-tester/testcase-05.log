@@ -1,0 +1,15 @@
+
+Testcase 5 :: 05-badges.txt-huff
+   Reading file: 'inputs/05-badges.txt-huff', textmode = TRUE.
+   Program received signal SIGSEGV, Segmentation fault.
+   0x0000000000400c7c in Stack_pushFront (stack=0x603270, tree=0x603490) at answer11.c:78
+   78	  if (stack -> head -> tree == NULL)
+   #0  0x0000000000400c7c in Stack_pushFront (stack=0x603270, tree=0x603490) at answer11.c:78
+   #1  0x0000000000400d3b in Stack_popPopCombinePush (stack=0x603270) at answer11.c:96
+   #2  0x0000000000400dc0 in HuffTree_readTextHeader (fp=0x603010) at answer11.c:117
+   #3  0x0000000000401dfd in process_file (filename=0x7fffffffe7b5 "inputs/05-badges.txt-huff", is_textmode=1) at example.c:27
+   #4  0x0000000000401fcb in main (argc=3, argv=0x7fffffffe418) at example.c:81
+   Your solution is different to the expected solution.
+   Review the files "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/05-badges.txt-huff.student.output" "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/05-badges.txt-huff.solution.output"
+   to see where you went wrong. The 'diff' command may be useful.
+Testcase FAILED. Log file saved to testcase-05.log
