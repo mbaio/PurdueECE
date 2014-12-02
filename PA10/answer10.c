@@ -313,6 +313,7 @@ struct YelpDataBST* create_business_bst(const char* businesses_path, const char*
 	id_num2 = atoi(line_elements2[0]);
 	//printf("Loop ID: %d Count: %d\n",id_num2,count);
         if (id_num2 != id_num1){
+	  destroyStringArray(line_elements2, file_line_length2);
 	  //offset_rev = test_offset;
 	  break;}
 	  
@@ -370,16 +371,19 @@ struct Business* get_business_reviews(struct YelpDataBST* bst, char* name, char*
   temp_bus -> name = name;
   temp_bus -> locations = NULL;
   temp_bus -> num_locations = 0;
-  if (temp_bus == NULL)
-    return temp_bus;
+  if (temp_bus == NULL){
+    free(temp_bus);
+    return temp_bus;}
   tree_node * get_node = tree_search_name(bst->head_name,name); // find the node that has the correct name
   if (get_node == NULL)
   {
+    free(temp_bus);
     return NULL;
   }
   uint32_t num_locs; // fix if list is null
   get_node -> location_list = search_params(get_node->location_list,state,zip_code,bst->bus_file,&num_locs); // get the list that only has locations of the parameters sent
   if (num_locs == 0){
+    free(temp_bus);
     return NULL;}
   temp_bus -> num_locations = num_locs;
   int ind;
@@ -412,7 +416,11 @@ int cmploc(const void * ptr1,const void * ptr2)
   char * str1 = malloc(sizeof(char) * BUFLEN);
   char * str2 = malloc(sizeof(char) * BUFLEN);
   if (str1 == NULL || str2 == NULL || (* locptr1).state == NULL || (* locptr2).state == NULL || (* locptr1).city == NULL || (* locptr2).city == NULL || (* locptr1).address == NULL || (* locptr2).address == NULL)
+  {
+    free(str1);
+    free(str2);
     return 0;
+  }
   strcpy(str1,(* locptr1).state);
   strcpy(str2,(* locptr2).state);
   strcat(str1,(* locptr1).city);

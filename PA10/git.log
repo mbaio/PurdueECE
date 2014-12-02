@@ -1,0 +1,257 @@
+commit 2bac4eb40e38d4d85b9c300a5f6eb113ce54b703
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Dec 1 22:21:53 2014 -0500
+
+    Working on for first time
+
+commit 7d292b8c4dbfcbc2fd24eecaf0f8dfc50ca9642d
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Dec 1 16:49:36 2014 -0500
+
+    100% Logically done, must check valgrind
+
+commit a126dd19c5ddf4e144f8c7096d2b7134d195569b
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Dec 1 03:03:05 2014 -0500
+
+    This assignment is awful
+
+commit d334c3ab6847bbea95d2a155f9b55517a939e295
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Nov 30 23:58:56 2014 -0500
+
+    Trying something
+
+commit 46bd40a1b1b581b985ba5863cf88feb59c5cc739
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Nov 30 18:16:37 2014 -0500
+
+    I think its good now
+
+commit b390fea79d08b238f9ca9b9ab284caefeda260b4
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Nov 25 01:57:43 2014 -0500
+
+    It works, no memeory errors, but weird char count thing
+
+commit 5e259d4c5ab69b5f2b30c06d99079b883f40f06b
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Nov 25 01:07:58 2014 -0500
+
+    It works minus sorting
+
+commit 68082f7e5a25eb339c979e5668b11f97293568fb
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Nov 24 23:11:49 2014 -0500
+
+    changing things so both files open at once
+
+commit ae58649d42f64d27594a24a2be6b9cd3f767830e
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Nov 24 22:20:29 2014 -0500
+
+    Added more things to fix stuff
+
+commit 26cb9dec1fce2dcf28e9c78609e8cf7570f6fefa
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sat Nov 22 19:26:12 2014 -0500
+
+    Trying something big
+
+commit 8f04c006cfd9baea04efa95de5a033433802085a
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sat Nov 22 19:16:33 2014 -0500
+
+    Working on memory errors
+
+commit db273767ad7a602cc9ed274c44622f146fc9b643
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Nov 19 02:04:42 2014 -0500
+
+    holy crap it works
+
+commit 9dfb8ae91d6636ea632e673ece74fcd21d349ea3
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Nov 19 01:49:02 2014 -0500
+
+    I think coding is done.. first valgrind running now
+
+commit bb68c730b628f105cd02cee6122086e56bd4feeb
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Nov 19 01:02:13 2014 -0500
+
+    Getting there... making serious progress
+
+commit 886b3a9d54e75f311bfa8b8029713443adfdb858
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Nov 18 23:07:04 2014 -0500
+
+    Starting reconstruction
+
+commit 2b7e154b9d906fcfb5a09e2bc97435f106cf888d
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Nov 18 22:20:11 2014 -0500
+
+    as far as I got before switching to address offsets
+
+commit 2be0ae0ad15244860b137e415705e9c29d3ee584
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Nov 18 01:00:03 2014 -0500
+
+    I think the logic is done
+
+commit ab8cf922b383b1b1a4a9f9744e266d8cf9828429
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Nov 16 16:25:28 2014 -0500
+
+    Both trees have no memory errors
+
+commit d4749a6e4f38cb9fdcb284af25550641b687f8b2
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Nov 16 15:06:01 2014 -0500
+
+    First name tree works no memory errors
+
+commit 64644559e92b3b7e0bcd8106103c0be50dca5b74
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Nov 6 13:13:07 2014 -0500
+
+    Submitting
+
+commit 34f0cc828168f563e056a59be1ff94f6c9884585
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Nov 3 19:34:24 2014 -0500
+
+    All but one works, TA looking at code
+
+commit a58553db61d7a65324bad7125b34fe609ba72c55
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Nov 3 15:30:56 2014 -0500
+
+    13/15 testcases: memory errors
+
+commit a9e448f966a4c7b17c307494429e11d072bc0d9f
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Nov 3 14:03:09 2014 -0500
+
+    all functions done except for search
+
+commit 04c5b5b50816ba774f3f8c121b8f05b5633f87cd
+Author: mbaio <mbaio@purdue.edu>
+Date:   Fri Oct 31 18:33:25 2014 -0400
+
+    Everything works- submitting
+
+commit b68ddf3ad2a2e3aa4065c477fb6e4726c12a6cba
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 30 16:51:23 2014 -0400
+
+    All of PA08 is good
+
+commit e02b5a8d00fa0848bbdf3431e5cdf63acf1caf19
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 02:07:19 2014 -0400
+
+    Everything works. Recursion is my life
+
+commit f321e23ee16324db54c0565654d2cfe116537122
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 01:12:26 2014 -0400
+
+    JK the junction is messed up, this is it before I mess with it
+
+commit d5f7b9faf9327b7525e1354b57ab7473e5d4a531
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 00:54:03 2014 -0400
+
+    Pretty sure everything works
+
+commit 42386126ab7eed7276c07730801cc03d168dc755
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 00:31:55 2014 -0400
+
+    Really close
+
+commit b23c76722e4e8927f9b2c1c7e1fb549a70a14191
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 15 18:06:11 2014 -0400
+
+    Still need to fix junction test
+
+commit c6dd3b5a8bcbe75b6136d36a6018c5b10c9719c8
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 15 17:22:30 2014 -0400
+
+    Add '.' and test for next character works
+
+commit 2ae10c1799bbbd5d632ecf7c4439183662eea356
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Oct 14 20:34:20 2014 -0400
+
+    First add of PA06
+
+commit 9f43541eab4bb624f2fa688b1ef114bd580d9c89
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 8 15:06:45 2014 -0400
+
+    Everything works, yay
+
+commit eadc455f3ef2d19951135c91b182190a51dcd33d
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Oct 6 13:42:28 2014 -0400
+
+    First import of assignment PA05
+
+commit e61b89fdd43816dff26e7110a58f8785f4766e81
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 1 18:44:54 2014 -0400
+
+    Finished grep, everything works
+
+commit 70b1175140fa64de02c95a654b4ab5bb13830aef
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Sep 30 02:59:22 2014 -0400
+
+    Mostly done, pretty sure grep-lite works as well
+
+commit 7209965022a107c691eb8d8a251f99e4e8fcfc2b
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Sep 28 14:43:53 2014 -0400
+
+    First add of PA04
+
+commit 0a1913ee5fb8b036e3a8d288ff5b72a8be72e1a4
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Sep 22 17:05:25 2014 -0400
+
+    Finished- no errors
+
+commit c5cfc7baee52772945f173da4208e8033bdaebdd
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Sep 22 15:42:17 2014 -0400
+
+    Still many memory errors, but further understanding
+
+commit 493ad414f776548a624ac8a60f66a932ee580c97
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Sep 21 14:52:58 2014 -0400
+
+    I think strcat works..
+
+commit 2aa853c908df9a72d08e78512555c17a233f7520
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Sep 18 17:42:46 2014 -0400
+
+    Added stuff
+
+commit 25f724cf9c0d7bf29ff4ca827d707e186c871e25
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Sep 18 16:58:26 2014 -0400
+
+    Adding Pa03
+
+commit 8ce93a7f1f9174375830e779f291b991719afa90
+Author: Michael Baio <mbaio@purdue.edu>
+Date:   Mon Sep 15 15:05:16 2014 -0400
+
+    Added PA03 to Repo
