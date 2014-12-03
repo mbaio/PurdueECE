@@ -1,8 +1,18 @@
 
 Testcase 12 :: 12-stone.bit-huff
    Reading file: 'inputs/12-stone.bit-huff', textmode = FALSE.
-   Testcase timed out after 5s, probably infinite loop.
-   Your solution is different to the expected solution.
-   Review the files "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/12-stone.bit-huff.student.output" "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/12-stone.bit-huff.solution.output"
-   to see where you went wrong. The 'diff' command may be useful.
-Testcase FAILED. Log file saved to testcase-12.log
+   Huffman coding tree is:
+   
+                   ______________o_______________
+                  /                              \
+           ______o_______                  ______o_______
+          /              \                /              \
+         t             __o___          __o___          __o___
+                      /      \        /      \        /      \
+                     a       r       o_     ' '      e       s 
+                                    /  \                        
+                                    n   o                        
+   
+   Message is:
+   streets are stone stars are not
+Pass.

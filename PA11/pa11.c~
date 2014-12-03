@@ -5,8 +5,8 @@
 int main()
 {
   
-  FILE * fptr = fopen("inputs/09-description.bit-huff","rb");
-  HuffNode * temp = HuffTree_readBinaryHeader(fptr);
+  FILE * fptr = fopen("inputs/07-description.bit-huff","rb");
+  HuffNode * temp = HuffTree_readTextHeader(fptr);
   fclose(fptr);
   HuffNode_printPretty(stdout,temp);
   HuffNode_destroy(temp);

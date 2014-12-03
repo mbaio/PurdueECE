@@ -6,7 +6,7 @@
 
 
 void List_destroy(StackNode *);
-unsigned char get_byte(FILE *);
+int readBit(FILE * fptr, unsigned char * bit, unsigned char * whichbit, unsigned char * curbyte); // From Book
 
 void List_destroy(StackNode * input_list)
 {
@@ -129,84 +129,77 @@ HuffNode * HuffTree_readTextHeader(FILE * fp)
     }
   }
   return_tree = stack -> head -> tree;
-  free(stack -> head); // do i need to call destroy stack
+  free(stack -> head); 
   free(stack);
   return return_tree;
 }
 
-HuffNode * HuffTree_readBinaryHeader(FILE * fp)
+HuffNode * HuffTree_readBinaryHeader(FILE * fp) // From Liu's Book
 {
-  Stack * stack = Stack_create();
-  HuffNode * return_tree;
-  // need to convert binary file into 1 array with ascii values and keep track of length
   
-  //find how many characters are in it
-  unsigned char val;
-  int length_arr;
-  int ind;
-  while ((val = (fgetc(fp))))
+  int done = 0;
+  unsigned char whichbit = 0;
+  unsigned char curbyte = 0;
+  unsigned char onebit = 0;
+  Stack * stack = Stack_create(0) ;
+  while (done == 0)
   {
-     length_arr++;
-  }
-  fseek(fp,0,SEEK_SET); //put back to beginning 
-  unsigned char * arr = malloc(sizeof(unsigned char) * (length_arr + 1));
-  arr[length_arr] = '\0';
-  for (ind = 0; ind < length_arr; ind++)
-  {
-    arr[ind] = get_byte(fp);
-  }
-  
-  
-  
-  for (ind = 0; ind < length_arr; ind++)
-  {
-    if (arr[ind] == '1')
+    readBit (fp ,& onebit ,& whichbit ,& curbyte );
+    if (onebit == 1)
     {
-      ind++;
-      val = arr[ind];
-      printf("val = %c\n",val);
-      return_tree = HuffNode_create(val);
-      Stack_pushFront(stack,return_tree);
+      // a leaf node , get 7 move bits
+      int bitcount ;
+      unsigned char value = 0;
+      for (bitcount = 0; bitcount < 8; bitcount ++)
+      {
+	value <<= 1; // shift left by one
+	readBit (fp, & onebit, & whichbit, &curbyte );
+	value |= onebit ;
+      }
+      // push a tree node into the list
+      HuffNode * tn = HuffNode_create(value);
+      Stack_pushFront(stack, tn);
+      //StackNode * ln = StackNode_create();
+      //head = List_insert (head , ln , STACK );
     }
     else
     {
-    if (arr[ind] == '0' && (stack -> head -> next != NULL))
-    {
-      Stack_popPopCombinePush(stack);
-      HuffNode_printPretty(stdout,return_tree);
-    }
-    else
-    {
-	break;      
-    }
+      if (stack->head->next != NULL)
+      {
+	Stack_popPopCombinePush(stack);
+      }
+      else
+      {
+	done = 1;
+      }
     }
   }
-  //return_tree = stack -> head -> tree;
-  free(stack -> head); // do i need to call destroy stack
+   
+  // unnecessary to read the remaining unused bits
+  HuffNode * root = stack->head->tree;
+  // the linked list is no longer needed
+  free (stack->head);
   free(stack);
-  free(arr);
-  return return_tree;
+  return root;
 }
 
-unsigned char get_byte(FILE * fp)
+
+int readBit(FILE * fptr, unsigned char * bit, unsigned char * whichbit, unsigned char * curbyte)
 {
-  unsigned char byte = fgetc(fp);
-  unsigned char final = 0;
-  int ind;
-  int power;
-  int current;
-  for (ind = 7; ind >= 0; ind--)
+  int ret = 1;
+  if((*whichbit) == 0)
   {
-     current = 1;
-     int mask = (1 << ind);
-     int set = byte & mask;
-     int bit = (set >> ind);
-     for (power = 0; power < ind; power++)
-     {
-       current *= 2;
-     }
-     final += current * bit;
+    // read a byte from a file
+    ret = fread(curbyte, sizeof(unsigned char), 1, fptr);
   }
-  
-  return ((unsigned char) final);
+  if(ret != 1)
+  {
+    return -1;
+  }
+  unsigned char temp = (*curbyte) >> (7 - (*whichbit));
+  temp = temp & 0X01;
+  *whichbit = ((*whichbit) + 1) % 8;
+  *bit = temp;
+  return 1;
+
 }

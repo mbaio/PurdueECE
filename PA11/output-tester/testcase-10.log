@@ -1,13 +1,94 @@
 
 Testcase 10 :: 10-poetry2.bit-huff
    Reading file: 'inputs/10-poetry2.bit-huff', textmode = FALSE.
-   Program received signal SIGSEGV, Segmentation fault.
-   0x0000000000400eb9 in HuffTree_readBinaryHeader (fp=0x603010) at answer11.c:153
-   153	  arr[length_arr] = '\0';
-   #0  0x0000000000400eb9 in HuffTree_readBinaryHeader (fp=0x603010) at answer11.c:153
-   #1  0x000000000040203b in process_file (filename=0x7fffffffe7b4 "inputs/10-poetry2.bit-huff", is_textmode=0) at example.c:29
-   #2  0x00000000004021f7 in main (argc=3, argv=0x7fffffffe418) at example.c:81
-   Your solution is different to the expected solution.
-   Review the files "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/10-poetry2.bit-huff.student.output" "/home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA11/output-tester/10-poetry2.bit-huff.solution.output"
-   to see where you went wrong. The 'diff' command may be useful.
-Testcase FAILED. Log file saved to testcase-10.log
+   Huffman coding tree is:
+   0
+        0
+             0
+                  0
+                       0
+                            k
+                            0
+                                 b
+                                 m
+                       w
+                  0
+                       0
+                            0
+                                 0
+                                      .
+                                      T
+                                 0
+                                      0
+                                           '
+                                           y
+                                      0
+                                           0
+                                                F
+                                                L
+                                           0
+                                                P
+                                                W
+                            \n
+                       r
+             0
+                  0
+                       a
+                       0
+                            0
+                                 ,
+                                 g
+                            0
+                                 p
+                                 0
+                                      f
+                                      u
+                  e
+        0
+             0
+                  0
+                       s
+                       t
+                  0
+                       0
+                            o
+                            0
+                                 c
+                                 0
+                                      0
+                                           0
+                                                Y
+                                                v
+                                           -
+                                      A
+                       h
+             0
+                  0
+                       0
+                            i
+                            d
+                       0
+                            n
+                            l
+                  ' '
+   
+   Message is:
+   There is a place where the sidewalk ends
+   And before the street begins,
+   And there the grass grows soft and white,
+   And there the sun burns crimson bright,
+   And there the moon-bird rests from his flight
+   To cool in the peppermint wind.
+   
+   Let us leave this place where the smoke blows black
+   And the dark street winds and bends.
+   Past the pits where the asphalt flowers grow
+   We shall walk with a walk that is measured and slow,
+   And watch where the chalk-white arrows go
+   To the place where the sidewalk ends.
+   
+   Yes we'll walk with a walk that is measured and slow,
+   And we'll go where the chalk-white arrows go,
+   For the children, they mark, and the children, they know
+   The place where the sidewalk ends.
+Pass.

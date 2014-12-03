@@ -1,119 +1,68 @@
-==33851== Memcheck, a memory error detector
-==33851== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
-==33851== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
-==33851== Command: ./student.out b inputs/07-description.bit-huff
-==33851== Parent PID: 33848
-==33851== 
---33851-- 
---33851-- Valgrind options:
---33851--    --tool=memcheck
---33851--    --leak-check=full
---33851--    --verbose
---33851--    --log-file=memcheck.log
---33851-- Contents of /proc/version:
---33851--   Linux version 2.6.32-504.1.3.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-9) (GCC) ) #1 SMP Fri Oct 31 11:37:10 EDT 2014
---33851-- Arch and hwcaps: AMD64, amd64-sse3-cx16-avx
---33851-- Page sizes: currently 4096, max supported 4096
---33851-- Valgrind library directory: /usr/lib64/valgrind
---33851-- Reading syms from /tmp/.x0BoIR/student.out
---33851-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
---33851--    object doesn't have a dynamic symbol table
---33851-- Reading syms from /lib64/ld-2.12.so
---33851--   Considering /usr/lib/debug/.build-id/3b/fa45bce0e82e1d90d37a0cc8630f97f2003bf5.debug ..
---33851--   .. build-id is valid
---33851-- Scheduler: using generic scheduler lock implementation.
---33851-- Reading suppressions file: /usr/lib64/valgrind/default.supp
-==33851== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-33851-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
-==33851== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-33851-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
-==33851== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-33851-by-mbaio-on-ecegrid-thin4.ecn.purdue.edu
-==33851== 
-==33851== TO CONTROL THIS PROCESS USING vgdb (which you probably
-==33851== don't want to do, unless you know exactly what you're doing,
-==33851== or are doing some strange experiment):
-==33851==   /usr/lib64/valgrind/../../bin/vgdb --pid=33851 ...command...
-==33851== 
-==33851== TO DEBUG THIS PROCESS USING GDB: start GDB like this
-==33851==   /path/to/gdb ./student.out
-==33851== and then give GDB the following command
-==33851==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=33851
-==33851== --pid is optional if only one valgrind process is running
-==33851== 
---33851-- REDIR: 0x3350217610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
---33851-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
---33851-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
---33851-- REDIR: 0x3350217480 (index) redirected to 0x4a07c30 (index)
---33851-- REDIR: 0x3350217500 (strcmp) redirected to 0x4a08570 (strcmp)
---33851-- Reading syms from /lib64/libc-2.12.so
---33851--   Considering /usr/lib/debug/.build-id/73/3ad3a438b5a695f7a63a77413f9b2c8c94e8e6.debug ..
---33851--   .. build-id is valid
---33851-- REDIR: 0x3350684cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---33851-- REDIR: 0x3350686f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---33851-- REDIR: 0x3350682c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
---33851-- REDIR: 0x335067f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
---33851-- REDIR: 0x3350728420 (__strcmp_sse42) redirected to 0x4a084d0 (strcmp)
---33851-- REDIR: 0x335068aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
---33851-- REDIR: 0x3350684500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
---33851-- REDIR: 0x335067b520 (free) redirected to 0x4a063a9 (free)
---33851-- REDIR: 0x335067a640 (malloc) redirected to 0x4a069ac (malloc)
-==33851== Warning: silly arg (-16775358) to malloc()
-==33851== Use of uninitialised value of size 8
-==33851==    at 0x400EB9: HuffTree_readBinaryHeader (answer11.c:153)
-==33851==    by 0x40203A: process_file (example.c:29)
-==33851==    by 0x4021F6: main (example.c:81)
-==33851== 
-==33851== Invalid write of size 1
-==33851==    at 0x400EB9: HuffTree_readBinaryHeader (answer11.c:153)
-==33851==    by 0x40203A: process_file (example.c:29)
-==33851==    by 0x4021F6: main (example.c:81)
-==33851==  Address 0xffffffffff000741 is not stack'd, malloc'd or (recently) free'd
-==33851== 
-==33851== 
-==33851== Process terminating with default action of signal 11 (SIGSEGV)
-==33851==  Access not within mapped region at address 0xFFFFFFFFFF000741
-==33851==    at 0x400EB9: HuffTree_readBinaryHeader (answer11.c:153)
-==33851==    by 0x40203A: process_file (example.c:29)
-==33851==    by 0x4021F6: main (example.c:81)
-==33851==  If you believe this happened as a result of a stack
-==33851==  overflow in your program's main thread (unlikely but
-==33851==  possible), you can try to increase the size of the
-==33851==  main thread stack using the --main-stacksize= flag.
-==33851==  The main thread stack size used in this run was 10485760.
-==33851== 
-==33851== HEAP SUMMARY:
-==33851==     in use at exit: 576 bytes in 2 blocks
-==33851==   total heap usage: 2 allocs, 0 frees, 576 bytes allocated
-==33851== 
-==33851== Searching for pointers to 2 not-freed blocks
-==33851== Checked 69,368 bytes
-==33851== 
-==33851== LEAK SUMMARY:
-==33851==    definitely lost: 0 bytes in 0 blocks
-==33851==    indirectly lost: 0 bytes in 0 blocks
-==33851==      possibly lost: 0 bytes in 0 blocks
-==33851==    still reachable: 576 bytes in 2 blocks
-==33851==         suppressed: 0 bytes in 0 blocks
-==33851== Reachable blocks (those to which a pointer was found) are not shown.
-==33851== To see them, rerun with: --leak-check=full --show-reachable=yes
-==33851== 
-==33851== Use --track-origins=yes to see where uninitialised values come from
-==33851== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 6 from 6)
-==33851== 
-==33851== 1 errors in context 1 of 2:
-==33851== Invalid write of size 1
-==33851==    at 0x400EB9: HuffTree_readBinaryHeader (answer11.c:153)
-==33851==    by 0x40203A: process_file (example.c:29)
-==33851==    by 0x4021F6: main (example.c:81)
-==33851==  Address 0xffffffffff000741 is not stack'd, malloc'd or (recently) free'd
-==33851== 
-==33851== 
-==33851== 1 errors in context 2 of 2:
-==33851== Use of uninitialised value of size 8
-==33851==    at 0x400EB9: HuffTree_readBinaryHeader (answer11.c:153)
-==33851==    by 0x40203A: process_file (example.c:29)
-==33851==    by 0x4021F6: main (example.c:81)
-==33851== 
---33851-- 
---33851-- used_suppression:      4 U1004-ARM-_dl_relocate_object
---33851-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
-==33851== 
-==33851== ERROR SUMMARY: 2 errors from 2 contexts (suppressed: 6 from 6)
+==2457== Memcheck, a memory error detector
+==2457== Copyright (C) 2002-2012, and GNU GPL'd, by Julian Seward et al.
+==2457== Using Valgrind-3.8.1 and LibVEX; rerun with -h for copyright info
+==2457== Command: ./student.out b inputs/07-description.bit-huff
+==2457== Parent PID: 2455
+==2457== 
+--2457-- 
+--2457-- Valgrind options:
+--2457--    --tool=memcheck
+--2457--    --leak-check=full
+--2457--    --verbose
+--2457--    --log-file=memcheck.log
+--2457-- Contents of /proc/version:
+--2457--   Linux version 2.6.32-504.1.3.el6.x86_64 (mockbuild@x86-022.build.eng.bos.redhat.com) (gcc version 4.4.7 20120313 (Red Hat 4.4.7-9) (GCC) ) #1 SMP Fri Oct 31 11:37:10 EDT 2014
+--2457-- Arch and hwcaps: AMD64, amd64-sse3
+--2457-- Page sizes: currently 4096, max supported 4096
+--2457-- Valgrind library directory: /usr/lib64/valgrind
+--2457-- Reading syms from /tmp/.0CbFGG/student.out
+--2457-- Reading syms from /usr/lib64/valgrind/memcheck-amd64-linux
+--2457--    object doesn't have a dynamic symbol table
+--2457-- Reading syms from /lib64/ld-2.12.so
+--2457-- Scheduler: using generic scheduler lock implementation.
+--2457-- Reading suppressions file: /usr/lib64/valgrind/default.supp
+==2457== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-2457-by-mbaio-on-ecegrid-thin6.ecn.purdue.edu
+==2457== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-2457-by-mbaio-on-ecegrid-thin6.ecn.purdue.edu
+==2457== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-2457-by-mbaio-on-ecegrid-thin6.ecn.purdue.edu
+==2457== 
+==2457== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==2457== don't want to do, unless you know exactly what you're doing,
+==2457== or are doing some strange experiment):
+==2457==   /usr/lib64/valgrind/../../bin/vgdb --pid=2457 ...command...
+==2457== 
+==2457== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==2457==   /path/to/gdb ./student.out
+==2457== and then give GDB the following command
+==2457==   target remote | /usr/lib64/valgrind/../../bin/vgdb --pid=2457
+==2457== --pid is optional if only one valgrind process is running
+==2457== 
+--2457-- REDIR: 0x3822617610 (strlen) redirected to 0x38049551 (vgPlain_amd64_linux_REDIR_FOR_strlen)
+--2457-- Reading syms from /usr/lib64/valgrind/vgpreload_core-amd64-linux.so
+--2457-- Reading syms from /usr/lib64/valgrind/vgpreload_memcheck-amd64-linux.so
+--2457-- REDIR: 0x3822617480 (index) redirected to 0x4a07c30 (index)
+--2457-- REDIR: 0x3822617500 (strcmp) redirected to 0x4a08570 (strcmp)
+--2457-- Reading syms from /lib64/libc-2.12.so
+--2457-- REDIR: 0x3822a84cd0 (strcasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--2457-- REDIR: 0x3822a86f90 (strncasecmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--2457-- REDIR: 0x3822a82c40 (__GI_strrchr) redirected to 0x4a07ab0 (__GI_strrchr)
+--2457-- REDIR: 0x3822a7f6e0 (strcmp) redirected to 0x480155c (_vgnU_ifunc_wrapper)
+--2457-- REDIR: 0x3822a7f720 (__GI_strcmp) redirected to 0x4a08520 (__GI_strcmp)
+--2457-- REDIR: 0x3822a8aaf0 (strchrnul) redirected to 0x4a09fb0 (strchrnul)
+--2457-- REDIR: 0x3822a84500 (mempcpy) redirected to 0x4a0a020 (mempcpy)
+--2457-- REDIR: 0x3822a7b520 (free) redirected to 0x4a063a9 (free)
+--2457-- REDIR: 0x3822a7a640 (malloc) redirected to 0x4a069ac (malloc)
+--2457-- REDIR: 0x3822a89670 (memcpy) redirected to 0x4a08b60 (memcpy)
+--2457-- REDIR: 0x3822a81160 (__GI_strlen) redirected to 0x4a07fb0 (__GI_strlen)
+==2457== 
+==2457== HEAP SUMMARY:
+==2457==     in use at exit: 0 bytes in 0 blocks
+==2457==   total heap usage: 165 allocs, 165 frees, 4,644 bytes allocated
+==2457== 
+==2457== All heap blocks were freed -- no leaks are possible
+==2457== 
+==2457== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
+--2457-- 
+--2457-- used_suppression:      4 U1004-ARM-_dl_relocate_object
+--2457-- used_suppression:      2 glibc-2.5.x-on-SUSE-10.2-(PPC)-2a
+==2457== 
+==2457== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 6 from 6)
