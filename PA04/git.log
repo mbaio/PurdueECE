@@ -1,0 +1,53 @@
+commit e61b89fdd43816dff26e7110a58f8785f4766e81
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 1 18:44:54 2014 -0400
+
+    Finished grep, everything works
+
+commit 70b1175140fa64de02c95a654b4ab5bb13830aef
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Sep 30 02:59:22 2014 -0400
+
+    Mostly done, pretty sure grep-lite works as well
+
+commit 7209965022a107c691eb8d8a251f99e4e8fcfc2b
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Sep 28 14:43:53 2014 -0400
+
+    First add of PA04
+
+commit 0a1913ee5fb8b036e3a8d288ff5b72a8be72e1a4
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Sep 22 17:05:25 2014 -0400
+
+    Finished- no errors
+
+commit c5cfc7baee52772945f173da4208e8033bdaebdd
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Sep 22 15:42:17 2014 -0400
+
+    Still many memory errors, but further understanding
+
+commit 493ad414f776548a624ac8a60f66a932ee580c97
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Sep 21 14:52:58 2014 -0400
+
+    I think strcat works..
+
+commit 2aa853c908df9a72d08e78512555c17a233f7520
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Sep 18 17:42:46 2014 -0400
+
+    Added stuff
+
+commit 25f724cf9c0d7bf29ff4ca827d707e186c871e25
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Sep 18 16:58:26 2014 -0400
+
+    Adding Pa03
+
+commit 8ce93a7f1f9174375830e779f291b991719afa90
+Author: Michael Baio <mbaio@purdue.edu>
+Date:   Mon Sep 15 15:05:16 2014 -0400
+
+    Added PA03 to Repo

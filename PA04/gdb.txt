@@ -1,0 +1,34 @@
+Function "mian" not defined.
+Make breakpoint pending on future shared library load? (y or [n]) 
+Please answer y or [n].
+Make breakpoint pending on future shared library load? (y or [n]) Breakpoint 1 at 0x4007cd: file grep-lite.c, line 10.
+Starting program: /home/shay/b/mbaio/ECE264Solutions/PurdueECE/PA04/grep-lite 
+
+Breakpoint 1, main (argc=1, argv=0x7fffffffe3e8) at grep-lite.c:10
+warning: Source file is more recent than executable.
+10	  int choice_v = 0;
+11	  int choice_n = 0;
+12	  int choice_q = 0;
+13	  int v_index = 0;
+14	  int n_index = 0;
+15	  int q_index = 0;
+20	  for (ind = 1; ind < argc; ind++)
+$1 = 0
+42	  FILE * fptr = stdin;
+43	  char line[2000];
+$2 = "\000\000\000\000\000\000\000\000\b\004@", '\000' <repeats 15 times>"\302, y?\000\000\000\025^\377\367\377\177\000\000\000\000\000\000\000\000\000\000\210\021\302y?\000\000\000z\203\240y?", '\000' <repeats 11 times>"\330, \336\377\377\377\177", '\000' <repeats 26 times>, "\b\000\000\000\377\177\000\000\000\000\000\000\001\000\000\000\000\000\000\001\000\000\000\000\000\000\000\000?\000\000\000\n\000\000\000\000\000\000\000\220\333\377\377\377\177\000\000\340\336\377\377\377\177\000\000\000\000\000\000\000\000\000\000\357\336\377\377\377\177", '\000' <repeats 18 times>, "@\003\000\000\000\000\000\000\177ELF\002\001\001\003\000\000\000\000\000\000\000\000\003\000>\000\001\000\000\000p\356\341y?\000\000\000@\000\000\000\000\000\000\000\330R\035\000\000\000\000\000\000\000\000\000@\000\070\000\n\000@\000M\000"...
+45	  char * found_pattern = NULL;
+46	  int return_code = 1;
+47	
+48		   while (fgets(line,2000,fptr))
+50			 line_number++;
+Line number 108 out of range; grep-lite.c has 94 lines.
+Line number 112 out of range; grep-lite.c has 94 lines.
+Line number 113 out of range; grep-lite.c has 94 lines.
+__libc_start_main (main=0x4007b4 <main>, argc=1, ubp_av=0x7fffffffe3e8, 
+    init=<value optimized out>, fini=<value optimized out>, 
+    rtld_fini=<value optimized out>, stack_end=0x7fffffffe3d8)
+    at libc-start.c:258
+258	  exit (result);
+
+Program exited with code 01.
