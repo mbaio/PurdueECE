@@ -8,7 +8,7 @@ int find_start(char **,int);
 void print_directions2(char, int);
 int recursion_func(char, char **, int,int,int,int);
 
-/*int main()
+int main()
 {
    
   char ** maze = malloc(10 * sizeof(char *));
@@ -56,10 +56,10 @@ int recursion_func(char, char **, int,int,int,int);
   free(maze);
   
   return(0);
-}*/
+}
 void print_directions2(char direction,int spaces)
 {
-  printf("%c %d\n",direction,spaces);
+  printf("\n%c %d",direction,spaces);
 }
 
 void print_directions(char ** maze,int w,int h)
@@ -168,8 +168,7 @@ int recursion_func(char direction,char ** maze,int w,int h,int x, int y)
   }
   
     
- answer = spaces;
- return answer;
+ answer = spaces; 
 }
 
 int next_space(char ** maze, char direction, int w, int h, int x, int * y, int * spaces) // returns 1 if next space is end of path, 0 if it is okay, 3 if found end, and 2 if it is a junction

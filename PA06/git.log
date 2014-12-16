@@ -1,0 +1,107 @@
+commit e02b5a8d00fa0848bbdf3431e5cdf63acf1caf19
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 02:07:19 2014 -0400
+
+    Everything works. Recursion is my life
+
+commit f321e23ee16324db54c0565654d2cfe116537122
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 01:12:26 2014 -0400
+
+    JK the junction is messed up, this is it before I mess with it
+
+commit d5f7b9faf9327b7525e1354b57ab7473e5d4a531
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 00:54:03 2014 -0400
+
+    Pretty sure everything works
+
+commit 42386126ab7eed7276c07730801cc03d168dc755
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Oct 16 00:31:55 2014 -0400
+
+    Really close
+
+commit b23c76722e4e8927f9b2c1c7e1fb549a70a14191
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 15 18:06:11 2014 -0400
+
+    Still need to fix junction test
+
+commit c6dd3b5a8bcbe75b6136d36a6018c5b10c9719c8
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 15 17:22:30 2014 -0400
+
+    Add '.' and test for next character works
+
+commit 2ae10c1799bbbd5d632ecf7c4439183662eea356
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Oct 14 20:34:20 2014 -0400
+
+    First add of PA06
+
+commit 9f43541eab4bb624f2fa688b1ef114bd580d9c89
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 8 15:06:45 2014 -0400
+
+    Everything works, yay
+
+commit eadc455f3ef2d19951135c91b182190a51dcd33d
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Oct 6 13:42:28 2014 -0400
+
+    First import of assignment PA05
+
+commit e61b89fdd43816dff26e7110a58f8785f4766e81
+Author: mbaio <mbaio@purdue.edu>
+Date:   Wed Oct 1 18:44:54 2014 -0400
+
+    Finished grep, everything works
+
+commit 70b1175140fa64de02c95a654b4ab5bb13830aef
+Author: mbaio <mbaio@purdue.edu>
+Date:   Tue Sep 30 02:59:22 2014 -0400
+
+    Mostly done, pretty sure grep-lite works as well
+
+commit 7209965022a107c691eb8d8a251f99e4e8fcfc2b
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Sep 28 14:43:53 2014 -0400
+
+    First add of PA04
+
+commit 0a1913ee5fb8b036e3a8d288ff5b72a8be72e1a4
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Sep 22 17:05:25 2014 -0400
+
+    Finished- no errors
+
+commit c5cfc7baee52772945f173da4208e8033bdaebdd
+Author: mbaio <mbaio@purdue.edu>
+Date:   Mon Sep 22 15:42:17 2014 -0400
+
+    Still many memory errors, but further understanding
+
+commit 493ad414f776548a624ac8a60f66a932ee580c97
+Author: mbaio <mbaio@purdue.edu>
+Date:   Sun Sep 21 14:52:58 2014 -0400
+
+    I think strcat works..
+
+commit 2aa853c908df9a72d08e78512555c17a233f7520
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Sep 18 17:42:46 2014 -0400
+
+    Added stuff
+
+commit 25f724cf9c0d7bf29ff4ca827d707e186c871e25
+Author: mbaio <mbaio@purdue.edu>
+Date:   Thu Sep 18 16:58:26 2014 -0400
+
+    Adding Pa03
+
+commit 8ce93a7f1f9174375830e779f291b991719afa90
+Author: Michael Baio <mbaio@purdue.edu>
+Date:   Mon Sep 15 15:05:16 2014 -0400
+
+    Added PA03 to Repo
