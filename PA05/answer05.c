@@ -27,6 +27,7 @@ void partitionhelper(int * buffer, int ind, int value, int (*testfun)(int value,
 
 void printpartition(int * arr, int length)
 {
+ // Function from the Text Book with modifications
  int ind;
  printf("= ");
  for (ind = 0; ind < length - 1; ind++)
